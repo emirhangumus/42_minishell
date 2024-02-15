@@ -2,7 +2,7 @@ NAME = minishell
 GCC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 LIBFT = -Llibft -lft
-SRC = minishell.c ./path/paths.c ./parser/parser.c ./parser/token_functions.c ./garbage/garbage.c utils1.c utils2.c ./free/free_list.c map/map.c
+SRC = minishell.c ./path/paths.c ./parser/parser.c ./parser/token_functions.c ./garbage/garbage.c utils1.c utils2.c utils3.c ./free/free_list.c map/map.c exec.c
 OBJ = $(SRC:.c=.o)
 READLINE = -L/usr/local/lib -I/usr/local/include -lreadline
 

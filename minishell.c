@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:40 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/15 04:04:10 by egumus           ###   ########.fr       */
+/*   Updated: 2024/02/15 06:16:53 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int main(int ac, char **av)
 		return (1);
 	if (ft_make_env(state))
 		return (1);
-	ft_map_print(state->env);
+	printf("%s\n", getcwd(NULL, 0));
 	while (1)
 	{
 		s = readline("Sexy Minishell -> ");
@@ -44,6 +44,10 @@ int main(int ac, char **av)
 		if (pid == 0)
 		{
 			ft_parse(state, s);
+			ft_exec(state);
+			ft_free_tokens(&state->tokens);
+			ft_free_garbage(&state->garbage);
+			kill(getpid(), SIGKILL);
 		}
 		else
 			waitpid(pid, NULL, 0);

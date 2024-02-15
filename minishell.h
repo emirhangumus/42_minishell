@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/15 03:53:27 by egumus           ###   ########.fr       */
+/*   Updated: 2024/02/15 05:35:41 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int			ft_tab_len(char **arr);
 void		ft_free_tab(char **arr);
 int			ft_strcmp(const char *s1, const char *s2);
 char		**ft_msplit(char const *s, char c, t_state *state);
+char		**ft_msplit_set(char *str, char *charset, t_state *state);
 
 /* MAP */
 int		ft_map_get_index(char *key, t_map **map);
@@ -77,10 +78,15 @@ int		ft_make_env(t_state *s);
 void	ft_add_token(t_token **lst, t_token *new);
 void	ft_parse(t_state *s, char *line);
 void	ft_print_tokens(t_token *lst); // DEBUG
+void	ft_free_tokens(t_token **lst);
+int		ft_token_size(t_token *head, int type);
 
 /* GARBAGE */
 void	ft_add_garbage(t_garbage **garbage, void *adress);
 void	ft_free_garbage(t_garbage **garbage);
 char	*ft_mstrdup(const char *s, t_state *state);
+
+/* EXEC */
+void	ft_exec(t_state *s);
 
 #endif
