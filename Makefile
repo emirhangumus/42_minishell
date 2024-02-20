@@ -1,27 +1,21 @@
 NAME = minishell
 GCC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
-LIBFT = -Llibft -lft
-SRC = minishell.c ./path/paths.c ./parser/parser.c ./parser/token_functions.c ./garbage/garbage.c utils1.c utils2.c utils3.c ./free/free_list.c map/map.c exec.c
+SRC = minishell.c garbage.c start.c lexer.c lib/ft_strdup.c lib/ft_strlen.c lib/ft_split.c lib/ft_strjoin.c lib/ft_strcmp.c lib/ft_strtrim.c lib/ft_substr.c lib/utils.c
 OBJ = $(SRC:.c=.o)
 READLINE = -L/usr/local/lib -I/usr/local/include -lreadline
 
-all: libft $(NAME)
-
-libft:
-	make -C ./libft
+all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(GCC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(READLINE)
+	$(GCC) $(CFLAGS) -o $(NAME) $(OBJ) $(READLINE)
 
 clean:
 	rm -f $(OBJ)
-	make -C libft clean
 
 fclean: clean
 	rm -f $(NAME)
-	make -C libft fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re libft
+.PHONY: all clean fclean re

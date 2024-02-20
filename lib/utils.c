@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/04 22:21:59 by egumus            #+#    #+#             */
-/*   Updated: 2023/10/04 22:22:47 by egumus           ###   ########.fr       */
+/*   Created: 2024/02/20 19:36:17 by egumus            #+#    #+#             */
+/*   Updated: 2024/02/20 19:37:45 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-void	ft_putchar_fd(char c, int fd)
+char	*ft_strchr(const char *s, int c)
 {
-	write(fd, &c, 1);
+	unsigned char	*ptr;
+
+	ptr = (unsigned char *)s;
+	while (*ptr)
+	{
+		if (*ptr == (unsigned char)c)
+			return ((char *)ptr);
+		ptr++;
+	}
+	if (*ptr == (unsigned char)c)
+		return ((char *)ptr);
+	return (NULL);
 }

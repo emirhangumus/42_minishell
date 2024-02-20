@@ -5,52 +5,64 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 22:59:40 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/15 06:16:53 by egumus           ###   ########.fr       */
+/*   Created: 2024/02/18 19:04:05 by egumus            #+#    #+#             */
+/*   Updated: 2024/02/20 19:44:11 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+char	**ft_get_env(void)
+{
+	extern char	**environ;
+	char		**env;
+	int			i;
+
+	i = 0;
+	while (environ[i])
+		i++;
+	env = (char **)malloc(sizeof(char *) * (i + 1));
+	if (!env)
+		return (NULL);
+	i = 0;
+	while (environ[i])
+	{
+		env[i] = ft_strdup(environ[i], NULL);
+		if (!env[i])
+			return (NULL);
+		i++;
+	}
+	env[i] = NULL;
+	return (env);
+}
+
 int	ft_init_state(t_state *s)
 {
 	s->garbage = NULL;
-	s->tokens = NULL;
-	s->env = NULL;
-	ft_make_env(s);
+	s->env = ft_get_env();
+	s->cmd = NULL;
+	s->cwd = getcwd(s->cwd, 1024);
+	s->status = 0;
 	return (0);
 }
 
-int main(int ac, char **av)
+int main(void)
 {
-	(void)ac;
-	(void)av;
-	t_state	*state;
-	char *s;
+	t_state	*s;
+	
+	s = (t_state *)malloc(sizeof(t_state));
+	if (!s)
+		return (1);
+	if (ft_init_state(s))
+		return (free(s), (1));
+	ft_start(s);
+	free(s->env);
+	free(s->cwd);
+	free(s);
+	return (0);
+}
 
-	state = malloc(sizeof(t_state));
-	if (!state)
-		return (1);
-	if (ft_init_state(state))
-		return (1);
-	if (ft_make_env(state))
-		return (1);
-	printf("%s\n", getcwd(NULL, 0));
-	while (1)
-	{
-		s = readline("Sexy Minishell -> ");
-		add_history(s);
-		int pid = fork();
-		if (pid == 0)
-		{
-			ft_parse(state, s);
-			ft_exec(state);
-			ft_free_tokens(&state->tokens);
-			ft_free_garbage(&state->garbage);
-			kill(getpid(), SIGKILL);
-		}
-		else
-			waitpid(pid, NULL, 0);
-		// rl_clear_history();
-	}
+__attribute__((destructor))
+static void test() {
+	system("leaks minishell");
 }

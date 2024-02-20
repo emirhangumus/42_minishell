@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/15 05:35:41 by egumus           ###   ########.fr       */
+/*   Updated: 2024/02/20 19:36:36 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,19 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <stdarg.h>
-# include "./libft/libft.h"
+# include <fcntl.h>
 
 # define T_COMMAND 1
 # define T_OPERATOR 2
-# define T_FLAG 3
-# define T_PARAM 4
+# define T_PARAM 3
 
-typedef struct s_map
-{
-	char	*key;
-	void	*value;
-} t_map;
+# define COLOR_RED "\x1b[31m"
+# define COLOR_GREEN "\x1b[32m"
+# define COLOR_YELLOW "\x1b[33m"
+# define COLOR_BLUE "\x1b[34m"
+# define COLOR_MAGENTA "\x1b[35m"
+# define COLOR_CYAN "\x1b[36m"
+# define COLOR_RESET "\x1b[0m"
 
 typedef struct s_token
 {
@@ -44,49 +45,41 @@ typedef struct s_token
 
 typedef struct s_garbage
 {
-	void				*adress;
+	void				*ptr;
 	struct s_garbage	*next;
 } t_garbage;
 
 typedef struct s_state
 {
-	t_map		**env;
+	char		*cmd;
+	char		*cwd;
+	char		**env;
+	int			status;
+	int			fd[2];
+	pid_t		pid;
 	t_token		*tokens;
 	t_garbage	*garbage;
 } t_state;
 
-/* UTILS */
-int			ft_tab_len(char **arr);
-void		ft_free_tab(char **arr);
-int			ft_strcmp(const char *s1, const char *s2);
-char		**ft_msplit(char const *s, char c, t_state *state);
-char		**ft_msplit_set(char *str, char *charset, t_state *state);
-
-/* MAP */
-int		ft_map_get_index(char *key, t_map **map);
-int		ft_map_insert(char *key, void *value, t_map **map);
-void	ft_map_remove(char *key, t_map **map);
-void	ft_map_free(t_map **map);
-void	ft_map_print(t_map **map); // DEBUG
-void	*ft_map_get(char *key, t_map **map);
-
-/* PATH */
-void	ft_free_env(t_state *s);
-int		ft_make_env(t_state *s);
-
-/* TOKENIZE */
-void	ft_add_token(t_token **lst, t_token *new);
-void	ft_parse(t_state *s, char *line);
-void	ft_print_tokens(t_token *lst); // DEBUG
-void	ft_free_tokens(t_token **lst);
-int		ft_token_size(t_token *head, int type);
+/* LIB */
+size_t	ft_strlen(const char *s);
+char	*ft_strdup(char *str, t_state *s);
+char	**ft_split(char *s, char c, t_state *state);
+char	*ft_strjoin(char const *s1, char const *s2, t_state *s);
+int		ft_strcmp(const char *s1, const char *s2);
+char	*ft_strtrim(char const *s1, char const *set, t_state *s);
+char	*ft_substr(const char *s, unsigned int start, size_t len, t_state *st);
+char	*ft_strchr(const char *s, int c);
 
 /* GARBAGE */
-void	ft_add_garbage(t_garbage **garbage, void *adress);
-void	ft_free_garbage(t_garbage **garbage);
-char	*ft_mstrdup(const char *s, t_state *state);
+void	ft_add_garbage(t_state *s, void *ptr);
+void	ft_free_garbage(t_state *s);
+void	ft_addarr_garbage(t_state *s, void **ptr);
 
-/* EXEC */
-void	ft_exec(t_state *s);
+/* LEXER */
+int		ft_lexer(t_state *s);
+
+/* SHELL */
+void	ft_start(t_state *s);
 
 #endif

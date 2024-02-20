@@ -1,19 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/04 23:12:59 by egumus            #+#    #+#             */
-/*   Updated: 2023/10/05 01:07:49 by egumus           ###   ########.fr       */
+/*   Created: 2024/02/20 19:34:46 by egumus            #+#    #+#             */
+/*   Updated: 2024/02/20 19:37:17 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-void	ft_lstadd_front(t_list **lst, t_list *new)
+char	*ft_strtrim(char const *s1, char const *set, t_state *s)
 {
-	new->next = *lst;
-	*lst = new;
+	char	*str;
+	size_t	i;
+	size_t	j;
+	size_t	len;
+
+	if (!s1 || !set)
+		return (NULL);
+	i = 0;
+	while (s1[i] && ft_strchr(set, s1[i]))
+		i++;
+	len = ft_strlen(s1);
+	if (i == len)
+		return (ft_strdup("", s));
+	j = len - 1;
+	while (j > i && ft_strchr(set, s1[j]))
+		j--;
+	str = ft_substr(s1, i, j - i + 1, s);
+	return (str);
 }

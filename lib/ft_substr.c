@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/30 23:56:43 by egumus            #+#    #+#             */
-/*   Updated: 2023/10/04 19:25:11 by egumus           ###   ########.fr       */
+/*   Created: 2024/02/20 19:35:23 by egumus            #+#    #+#             */
+/*   Updated: 2024/02/20 19:37:24 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-char	*ft_substr(const char *s, unsigned int start, size_t len)
+char	*ft_substr(const char *s, unsigned int start, size_t len, t_state *st)
 {
 	size_t	count;
 	size_t	size;
@@ -21,7 +21,7 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	if (!s)
 		return (NULL);
 	if ((unsigned int)ft_strlen(s) < start)
-		return (ft_strdup(""));
+		return (ft_strdup("", st));
 	size = ft_strlen(s + start);
 	if (size < len)
 		len = size;

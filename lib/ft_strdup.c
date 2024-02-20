@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/05 01:18:56 by egumus            #+#    #+#             */
-/*   Updated: 2023/10/05 01:37:39 by egumus           ###   ########.fr       */
+/*   Created: 2024/02/18 19:18:08 by egumus            #+#    #+#             */
+/*   Updated: 2024/02/20 19:43:38 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+char *ft_strdup(char *str, t_state *s)
 {
-	t_list	*current;
+	char *new;
+	int i;
 
-	if (!lst || !(*lst))
+	i = 0;
+	new = (char *)malloc(sizeof(char) * (ft_strlen(str) + 1));
+	if (!new)
+		return (NULL);
+	if (s != NULL)
+		ft_add_garbage(s, new);
+	while (str[i])
 	{
-		*lst = new;
-		return ;
+		new[i] = str[i];
+		i++;
 	}
-	current = *lst;
-	while (current->next != NULL)
-		current = current->next;
-	current->next = new;
+	new[i] = '\0';
+	return (new);
 }
