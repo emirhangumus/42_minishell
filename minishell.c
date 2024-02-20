@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:05 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/20 19:44:11 by egumus           ###   ########.fr       */
+/*   Updated: 2024/02/20 22:17:04 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int main(void)
 	return (0);
 }
 
-__attribute__((destructor))
-static void test() {
-	system("leaks minishell");
-}
+// __attribute__((destructor))
+// static void test() {
+// 	system("leaks minishell");
+// }

@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/20 19:36:36 by egumus           ###   ########.fr       */
+/*   Updated: 2024/02/20 21:36:00 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strtrim(char const *s1, char const *set, t_state *s);
 char	*ft_substr(const char *s, unsigned int start, size_t len, t_state *st);
 char	*ft_strchr(const char *s, int c);
+char	**ft_quote_split(char *s, char c, t_state *state);
 
 /* GARBAGE */
 void	ft_add_garbage(t_state *s, void *ptr);
