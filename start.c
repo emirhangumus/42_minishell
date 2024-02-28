@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:42:03 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/20 19:42:37 by egumus           ###   ########.fr       */
+/*   Updated: 2024/02/21 01:17:25 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_get_prompt_text(t_state *s)
 }
 
 void	ft_start(t_state *s)
-{
+{	
 	while (1)
 	{
 		s->cmd = readline(ft_get_prompt_text(s));
@@ -30,8 +30,12 @@ void	ft_start(t_state *s)
 		if (ft_strlen(s->cmd) > 0)
 			add_history(ft_strdup(s->cmd, s));
 		ft_lexer(s);
-		free(s->cmd);
-		waitpid(-1, &s->status, 0);
+		// printf("tokens:\n");
+		// while (s->tokens)
+		// {
+		// 	printf("type: %d, value: %s\n", s->tokens->type, s->tokens->value);
+		// 	s->tokens = s->tokens->next;
+		// }
 	}
 	ft_free_garbage(s);
 }

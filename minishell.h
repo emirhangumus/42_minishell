@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/20 21:36:00 by egumus           ###   ########.fr       */
+/*   Updated: 2024/02/28 19:55:59 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,13 @@
 # include <stdarg.h>
 # include <fcntl.h>
 
-# define T_COMMAND 1
-# define T_OPERATOR 2
-# define T_PARAM 3
+# define T_CMD 1
+# define T_ARG 2
+# define T_PIPE 3
+
+#define QUOTE_NONE 0
+#define QUOTE_ONE 39
+#define QUOTE_TWO 34
 
 # define COLOR_RED "\x1b[31m"
 # define COLOR_GREEN "\x1b[32m"
@@ -48,6 +52,16 @@ typedef struct s_garbage
 	void				*ptr;
 	struct s_garbage	*next;
 } t_garbage;
+
+typedef struct s_lexer
+{
+	char	**sp;
+	int		i;
+	int		is_happend;
+	int		quote;
+	int		is_pipe_added;
+	int		take_it;
+} t_lexer;
 
 typedef struct s_state
 {
@@ -71,6 +85,8 @@ char	*ft_strtrim(char const *s1, char const *set, t_state *s);
 char	*ft_substr(const char *s, unsigned int start, size_t len, t_state *st);
 char	*ft_strchr(const char *s, int c);
 char	**ft_quote_split(char *s, char c, t_state *state);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_trim_quotes(char const *str, t_state *s);
 
 /* GARBAGE */
 void	ft_add_garbage(t_state *s, void *ptr);
@@ -82,5 +98,7 @@ int		ft_lexer(t_state *s);
 
 /* SHELL */
 void	ft_start(t_state *s);
+
+
 
 #endif

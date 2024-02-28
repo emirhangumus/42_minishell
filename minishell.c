@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:05 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/20 22:17:04 by egumus           ###   ########.fr       */
+/*   Updated: 2024/02/28 18:30:49 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	ft_init_state(t_state *s)
 	s->garbage = NULL;
 	s->env = ft_get_env();
 	s->cmd = NULL;
+	s->tokens = NULL;
 	s->cwd = getcwd(s->cwd, 1024);
 	s->status = 0;
 	return (0);

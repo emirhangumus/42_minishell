@@ -6,15 +6,11 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:23:06 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/20 22:16:55 by egumus           ###   ########.fr       */
+/*   Updated: 2024/02/21 02:43:27 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-#define QUOTE_NONE 0
-#define QUOTE_ONE 39
-#define QUOTE_TWO 34
 
 static int	ft_count_words_with_quotes(char *s, char c)
 {
@@ -98,7 +94,7 @@ char	**ft_quote_split(char *s, char c, t_state *state)
 			result[j++] = ft_substr(s, k, i - k, state);
 			if (!result[j - 1])
 				return (ft_free(result, j - 1));
-		if (s[i] == '\0')
+		if (!s[i])
 			break ;
 		i++;
 	}
