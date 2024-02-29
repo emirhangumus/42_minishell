@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:32:25 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/28 21:06:07 by egumus           ###   ########.fr       */
+/*   Updated: 2024/02/29 18:04:13 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,6 +268,7 @@ int	ft_lexer_bychar(t_state *s, t_lexer *l, char *str)
 	j = 0;
 	tmp = ft_get_last_token(s->tokens);
 	l->is_happend = 0;
+	l->take_it = 0;
 	while (str[i])
 	{
 		// handle | < < > >>
@@ -293,7 +294,7 @@ int	ft_lexer_bychar(t_state *s, t_lexer *l, char *str)
 			l->is_pipe_added = 1;
 			j = i + 1;
 		}	
-		if (!str[i + 1])
+		if (!str[i + 1] && l->quote == QUOTE_NONE && !l->is_pipe_added)
 			l->take_it = 1;
 		if (l->take_it)
 			ft_take_it(l, s, str, &i, &j);
@@ -301,7 +302,7 @@ int	ft_lexer_bychar(t_state *s, t_lexer *l, char *str)
 	}
 	if (l->quote != QUOTE_NONE)
 		return (1);
-	// ft_merge_args(tmp, s);
+	ft_merge_args(tmp, s);
 	return (0);
 }
 
@@ -335,6 +336,8 @@ int	ft_lexer(t_state *s)
 		if (l->i == 0 || l->is_pipe_added)
 		{
 			ft_create_token(&s->tokens, ft_trim_quotes(l->sp[l->i], s), T_CMD);
+			if (l->is_pipe_added && l->i != 0)
+				l->is_pipe_added = 0;
 			l->i++;
 			continue ;
 		}
