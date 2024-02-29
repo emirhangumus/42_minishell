@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:32:25 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/29 22:16:38 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/01 01:52:40 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,6 @@ void	ft_merge_args(t_token *start_token, t_state *s)
 	}
 	if (total_args == 0 || total_args == 1)
 		return ;
-	printf("total_args: %d\n", total_args);
 	tmp = start_token;
 	while (tmp)
 	{
@@ -351,7 +350,7 @@ int	ft_lexer(t_state *s)
 		l->i++;
 	}
 	ft_remove_tokens(&s->tokens, (int (*)(void *))ft_is_empty);
-	ft_print_tokens(s->tokens);
+	// ft_print_tokens(s->tokens);
 	// ft_free_tokens(s->tokens);
 	// s->tokens = NULL;
 	return (0);

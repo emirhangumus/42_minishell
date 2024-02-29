@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/01 01:44:53 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/01 01:51:10 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,8 +161,8 @@ void    ft_run_pipes(t_state *s, t_exec **exec)
         {
             if (i != 0)
             {
-                dup2(s->fd[0], 0);
-                close(s->fd[0]);
+                dup2(s->fd, 0);
+                close(s->fd);
             }
             if (exec[i + 1])
             {
@@ -176,9 +176,9 @@ void    ft_run_pipes(t_state *s, t_exec **exec)
         {
             waitpid(s->pid, &s->status, 0);
             if (i != 0)
-                close(s->fd[0]);
+                close(s->fd);
             close(pipefd[1]);
-            s->fd[0] = pipefd[0];
+            s->fd = pipefd[0];
         }
         i++;
     }
@@ -198,8 +198,6 @@ int	ft_execuator(t_state *s)
 	err_no = ft_init_execs(s, exec);
     if (err_no)
         return (err_no);
-	if (pipe(s->fd) == -1)
-		return (ERR_PIPE_INIT);
     ft_run_pipes(s, exec);
     return (0);
 }

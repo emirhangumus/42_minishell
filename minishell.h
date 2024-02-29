@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/29 22:04:42 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/01 01:51:01 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ typedef struct s_state
 	char		*cwd;
 	char		**env;
 	int			status;
-	int			fd[2];
+	int			fd;
 	pid_t		pid;
 	t_token		*tokens;
 	t_garbage	*garbage;
