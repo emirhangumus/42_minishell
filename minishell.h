@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/28 19:55:59 by egumus           ###   ########.fr       */
+/*   Updated: 2024/02/29 14:53:16 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,12 @@ typedef struct s_lexer
 	int		take_it;
 } t_lexer;
 
+typedef struct s_exec
+{
+    char    *cmd_path;
+    char    **cmd_args;
+} t_exec;
+
 typedef struct s_state
 {
 	char		*cmd;
@@ -95,10 +101,12 @@ void	ft_addarr_garbage(t_state *s, void **ptr);
 
 /* LEXER */
 int		ft_lexer(t_state *s);
+void	ft_free_tokens(t_token *token);
 
 /* SHELL */
 void	ft_start(t_state *s);
 
-
+/* EXEC */
+void    ft_execuator(t_state *s);
 
 #endif
