@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:32:25 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/29 18:04:13 by egumus           ###   ########.fr       */
+/*   Updated: 2024/02/29 18:31:08 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,6 +290,8 @@ int	ft_lexer_bychar(t_state *s, t_lexer *l, char *str)
 		}
 		if (l->quote == QUOTE_NONE && str[i] == '|')
 		{
+			if (i != 0 && !l->is_pipe_added)
+				ft_create_token(&s->tokens, ft_trim_quotes(ft_substr(str, j, i - j, s), s), T_CMD);
 			ft_create_token(&s->tokens, ft_strdup("|", s), T_PIPE);
 			l->is_pipe_added = 1;
 			j = i + 1;
