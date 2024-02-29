@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/29 14:53:16 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/02/29 22:04:42 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@
 # define COLOR_MAGENTA "\x1b[35m"
 # define COLOR_CYAN "\x1b[36m"
 # define COLOR_RESET "\x1b[0m"
+
+# define ERR_CMD_NOT_FOUND 127
+# define ERR_PIPE_INIT 126
 
 typedef struct s_token
 {
@@ -107,6 +110,6 @@ void	ft_free_tokens(t_token *token);
 void	ft_start(t_state *s);
 
 /* EXEC */
-void    ft_execuator(t_state *s);
+int    ft_execuator(t_state *s);
 
 #endif

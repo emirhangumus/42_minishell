@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:05 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/29 14:35:21 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/02/29 22:05:43 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int	ft_init_state(t_state *s)
 	s->env = ft_get_env();
 	s->cmd = NULL;
 	s->tokens = NULL;
-	s->cwd = getcwd(s->cwd, 1024);
+    s->cwd = (char *)malloc(1024);
+    getcwd(s->cwd, 1024);
 	s->status = 0;
 	return (0);
 }
