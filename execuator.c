@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/02/29 22:02:44 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/01 00:13:40 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,23 +163,54 @@ int	ft_execuator(t_state *s)
         return (err_no);
 	if (pipe(s->fd) == -1)
 		return (ERR_PIPE_INIT);
-while (i < cmd_amount)
-{
-    s->pid = fork();
-    if (s->pid == 0)
+    while (i < cmd_amount)
     {
-        execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
-    }
-    else
-    {
-        waitpid(s->pid, &s->status, 0);
-        if (i % 2 == 0)
-            close(s->fd[1]);
+        s->pid = fork();
+        if (s->pid == 0)
+        {
+            if (i == 0 && cmd_amount > 1) // ilk komut ve birden fazla komut varsa
+            {
+                close(s->fd[0]);
+                dup2(s->fd[1], 1);
+            }
+            else if (i == 0 && cmd_amount == 1) // tek komut varsa
+            {
+                close(s->fd[0]);
+                close(s->fd[1]);
+            }
+            else if (i == cmd_amount - 1) // son komut
+            {
+                close(s->fd[1]);
+                dup2(s->fd[0], 0);
+            }
+            else // ara komutlar
+            {
+                dup2(s->fd[0], 0);
+                dup2(s->fd[1], 1);
+            }
+            printf("cmd_path: %s\n", exec[i]->cmd_path);
+            execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
+        }
         else
-            close(s->fd[0]);
+        {
+            waitpid(s->pid, &s->status, 0);
+            if (i == 0 && cmd_amount == 1) // tek komut varsa
+            {
+                i++;
+                continue ;
+            }
+            else if (i == 0 && cmd_amount > 1) // ilk komut ve birden fazla komut varsa
+                close(s->fd[1]);
+            else if (i == cmd_amount - 1) // son komut
+                close(s->fd[0]);
+            else // ara komutlar
+            {
+                close(s->fd[0]);
+                close(s->fd[1]);
+            }
+        }
+        i++;
     }
-    i++;
-}
     return (0);
 }
 

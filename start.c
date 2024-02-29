@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:42:03 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/29 22:17:01 by egumus           ###   ########.fr       */
+/*   Updated: 2024/02/29 22:31:35 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_start(t_state *s)
 		{
 			add_history(ft_strdup(s->cmd, s));
 			ft_lexer(s);
-        	// ft_execuator(s);
+        	ft_execuator(s);
 			ft_free_tokens(s->tokens);
 			s->tokens = NULL;
 			// printf("tokens:\n");
