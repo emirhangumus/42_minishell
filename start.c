@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:42:03 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/29 22:06:23 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/02/29 22:17:01 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,20 @@ void	ft_start(t_state *s)
 		if (!s->cmd)
 			break ;
 		if (ft_strlen(s->cmd) > 0)
+		{
 			add_history(ft_strdup(s->cmd, s));
-		ft_lexer(s);
-        // ft_execuator(s);
-        ft_free_tokens(s->tokens);
-        s->tokens = NULL;
-		// printf("tokens:\n");
-		// while (s->tokens)
-		// {
-		// 	printf("type: %d, value: %s\n", s->tokens->type, s->tokens->value);
-		// 	s->tokens = s->tokens->next;
-		// }
+			ft_lexer(s);
+        	// ft_execuator(s);
+			ft_free_tokens(s->tokens);
+			s->tokens = NULL;
+			// printf("tokens:\n");
+			// while (s->tokens)
+			// {
+			// 	printf("type: %d, value: %s\n", s->tokens->type, s->tokens->value);
+			// 	s->tokens = s->tokens->next;
+			// }
+		}
+		
 	}
 	ft_free_garbage(s);
 }

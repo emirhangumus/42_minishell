@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:32:25 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/29 18:49:33 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/02/29 22:16:38 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,7 +291,7 @@ int	ft_lexer_bychar(t_state *s, t_lexer *l, char *str)
 		if (l->quote == QUOTE_NONE && str[i] == '|')
 		{
 			if (i != 0 && !l->is_pipe_added)
-				ft_create_token(&s->tokens, ft_trim_quotes(ft_substr(str, j, i - j, s), s), T_CMD);
+				ft_create_token(&s->tokens, ft_trim_quotes(ft_substr(str, j, i - j, s), s), 31);
 			ft_create_token(&s->tokens, ft_strdup("|", s), T_PIPE);
 			l->is_pipe_added = 1;
 			j = i + 1;
@@ -350,7 +350,7 @@ int	ft_lexer(t_state *s)
 		}
 		l->i++;
 	}
-	// ft_remove_tokens(&s->tokens, (int (*)(void *))ft_is_empty);
+	ft_remove_tokens(&s->tokens, (int (*)(void *))ft_is_empty);
 	ft_print_tokens(s->tokens);
 	// ft_free_tokens(s->tokens);
 	// s->tokens = NULL;
