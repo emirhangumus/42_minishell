@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execuator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/01 00:13:40 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/01 00:18:20 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,8 +155,8 @@ int	ft_execuator(t_state *s)
     int     err_no;
 	
 	i = 0;
-	exec = malloc(sizeof(t_exec *) * (i + 1));
     cmd_amount = ft_amount_cmd(s->tokens);
+	exec = malloc(sizeof(t_exec *) * (cmd_amount + 1));
     exec[cmd_amount] = NULL;
 	err_no = ft_init_execs(s, exec);
     if (err_no)
