@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execuator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/01 00:18:20 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/01 01:44:53 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	**ft_get_args(t_state *s, t_token *tokens)
 	tokens = tokens->next;
     if (args == NULL)
         return (NULL);
-    args[arg_amount] = NULL;
+    args[arg_amount + 1] = NULL;
     while (i <= arg_amount)
 	{
 		args[i] = ft_strdup(tokens->value, s);
@@ -147,6 +147,43 @@ int ft_amount_cmd(t_token *tokens)
     return (amount);
 }
 
+void    ft_run_pipes(t_state *s, t_exec **exec)
+{
+    int i;
+    int pipefd[2];
+
+    i = 0;
+    while (exec[i])
+    {
+        pipe(pipefd);
+        s->pid = fork();
+        if (s->pid == 0)
+        {
+            if (i != 0)
+            {
+                dup2(s->fd[0], 0);
+                close(s->fd[0]);
+            }
+            if (exec[i + 1])
+            {
+                close(pipefd[0]);
+                dup2(pipefd[1], 1);
+            }
+            execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
+            exit(0);
+        }
+        else
+        {
+            waitpid(s->pid, &s->status, 0);
+            if (i != 0)
+                close(s->fd[0]);
+            close(pipefd[1]);
+            s->fd[0] = pipefd[0];
+        }
+        i++;
+    }
+}
+
 int	ft_execuator(t_state *s)
 {
 	t_exec  **exec;
@@ -163,54 +200,7 @@ int	ft_execuator(t_state *s)
         return (err_no);
 	if (pipe(s->fd) == -1)
 		return (ERR_PIPE_INIT);
-    while (i < cmd_amount)
-    {
-        s->pid = fork();
-        if (s->pid == 0)
-        {
-            if (i == 0 && cmd_amount > 1) // ilk komut ve birden fazla komut varsa
-            {
-                close(s->fd[0]);
-                dup2(s->fd[1], 1);
-            }
-            else if (i == 0 && cmd_amount == 1) // tek komut varsa
-            {
-                close(s->fd[0]);
-                close(s->fd[1]);
-            }
-            else if (i == cmd_amount - 1) // son komut
-            {
-                close(s->fd[1]);
-                dup2(s->fd[0], 0);
-            }
-            else // ara komutlar
-            {
-                dup2(s->fd[0], 0);
-                dup2(s->fd[1], 1);
-            }
-            printf("cmd_path: %s\n", exec[i]->cmd_path);
-            execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
-        }
-        else
-        {
-            waitpid(s->pid, &s->status, 0);
-            if (i == 0 && cmd_amount == 1) // tek komut varsa
-            {
-                i++;
-                continue ;
-            }
-            else if (i == 0 && cmd_amount > 1) // ilk komut ve birden fazla komut varsa
-                close(s->fd[1]);
-            else if (i == cmd_amount - 1) // son komut
-                close(s->fd[0]);
-            else // ara komutlar
-            {
-                close(s->fd[0]);
-                close(s->fd[1]);
-            }
-        }
-        i++;
-    }
+    ft_run_pipes(s, exec);
     return (0);
 }
 
