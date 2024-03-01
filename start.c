@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:42:03 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 00:17:09 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/01 10:08:07 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	ft_start(t_state *s)
 {	
 	while (1)
 	{
+		if (s->cmd)
+			free(s->cmd);
 		s->cmd = readline(ft_get_prompt_text(s));
 		if (!s->cmd)
 			break ;
@@ -31,15 +33,13 @@ void	ft_start(t_state *s)
 		{
 			add_history(ft_strdup(s->cmd, s));
 			ft_lexer(s);
-        	ft_execuator(s);
+        	if (ft_execuator(s))
+			{
+				printf("minishell: an error accured %s\n", s->tokens->value);
+				s->status = ERR_CMD_NOT_FOUND;
+			}
 			ft_free_tokens(s->tokens);
 			s->tokens = NULL;
-			// printf("tokens:\n");
-			// while (s->tokens)
-			// {
-			// 	printf("type: %d, value: %s\n", s->tokens->type, s->tokens->value);
-			// 	s->tokens = s->tokens->next;
-			// }
 		}
 		
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 01:51:01 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/01 09:05:33 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@
 #define QUOTE_NONE 0
 #define QUOTE_ONE 39
 #define QUOTE_TWO 34
+
+# define CMD_PATH 19
+# define CMD_BUILTIN 20
+# define CMD_INPUT 21
+# define CMD_OUTPUT 22
 
 # define COLOR_RED "\x1b[31m"
 # define COLOR_GREEN "\x1b[32m"
@@ -70,6 +75,7 @@ typedef struct s_exec
 {
     char    *cmd_path;
     char    **cmd_args;
+	int		type;
 } t_exec;
 
 typedef struct s_state
@@ -96,6 +102,7 @@ char	*ft_strchr(const char *s, int c);
 char	**ft_quote_split(char *s, char c, t_state *state);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_trim_quotes(char const *str, t_state *s);
+void	ft_free_tab(char **tab);
 
 /* GARBAGE */
 void	ft_add_garbage(t_state *s, void *ptr);
@@ -111,5 +118,12 @@ void	ft_start(t_state *s);
 
 /* EXEC */
 int    ft_execuator(t_state *s);
+
+/* BUILTIN */
+int		ft_is_builtin(char *value);
+int		ft_execute_builtin(t_exec *exec, t_state *s, int pipefd[2]);
+
+/* HELPERS */
+char    *ft_get_env(char **env, char *key);
 
 #endif

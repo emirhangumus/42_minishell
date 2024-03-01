@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   helpers.c                                          :+:      :+:    :+:   */
+/*   ft_free_tab.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/21 00:55:47 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 08:36:13 by egumus           ###   ########.fr       */
+/*   Created: 2024/03/01 09:04:36 by egumus            #+#    #+#             */
+/*   Updated: 2024/03/01 09:04:47 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-char    *ft_get_env(char **env, char *key)
+void	ft_free_tab(char **tab)
 {
-    int     i;
-    size_t  len;
+	int	i;
 
-    i = 0;
-    len = ft_strlen(key);
-    while (env[i])
-    {
-        if (ft_strncmp(env[i], key, len) == 0 && env[i][len] == '=')
-            return (env[i] + len + 1);
-        i++;
-    }
-    return (NULL);
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
 }

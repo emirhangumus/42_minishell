@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:32:25 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 01:52:40 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/01 10:40:06 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,9 +250,11 @@ void	ft_merge_args(t_token *start_token, t_state *s)
 		if (tmp->next && tmp->next->type == T_ARG)
 		{
 			str = ft_strjoin(tmp->value, ft_strdup(tmp->next->value, s), s);
+			tmp->value = str;
 			tmp->next = tmp->next->next;
 		}
-		tmp = tmp->next;
+		else
+			tmp = tmp->next;
 	}
 	will_change->value = str;
 }
@@ -270,6 +272,10 @@ int	ft_lexer_bychar(t_state *s, t_lexer *l, char *str)
 	l->take_it = 0;
 	while (str[i])
 	{
+		if (l->quote == QUOTE_NONE && (str[i + 1] == '\'' || str[i + 1] == '\"'))
+		{
+			l->take_it = 1;
+		}
 		// handle | < < > >>
 		if (ft_toggle_quote(l, str[i]) == 1)
 		{
@@ -290,11 +296,11 @@ int	ft_lexer_bychar(t_state *s, t_lexer *l, char *str)
 		if (l->quote == QUOTE_NONE && str[i] == '|')
 		{
 			if (i != 0 && !l->is_pipe_added)
-				ft_create_token(&s->tokens, ft_trim_quotes(ft_substr(str, j, i - j, s), s), 31);
+				ft_create_token(&s->tokens, ft_trim_quotes(ft_substr(str, j, i - j, s), s), T_ARG);
 			ft_create_token(&s->tokens, ft_strdup("|", s), T_PIPE);
 			l->is_pipe_added = 1;
 			j = i + 1;
-		}	
+		}
 		if (!str[i + 1] && l->quote == QUOTE_NONE && !l->is_pipe_added)
 			l->take_it = 1;
 		if (l->take_it)
@@ -303,7 +309,7 @@ int	ft_lexer_bychar(t_state *s, t_lexer *l, char *str)
 	}
 	if (l->quote != QUOTE_NONE)
 		return (1);
-	ft_merge_args(tmp, s);
+	ft_merge_args(tmp->next, s);
 	return (0);
 }
 
@@ -350,6 +356,7 @@ int	ft_lexer(t_state *s)
 		l->i++;
 	}
 	ft_remove_tokens(&s->tokens, (int (*)(void *))ft_is_empty);
+	// printf("tokens:\n");
 	// ft_print_tokens(s->tokens);
 	// ft_free_tokens(s->tokens);
 	// s->tokens = NULL;

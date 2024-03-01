@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:05 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/29 22:05:43 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/01 09:09:20 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**ft_get_env(void)
+char	**ft_init_env(void)
 {
 	extern char	**environ;
 	char		**env;
@@ -39,7 +39,7 @@ char	**ft_get_env(void)
 int	ft_init_state(t_state *s)
 {
 	s->garbage = NULL;
-	s->env = ft_get_env();
+	s->env = ft_init_env();
 	s->cmd = NULL;
 	s->tokens = NULL;
     s->cwd = (char *)malloc(1024);
@@ -56,9 +56,9 @@ int main(void)
 	if (!s)
 		return (1);
 	if (ft_init_state(s))
-		return (free(s), (1));
+		return (free(s), 1);
 	ft_start(s);
-	free(s->env);
+	ft_free_tab(s->env);
 	free(s->cwd);
 	free(s);
 	return (0);

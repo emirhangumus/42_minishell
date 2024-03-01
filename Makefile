@@ -1,7 +1,7 @@
 NAME = minishell
 GCC = gcc
-CFLAGS = -g  -Wall -Wextra -Werror -fsanitize=address
-SRC = minishell.c garbage.c start.c lexer.c lib/ft_quote_split.c lib/ft_strdup.c lib/ft_strlen.c lib/ft_split.c lib/ft_strjoin.c lib/ft_strcmp.c lib/ft_strtrim.c lib/ft_substr.c lib/utils.c lib/ft_strncmp.c lib/ft_trim_quotes.c execuator.c
+CFLAGS = -g  -Wall -Wextra -Werror #-fsanitize=address
+SRC = minishell.c garbage.c start.c lexer.c builtins.c helpers.c execuator.c lib/ft_quote_split.c lib/ft_strdup.c lib/ft_strlen.c lib/ft_split.c lib/ft_strjoin.c lib/ft_strcmp.c lib/ft_strtrim.c lib/ft_substr.c lib/utils.c lib/ft_strncmp.c lib/ft_trim_quotes.c lib/ft_free_tab.c
 OBJ = $(SRC:.c=.o)
 READLINE = -L/usr/local/lib -I/usr/local/include -lreadline
 

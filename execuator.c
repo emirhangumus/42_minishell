@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execuator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/01 01:51:10 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/01 09:17:00 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char    *get_env(char **env, char *key)
-{
-    int     i;
-    size_t  len;
-
-    i = 0;
-    len = ft_strlen(key);
-    while (env[i])
-    {
-        if (ft_strncmp(env[i], key, len) == 0 && env[i][len] == '=')
-            return (env[i] + len + 1);
-        i++;
-    }
-    return (NULL);
-}
 
 char	*ft_get_cmd_path(t_token *start_token, t_state *s)
 {
@@ -36,7 +20,7 @@ char	*ft_get_cmd_path(t_token *start_token, t_state *s)
     int     i;
     
     i = 0;
-    path = get_env(s->env, "PATH");
+    path = ft_get_env(s->env, "PATH");
     paths = ft_split(path, ':', s);
     while (paths[i])
     {
@@ -122,8 +106,14 @@ int    ft_init_execs(t_state *s, t_exec **exec)
         if (tmp->type == T_CMD)
         {
             exec[j] = malloc(sizeof(t_exec));
+			if (exec[j] == NULL)
+				return (1);
+			if (ft_is_builtin(tmp->value))
+				exec[j]->type = CMD_BUILTIN;
+			else
+				exec[j]->type = CMD_PATH;
             exec[j]->cmd_path = ft_get_cmd_path(tmp, s);
-            if (exec[j]->cmd_path == NULL)
+            if (exec[j]->cmd_path == NULL && !(exec[j]->type == CMD_BUILTIN))
                 return (ERR_CMD_NOT_FOUND);
             exec[j]->cmd_args = ft_get_args(s, tmp);
             j++;
@@ -156,6 +146,12 @@ void    ft_run_pipes(t_state *s, t_exec **exec)
     while (exec[i])
     {
         pipe(pipefd);
+		if (exec[i]->type == CMD_BUILTIN && !exec[i + 1])
+		{
+			s->status = ft_execute_builtin(exec[i], s, pipefd);
+			i++;
+			continue;
+		}
         s->pid = fork();
         if (s->pid == 0)
         {
@@ -168,7 +164,9 @@ void    ft_run_pipes(t_state *s, t_exec **exec)
             {
                 close(pipefd[0]);
                 dup2(pipefd[1], 1);
-            }
+        	}
+			if (exec[i]->type == CMD_BUILTIN)
+				exit(ft_execute_builtin(exec[i], s, pipefd));
             execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
             exit(0);
         }
