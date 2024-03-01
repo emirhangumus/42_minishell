@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:28:31 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 14:30:09 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/01 14:52:35 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_add_token(t_state *s, char *token, int type)
 	}
 }
 
-void   	ft_create_token(t_token **token, char *value, int type)
+void	ft_create_token(t_token **token, char *value, int type)
 {
 	t_token	*new;
 	t_token	*tmp;

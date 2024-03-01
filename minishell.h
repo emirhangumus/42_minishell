@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 14:30:43 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/01 14:53:41 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ char	**ft_quote_split(char *s, char c, t_state *state);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_trim_quotes(char const *str, t_state *s);
 void	ft_free_tab(char **tab);
+int		ft_is_empty(char *s);
 
 /* GARBAGE */
 void	ft_add_garbage(t_state *s, void *ptr);
@@ -113,6 +114,14 @@ void	ft_addarr_garbage(t_state *s, void **ptr);
 /* LEXER */
 int		ft_lexer(t_state *s);
 void	ft_free_tokens(t_token *token);
+int		ft_toggle_quote(t_lexer *l, char c);
+int		ft_merge_args_init(t_token *start_token, int *ta, t_token **wc);
+int		ft_merge_args_iterate(t_token **tmp, t_state *s, char **str);
+void	ft_merge_args(t_token *start_token, t_state *s);
+int		ft_take_it(t_lexer *l, t_state *s, int *i, int *j);
+void	ft_lexer_bychar_pipe(t_state *s, t_lexer *l, int *i, int *j);
+int		ft_lexer_bychar_iterate(t_state *s, t_lexer *l, int	*i, int	*j);
+int		ft_lexer_bychar(t_state *s, t_lexer *l);
 
 /* SHELL */
 void	ft_start(t_state *s);
@@ -120,7 +129,7 @@ void	ft_start(t_state *s);
 /* EXEC */
 int		ft_execuator(t_state *s);
 int		ft_amount_cmd(t_token *tokens);
-int 	ft_find_arg_amount(t_token *tokens);
+int		ft_find_arg_amount(t_token *tokens);
 char	*ft_get_cmd_path(t_token *start_token, t_state *s);
 
 /* BUILTIN */
@@ -132,7 +141,7 @@ char	*ft_get_env(char **env, char *key);
 
 /* TOKENS */
 void	ft_add_token(t_state *s, char *token, int type);
-void   	ft_create_token(t_token **token, char *value, int type);
+void	ft_create_token(t_token **token, char *value, int type);
 t_token	*ft_get_last_token(t_token *token);
 void	ft_remove_tokens(t_token **token, int (*f)(void *));
 void	ft_free_tokens(t_token *token);
