@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_quote_split.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:23:06 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/21 02:43:27 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/01 11:07:12 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,13 @@ char	**ft_quote_split(char *s, char c, t_state *state)
 	int		i;
 	int		j;
 	int		k;
-	
+
 	seen_quote_type = 0;
 	i = 0;
 	j = 0;
 	k = 0;
-	result = (char **)malloc(sizeof(char *) * (ft_count_words_with_quotes(s, c) + 1));
+	result = (char **)malloc(sizeof(char *) * \
+		(ft_count_words_with_quotes(s, c) + 1));
 	if (!result)
 		return (NULL);
 	while (s[i])
@@ -92,8 +93,8 @@ char	**ft_quote_split(char *s, char c, t_state *state)
 			i++;
 		if (i > k)
 			result[j++] = ft_substr(s, k, i - k, state);
-			if (!result[j - 1])
-				return (ft_free(result, j - 1));
+		if (!result[j - 1])
+			return (ft_free(result, j - 1));
 		if (!s[i])
 			break ;
 		i++;

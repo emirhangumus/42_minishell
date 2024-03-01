@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 09:05:33 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/01 11:11:23 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@
 # define T_ARG 2
 # define T_PIPE 3
 
-#define QUOTE_NONE 0
-#define QUOTE_ONE 39
-#define QUOTE_TWO 34
+# define QUOTE_NONE 0
+# define QUOTE_ONE 39
+# define QUOTE_TWO 34
 
 # define CMD_PATH 19
 # define CMD_BUILTIN 20
@@ -53,13 +53,13 @@ typedef struct s_token
 	int				type;
 	char			*value;
 	struct s_token	*next;
-} t_token;
+}	t_token;
 
 typedef struct s_garbage
 {
 	void				*ptr;
 	struct s_garbage	*next;
-} t_garbage;
+}	t_garbage;
 
 typedef struct s_lexer
 {
@@ -69,14 +69,14 @@ typedef struct s_lexer
 	int		quote;
 	int		is_pipe_added;
 	int		take_it;
-} t_lexer;
+}	t_lexer;
 
 typedef struct s_exec
 {
-    char    *cmd_path;
-    char    **cmd_args;
+	char	*cmd_path;
+	char	**cmd_args;
 	int		type;
-} t_exec;
+}	t_exec;
 
 typedef struct s_state
 {
@@ -88,7 +88,7 @@ typedef struct s_state
 	pid_t		pid;
 	t_token		*tokens;
 	t_garbage	*garbage;
-} t_state;
+}	t_state;
 
 /* LIB */
 size_t	ft_strlen(const char *s);
@@ -117,13 +117,13 @@ void	ft_free_tokens(t_token *token);
 void	ft_start(t_state *s);
 
 /* EXEC */
-int    ft_execuator(t_state *s);
+int		ft_execuator(t_state *s);
 
 /* BUILTIN */
 int		ft_is_builtin(char *value);
 int		ft_execute_builtin(t_exec *exec, t_state *s, int pipefd[2]);
 
 /* HELPERS */
-char    *ft_get_env(char **env, char *key);
+char	*ft_get_env(char **env, char *key);
 
 #endif

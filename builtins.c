@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 02:43:20 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 10:00:44 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/01 11:18:46 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,12 @@ int	ft_echo_is_valid(char *arg)
 	return (0);
 }
 
-int ft_echo(t_exec *exec, int pipefd[2])
+int	ft_echo(t_exec *exec, int pipefd[2])
 {
-	int i;
-	int n_flag;
-	
-	(void)pipefd;
+	int	i;
+	int	n_flag;
 
+	(void)pipefd;
 	i = 1;
 	n_flag = 0;
 	while (exec->cmd_args[i] && ft_echo_is_valid(exec->cmd_args[i]))
@@ -99,11 +98,11 @@ int	ft_pwd(t_state *s)
 	return (0);
 }
 
-char **ft_add_env(char **env, char *key, char *value, t_state *s)
+char	**ft_add_env(char **env, char *key, char *value, t_state *s)
 {
-	int i;
-	char *new_env;
-	char **new_envp;
+	int		i;
+	char	*new_env;
+	char	**new_envp;
 
 	i = 0;
 	while (env[i])
@@ -125,10 +124,10 @@ char **ft_add_env(char **env, char *key, char *value, t_state *s)
 
 int	ft_export(t_exec *exec, t_state *s)
 {
-	int i;
-	int j;
-	char *key;
-	char *value;
+	int		i;
+	int		j;
+	char	*key;
+	char	*value;
 
 	i = 1;
 	while (exec->cmd_args[i])
@@ -138,7 +137,8 @@ int	ft_export(t_exec *exec, t_state *s)
 			j++;
 		key = ft_substr(exec->cmd_args[i], 0, j, s);
 		if (exec->cmd_args[i][j] == '=')
-			value = ft_substr(exec->cmd_args[i], j + 1, ft_strlen(exec->cmd_args[i]) - j - 1, s);
+			value = ft_substr(exec->cmd_args[i], j + 1, \
+				ft_strlen(exec->cmd_args[i]) - j - 1, s);
 		else
 			value = NULL;
 		if (value)
@@ -163,7 +163,7 @@ int	ft_export(t_exec *exec, t_state *s)
 
 int	ft_env(t_state *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s->env[i])
@@ -218,11 +218,9 @@ int	ft_env(t_state *s)
 // 	return (0);
 // }
 
-
-int   ft_execute_builtin(t_exec *exec, t_state *s, int pipefd[2])
+int	ft_execute_builtin(t_exec *exec, t_state *s, int pipefd[2])
 {
 	(void)s;
-
 	if (ft_strcmp(exec->cmd_args[0], "echo") == 0)
 		return (ft_echo(exec, pipefd));
 	if (ft_strcmp(exec->cmd_args[0], "cd") == 0)

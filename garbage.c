@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:11:50 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/18 19:21:58 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/01 11:13:37 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_addarr_garbage(t_state *s, void **ptr)
 		ft_add_garbage(s, ptr[i]);
 		i++;
 	}
-	ft_add_garbage(s, ptr);	
+	ft_add_garbage(s, ptr);
 }
 
 void	ft_free_garbage(t_state *s)

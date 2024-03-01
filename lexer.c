@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:32:25 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 10:40:06 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/01 11:24:26 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_add_token(t_state *s, char *token, int type)
 	}
 }
 
-void	ft_create_token(t_token **token, char *value, int type)
+void   	ft_create_token(t_token **token, char *value, int type)
 {
 	t_token	*new;
 	t_token	*tmp;
@@ -56,9 +56,9 @@ void	ft_create_token(t_token **token, char *value, int type)
 	}
 }
 
-t_token *ft_get_last_token(t_token *token)
+t_token	*ft_get_last_token(t_token *token)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	tmp = token;
 	while (tmp->next)
@@ -145,8 +145,8 @@ char	*ft_remove_quotes(char *s, t_state *state)
 				i++;
 				continue ;
 			}
-						else {
-				
+			else
+			{	
 			}
 		}
 		new[j] = s[i];
@@ -200,7 +200,8 @@ int	ft_toggle_quote(t_lexer *l, char c)
 
 int	ft_take_it(t_lexer *l, t_state *s, char *g, int *i, int *j)
 {
-	ft_create_token(&s->tokens, ft_trim_quotes(ft_substr(g, *j, *i - *j + 1, s), s), T_ARG);
+	ft_create_token(&s->tokens, \
+		ft_trim_quotes(ft_substr(g, *j, *i - *j + 1, s), s), T_ARG);
 	*j = *i + 1;
 	l->take_it = 0;
 	l->is_happend = 0;
@@ -208,20 +209,12 @@ int	ft_take_it(t_lexer *l, t_state *s, char *g, int *i, int *j)
 	return (0);
 }
 
-// void	ft_remove_args(t_token *start_token, t_state *s)
-// {
-// 	t_token *tmp;
-// 	char *str;
-	
-// 	tmp = start_token;
-// }
-
 void	ft_merge_args(t_token *start_token, t_state *s)
 {
-	int	total_args;
-	t_token *tmp;
-	t_token *will_change;
-	char *str;
+	int		total_args;
+	t_token	*tmp;
+	t_token	*will_change;
+	char	*str;
 	
 	tmp = start_token;
 	will_change = NULL;
@@ -262,7 +255,7 @@ void	ft_merge_args(t_token *start_token, t_state *s)
 int	ft_lexer_bychar(t_state *s, t_lexer *l, char *str)
 {
 	int 	i;
-	int 	j;
+	int		j;
 	t_token	*tmp;
 
 	i = 0;
@@ -272,7 +265,8 @@ int	ft_lexer_bychar(t_state *s, t_lexer *l, char *str)
 	l->take_it = 0;
 	while (str[i])
 	{
-		if (l->quote == QUOTE_NONE && (str[i + 1] == '\'' || str[i + 1] == '\"'))
+		if (l->quote == QUOTE_NONE && \
+			(str[i + 1] == '\'' || str[i + 1] == '\"'))
 		{
 			l->take_it = 1;
 		}
@@ -289,14 +283,16 @@ int	ft_lexer_bychar(t_state *s, t_lexer *l, char *str)
 			// go to end
 			while (str[i])
 				i++;
-			ft_create_token(&s->tokens, ft_trim_quotes(ft_substr(str, j, i - j + 1, s), s), T_CMD);
+			ft_create_token(&s->tokens, \
+				ft_trim_quotes(ft_substr(str, j, i - j + 1, s), s), T_CMD);
 			l->is_pipe_added = 0;
 			break ;
 		}
 		if (l->quote == QUOTE_NONE && str[i] == '|')
 		{
 			if (i != 0 && !l->is_pipe_added)
-				ft_create_token(&s->tokens, ft_trim_quotes(ft_substr(str, j, i - j, s), s), T_ARG);
+				ft_create_token(&s->tokens, \
+					ft_trim_quotes(ft_substr(str, j, i - j, s), s), T_ARG);
 			ft_create_token(&s->tokens, ft_strdup("|", s), T_PIPE);
 			l->is_pipe_added = 1;
 			j = i + 1;
@@ -357,43 +353,8 @@ int	ft_lexer(t_state *s)
 	}
 	ft_remove_tokens(&s->tokens, (int (*)(void *))ft_is_empty);
 	// printf("tokens:\n");
-	// ft_print_tokens(s->tokens);
+	ft_print_tokens(s->tokens);
 	// ft_free_tokens(s->tokens);
 	// s->tokens = NULL;
 	return (0);
 }
-
-/**
-echo "asd"|cat -e
-
-echo -> command
-"asd" -> arg
-| -> pipe
-cat -> command
--e -> arg
-
-
-
-echo "asd" | cat -e
-echo -> command
-"asd" -> arg
-| -> pipe
-cat -> command
--e -> arg
-
-
-
-echo "asd|cat -e"
-
-echo -> command
-"asd|cat -e" -> arg
-
-ls -l | cat -e
-
-ls -> command
--l -> arg
-| -> pipe
-cat -> command
--e -> arg
-
-*/
