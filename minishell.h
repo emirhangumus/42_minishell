@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 12:12:46 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/01 14:30:43 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_garbage
 typedef struct s_lexer
 {
 	char	**sp;
+	char	*str;
 	int		i;
 	int		is_happend;
 	int		quote;
@@ -128,5 +129,15 @@ int		ft_execute_builtin(t_exec *exec, t_state *s, int pipefd[2]);
 
 /* HELPERS */
 char	*ft_get_env(char **env, char *key);
+
+/* TOKENS */
+void	ft_add_token(t_state *s, char *token, int type);
+void   	ft_create_token(t_token **token, char *value, int type);
+t_token	*ft_get_last_token(t_token *token);
+void	ft_remove_tokens(t_token **token, int (*f)(void *));
+void	ft_free_tokens(t_token *token);
+
+/* DEBUG */
+void	ft_print_tokens(t_token *token);
 
 #endif

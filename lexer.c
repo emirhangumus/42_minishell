@@ -6,178 +6,85 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:32:25 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 12:31:27 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/01 14:38:48 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_add_token(t_state *s, char *token, int type)
-{
-	t_token	*new;
-	t_token	*tmp;
+// void	ft_rm_quote_len(int *quote_type, char *s, int *i, int *j)
+// {
+// 	while (s[*i] != '\0')
+// 	{
+// 		if (s[*i] == '\'' || s[*i] == '\"')
+// 		{
+// 			if (*quote_type == QUOTE_NONE)
+// 			{
+// 				*quote_type = s[*i];
+// 				(*i)++;
+// 				continue ;
+// 			}
+// 			else if (*quote_type == s[*i])
+// 			{
+// 				*quote_type = QUOTE_NONE;
+// 				(*i)++;
+// 				continue ;
+// 			}
+// 		}
+// 		(*i)++;
+// 		(*j)++;
+// 	}
+// }
 
-	new = (t_token *)malloc(sizeof(t_token));
-	if (!new)
-		return ;
-	new->value = token;
-	new->type = type;
-	new->next = NULL;
-	if (!s->tokens)
-		s->tokens = new;
-	else
-	{
-		tmp = s->tokens;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
-	}
-}
+// void	ft_rm_quote_iterate(char *s, char **new, int *i, int *j)
+// {
+// 	int	quote_type;
 
-void   	ft_create_token(t_token **token, char *value, int type)
-{
-	t_token	*new;
-	t_token	*tmp;
+// 	quote_type = QUOTE_NONE;
+// 	while (s[*i])
+// 	{
+// 		if (s[*i] == '\'' || s[*i] == '\"')
+// 		{
+// 			if (quote_type == QUOTE_NONE)
+// 			{
+// 				quote_type = s[*i];
+// 				(*i)++;
+// 				continue ;
+// 			}
+// 			else if (quote_type == s[*i])
+// 			{
+// 				quote_type = QUOTE_NONE;
+// 				(*i)++;
+// 				continue ;
+// 			}
+// 		}
+// 		*new[*j] = s[*i];
+// 		(*i)++;
+// 		(*j)++;
+// 	}
+// 	*new[*j] = '\0';
+// }
 
-	new = (t_token *)malloc(sizeof(t_token));
-	if (!new)
-		return ;
-	new->value = value;
-	new->type = type;
-	new->next = NULL;
-	if (!*token)
-		*token = new;
-	else
-	{
-		tmp = *token;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
-	}
-}
+// char	*ft_remove_quotes(char *s, t_state *state)
+// {
+// 	int		i;
+// 	int		j;
+// 	int		quote_type;
+// 	char	*new;
 
-t_token	*ft_get_last_token(t_token *token)
-{
-	t_token	*tmp;
-
-	tmp = token;
-	while (tmp->next)
-		tmp = tmp->next;
-	return (tmp);
-}
-
-void	ft_remove_tokens(t_token **token, int (*f)(void *)) // void *(*f)(void *)
-{
-	t_token	*tmp;
-	t_token	*prev;
-
-	tmp = *token;
-	prev = NULL;
-	while (tmp)
-	{
-		if (f(tmp->value))
-		{
-			if (prev)
-				prev->next = tmp->next;
-			else
-				*token = tmp->next;
-			free(tmp);
-			tmp = NULL;
-			break ;
-		}
-		prev = tmp;
-		tmp = tmp->next;
-	}
-}
-
-char	*ft_remove_quotes(char *s, t_state *state)
-{
-	int		i;
-	int		j;
-	int		quote_type;
-	char	*new;
-
-	i = 0;
-	j = 0;
-	quote_type = QUOTE_NONE;
-	while (s[i] != '\0')
-	{
-		if (s[i] == '\'' || s[i] == '\"')
-		{
-			if (quote_type == QUOTE_NONE)
-			{
-				quote_type = s[i];
-				i++;
-				continue ;
-			}
-			else if (quote_type == s[i])
-			{
-				quote_type = QUOTE_NONE;
-				i++;
-				continue ;
-			}
-			else {
-				
-			}
-		}
-		i++;
-		j++;
-	}
-	new = (char *)malloc(sizeof(char) * (j + 1));
-	if (!new)
-		return (NULL);
-	i = 0;
-	j = 0;
-	quote_type = QUOTE_NONE;
-	while (s[i])
-	{
-		if (s[i] == '\'' || s[i] == '\"')
-		{
-			if (quote_type == QUOTE_NONE)
-			{
-				quote_type = s[i];
-				i++;
-				continue ;
-			}
-			else if (quote_type == s[i])
-			{
-				quote_type = QUOTE_NONE;
-				i++;
-				continue ;
-			}
-			else
-			{	
-			}
-		}
-		new[j] = s[i];
-		i++;
-		j++;
-	}
-	new[j] = '\0';
-	ft_add_garbage(state, new);
-	return (new);
-}
-
-void	ft_print_tokens(t_token *token)
-{
-	while (token)
-	{
-		printf("type: %d, value: %s\n", token->type, token->value);
-		token = token->next;
-	}
-}
-
-void	ft_free_tokens(t_token *token)
-{
-	t_token	*tmp;
-
-	while (token)
-	{
-		tmp = token;
-		token = token->next;
-		free(tmp);
-	}
-}
+// 	i = 0;
+// 	j = 0;
+// 	quote_type = QUOTE_NONE;
+// 	ft_rm_quote_len(&quote_type, s, &i, &j);
+// 	new = (char *)malloc(sizeof(char) * (j + 1));
+// 	if (!new)
+// 		return (NULL);
+// 	i = 0;
+// 	j = 0;
+// 	ft_rm_quote_iterate(s, &new, &i, &j);
+// 	ft_add_garbage(state, new);
+// 	return (new);
+// }
 
 int	ft_toggle_quote(t_lexer *l, char c)
 {
@@ -209,6 +116,44 @@ int	ft_take_it(t_lexer *l, t_state *s, char *g, int *i, int *j)
 	return (0);
 }
 
+int	ft_merge_args_init(t_token *start_token, int *total_args, t_token **will_change)
+{
+	t_token	*tmp;
+
+	tmp = start_token;
+	while (tmp)
+	{
+		if (tmp->type == T_ARG)
+		{
+			if (!(*will_change))
+				*will_change = tmp;
+			(*total_args)++;
+		}
+		tmp = tmp->next;
+	}
+	if (*total_args == 0 || *total_args == 1)
+		return (1);
+	return (0);
+}
+
+int	ft_merge_args_iterate(t_token **tmp, t_state *s, char **str)
+{
+	if ((*tmp)->type != T_ARG)
+	{
+		(*tmp) = (*tmp)->next;
+		return (1);
+	}
+	if ((*tmp)->next && (*tmp)->next->type == T_ARG)
+	{
+		*str = ft_strjoin((*tmp)->value, ft_strdup((*tmp)->next->value, s), s);
+		(*tmp)->value = *str;
+		(*tmp)->next = (*tmp)->next->next;
+	}
+	else
+		(*tmp) = (*tmp)->next;
+	return (0);
+}
+
 void	ft_merge_args(t_token *start_token, t_state *s)
 {
 	int		total_args;
@@ -220,93 +165,81 @@ void	ft_merge_args(t_token *start_token, t_state *s)
 	will_change = NULL;
 	total_args = 0;
 	str = NULL;
-	while (tmp)
-	{
-		if (tmp->type == T_ARG)
-		{
-			if (will_change == NULL)
-				will_change = tmp;
-			total_args++;
-		}
-		tmp = tmp->next;
-	}
-	if (total_args == 0 || total_args == 1)
+	if (ft_merge_args_init(start_token, &total_args, &will_change))
 		return ;
-	tmp = start_token;
+	if (will_change == NULL)
+		return ;
 	while (tmp)
 	{
-		if (tmp->type != T_ARG)
-		{
-			tmp = tmp->next;
+		if (ft_merge_args_iterate(&tmp, s, &str))
 			continue ;
-		}
-		if (tmp->next && tmp->next->type == T_ARG)
-		{
-			str = ft_strjoin(tmp->value, ft_strdup(tmp->next->value, s), s);
-			tmp->value = str;
-			tmp->next = tmp->next->next;
-		}
-		else
-			tmp = tmp->next;
 	}
 	will_change->value = str;
 }
 
-int	ft_lexer_bychar(t_state *s, t_lexer *l, char *str)
+void	ft_lexer_bychar_pipe(t_state *s, t_lexer *l, int *i, int *j)
+{
+	if (l->quote == QUOTE_NONE && l->str[*i] == '|')
+	{
+		if (*i != 0 && !l->is_pipe_added)
+			ft_create_token(&s->tokens, \
+				ft_trim_quotes(ft_substr(l->str, *j, *i - *j, s), s), T_ARG);
+		ft_create_token(&s->tokens, ft_strdup("|", s), T_PIPE);
+		l->is_pipe_added = 1;
+		*j = *i + 1;
+	}
+}
+
+int	ft_lexer_bychar_iterate(t_state *s, t_lexer *l, int	*i, int	*j)
+{
+	if (l->quote == QUOTE_NONE && \
+		(l->str[*i + 1] == '\'' || l->str[*i + 1] == '\"'))
+		l->take_it = 1;
+	if (ft_toggle_quote(l, l->str[*i]) == 1)
+	{
+		*j = *i;
+		return (1);
+	}
+	if (l->quote == QUOTE_NONE && l->is_pipe_added)
+	{
+		*j = *i;
+		while (l->str[*i])
+			(*i)++;
+		ft_create_token(&s->tokens, \
+			ft_trim_quotes(ft_substr(l->str, *j, *i - *j + 1, s), s), T_CMD);
+		l->is_pipe_added = 0;
+		return (2);
+	}
+	ft_lexer_bychar_pipe(s, l, i, j);
+	if (!l->str[*i + 1] && l->quote == QUOTE_NONE && !l->is_pipe_added)
+		l->take_it = 1;
+	if (l->take_it)
+		ft_take_it(l, s, l->str, i, j);
+	return (0);
+}
+
+int	ft_lexer_bychar(t_state *s, t_lexer *l)
 {
 	int 	i;
 	int		j;
+	int		ret;
 	t_token	*tmp;
 
-	i = 0;
+	i = -1;
 	j = 0;
+	ret = 0;
 	tmp = ft_get_last_token(s->tokens);
-	l->is_happend = 0;
-	l->take_it = 0;
-	while (str[i])
+	while (l->str[++i])
 	{
-		if (l->quote == QUOTE_NONE && \
-			(str[i + 1] == '\'' || str[i + 1] == '\"'))
-		{
-			l->take_it = 1;
-		}
-		// handle | < < > >>
-		if (ft_toggle_quote(l, str[i]) == 1)
-		{
-			j = i;
-			i++;
+		ret = ft_lexer_bychar_iterate(s, l, &i, &j);
+		if (ret == 1)
 			continue ;
-		}
-		if (l->quote == QUOTE_NONE && l->is_pipe_added)
-		{
-			j = i;
-			// go to end
-			while (str[i])
-				i++;
-			ft_create_token(&s->tokens, \
-				ft_trim_quotes(ft_substr(str, j, i - j + 1, s), s), T_CMD);
-			l->is_pipe_added = 0;
+		if (ret == 2)
 			break ;
-		}
-		if (l->quote == QUOTE_NONE && str[i] == '|')
-		{
-			if (i != 0 && !l->is_pipe_added)
-				ft_create_token(&s->tokens, \
-					ft_trim_quotes(ft_substr(str, j, i - j, s), s), T_ARG);
-			ft_create_token(&s->tokens, ft_strdup("|", s), T_PIPE);
-			l->is_pipe_added = 1;
-			j = i + 1;
-		}
-		if (!str[i + 1] && l->quote == QUOTE_NONE && !l->is_pipe_added)
-			l->take_it = 1;
-		if (l->take_it)
-			ft_take_it(l, s, str, &i, &j);
-		i++;
 	}
 	if (l->quote != QUOTE_NONE)
 		return (1);
-	ft_merge_args(tmp->next, s);
-	return (0);
+	return (ft_merge_args(tmp->next, s), 0);
 }
 
 int	ft_is_empty(char *s)
@@ -319,6 +252,45 @@ int	ft_is_empty(char *s)
 	return (0);
 }
 
+int	ft_lexer_init(t_lexer *l, t_state *s)
+{
+	l->i = 0;
+	l->is_happend = 0;
+	l->is_pipe_added = 0;
+	l->take_it = 0;
+	l->quote = QUOTE_NONE;
+	l->str = NULL;
+	l->sp = ft_quote_split(s->cmd, ' ', s);
+	if (!l->sp)
+		return (1);
+	l->str = l->sp[l->i];
+	return (0);
+}
+
+int	ft_lexer_iterate(t_state *s, t_lexer *l)
+{
+	while (l->str)
+	{
+		if (l->i == 0 || l->is_pipe_added)
+		{
+			ft_create_token(&s->tokens, ft_trim_quotes(l->str, s), T_CMD);
+			if (l->is_pipe_added && l->i != 0)
+				l->is_pipe_added = 0;
+			l->str = l->sp[++(l->i)];
+			continue ;
+		}
+		l->is_happend = 0;
+		l->take_it = 0;
+		if (ft_lexer_bychar(s, l))
+		{
+			printf("Error: quote not closed\n");
+			return (1);
+		}
+		l->str = l->sp[++(l->i)];
+	}
+	return (ft_remove_tokens(&s->tokens, (int (*)(void *))ft_is_empty), 0);
+}
+
 int	ft_lexer(t_state *s)
 {
 	t_lexer	*l;
@@ -326,37 +298,9 @@ int	ft_lexer(t_state *s)
 	l = (t_lexer *)malloc(sizeof(t_lexer));
 	if (!l)
 		return (1);
-	l->i = 0;
-	l->is_happend = 0;
-	l->is_pipe_added = 0;
-	l->take_it = 0;
-	l->quote = QUOTE_NONE;
-	l->sp = ft_quote_split(s->cmd, ' ', s); //kaliteli hale getirilmeli kardeşim
-	if (!l->sp)
+	if (ft_lexer_init(l, s))
 		return (1);
-	while (l->sp[l->i])
-	{
-		if (l->i == 0 || l->is_pipe_added)
-		{
-			ft_create_token(&s->tokens, ft_trim_quotes(l->sp[l->i], s), T_CMD);
-			if (l->is_pipe_added && l->i != 0)
-				l->is_pipe_added = 0;
-			l->i++;
-			continue ;
-		}
-		if (ft_lexer_bychar(s, l, l->sp[l->i]))
-		{
-			printf("Error: quote not closed\n");
-			return (1);
-		}
-		l->i++;
-	}
-	ft_remove_tokens(&s->tokens, (int (*)(void *))ft_is_empty);
-	// printf("tokens:\n");
-	// ft_print_tokens(s->tokens);
-	// ft_free_tokens(s->tokens);
-	// s->tokens = NULL;
+	if (ft_lexer_iterate(s, l))
+		return (1);
 	return (0);
 }
-
-//ls -""l -a | wc""
