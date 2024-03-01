@@ -19,5 +19,8 @@
         "tuple": "c",
         "type_traits": "c",
         "vector": "c"
+    },
+    "files.exclude": {
+        "**/**.o": true,
     }
 }

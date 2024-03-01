@@ -51,12 +51,11 @@ int	ft_echo_is_valid(char *arg)
 	return (0);
 }
 
-int	ft_echo(t_exec *exec, int pipefd[2])
+int	ft_echo(t_exec *exec)
 {
 	int	i;
 	int	n_flag;
 
-	(void)pipefd;
 	i = 1;
 	n_flag = 0;
 	while (exec->cmd_args[i] && ft_echo_is_valid(exec->cmd_args[i]))
@@ -122,6 +121,18 @@ char	**ft_add_env(char **env, char *key, char *value, t_state *s)
 	return (new_envp);
 }
 
+int	ft_env_key_cmp(const char *s1, const char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	if (s1[i] == '=' && s2[i] == '\0')
+		return (0);
+	return (1);
+}
+
 int	ft_export(t_exec *exec, t_state *s)
 {
 	int		i;
@@ -141,21 +152,8 @@ int	ft_export(t_exec *exec, t_state *s)
 				ft_strlen(exec->cmd_args[i]) - j - 1, s);
 		else
 			value = NULL;
-		if (value)
-		{
-			ft_add_garbage(s, key);
-			ft_add_garbage(s, value);
-			ft_add_garbage(s, exec->cmd_args[i]);
-			ft_add_garbage(s, s->env);
-			s->env = ft_add_env(s->env, key, value, s);
-		}
-		else
-		{
-			ft_add_garbage(s, key);
-			ft_add_garbage(s, exec->cmd_args[i]);
-			ft_add_garbage(s, s->env);
-			s->env = ft_add_env(s->env, key, NULL, s);
-		}
+		printf("key: %s, value: %s\n", key, value);
+		printf("%d\n", ft_arr_include(s->env, key, ft_env_key_cmp));
 		i++;
 	}
 	return (0);
@@ -174,63 +172,53 @@ int	ft_env(t_state *s)
 	return (0);
 }
 
-// int	ft_unset(t_exec *exec, t_state *s)
-// {
-// 	int i;
-// 	int j;
-// 	int k;
-// 	char **new_env;
-// 	char *key;
+int	ft_unset(t_exec *exec, t_state *s)
+{
+	int i;
+	int j;
+	int k;
+	char **new_env;
+	char *key;
 
-// 	i = 1;
-// 	while (exec->cmd_args[i])
-// 	{
-// 		j = 0;
-// 		while (exec->cmd_args[i][j] && exec->cmd_args[i][j] != '=')
-// 			j++;
-// 		key = ft_substr(exec->cmd_args[i], 0, j, s);
-// 		k = 0;
-// 		while (s->env[k])
-// 		{
-// 			if (ft_strncmp(s->env[k], key, j) == 0 && s->env[k][j] == '=')
-// 			{
-// 				new_env = (char **)malloc(sizeof(char *) * ft_strlen(s->env));
-// 				ft_add_garbage(s, new_env);
-// 				j = 0;
-// 				while (s->env[j])
-// 				{
-// 					if (j != k)
-// 					{
-// 						new_env[j] = ft_strdup(s->env[j], s);
-// 						ft_add_garbage(s, new_env[j]);
-// 					}
-// 					j++;
-// 				}
-// 				new_env[j] = NULL;
-// 				ft_add_garbage(s, s->env);
-// 				s->env = new_env;
-// 				break ;
-// 			}
-// 			k++;
-// 		}
-// 		i++;
-// 	}
-// 	return (0);
-// }
+	i = 1;
+	while (exec->cmd_args[i])
+	{
+		j = 0;
+		while (exec->cmd_args[i][j] && exec->cmd_args[i][j] != '=')
+			j++;
+		key = ft_substr(exec->cmd_args[i], 0, j, s);
+		new_env = (char **)malloc(sizeof(char *) * ft_arr_len(s->env));
+		j = 0;
+		k = 0;
+		while (s->env[j])
+		{
+			if (ft_strncmp(s->env[j], key, ft_strlen(key)) != 0)
+			{
+				new_env[k] = ft_strdup(s->env[j], s);
+				k++;
+			}
+			j++;
+		}
+		new_env[k] = NULL;
+		s->env = new_env;
+		i++;
+	}
+	return (0);
+}
 
 int	ft_execute_builtin(t_exec *exec, t_state *s, int pipefd[2])
 {
-	(void)s;
+	(void)pipefd;
 	if (ft_strcmp(exec->cmd_args[0], "echo") == 0)
-		return (ft_echo(exec, pipefd));
+		return (ft_echo(exec));
 	if (ft_strcmp(exec->cmd_args[0], "cd") == 0)
 		return (ft_cd(exec, s));
 	if (ft_strcmp(exec->cmd_args[0], "pwd") == 0)
 		return (ft_pwd(s));
 	if (ft_strcmp(exec->cmd_args[0], "export") == 0)
 		return (ft_export(exec, s));
-	// if (ft_strcmp(exec->cmd_args[0], "unset") == 0)
-	// 	return (ft_unset(exec, s));
+	if (ft_strcmp(exec->cmd_args[0], "unset") == 0)
+		return (ft_unset(exec, s));
 	if (ft_strcmp(exec->cmd_args[0], "env") == 0)
 		return (ft_env(s));
 	// if (ft_strcmp(start_token->value, "exit") == 0)

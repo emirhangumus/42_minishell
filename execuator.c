@@ -114,10 +114,8 @@ int	ft_execuator(t_state *s)
 {
 	t_exec	**exec;
 	int		cmd_amount;
-	int		i;
 	int		err_no;
 
-	i = 0;
 	cmd_amount = ft_amount_cmd(s->tokens);
 	exec = malloc(sizeof(t_exec *) * (cmd_amount + 1));
 	exec[cmd_amount] = NULL;
