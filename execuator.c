@@ -6,49 +6,11 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/01 10:55:43 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/01 12:10:38 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*ft_get_cmd_path(t_token *start_token, t_state *s)
-{
-	char	*cmd_path;
-	char	**paths;
-	char	*path;
-	int		i;
-
-	i = 0;
-	path = ft_get_env(s->env, "PATH");
-	paths = ft_split(path, ':', s);
-	while (paths[i])
-	{
-		cmd_path = ft_strjoin(paths[i], "/", s);
-		cmd_path = ft_strjoin(cmd_path, start_token->value, s);
-		if (access(cmd_path, F_OK) == 0)
-			return (cmd_path);
-		i++;
-	}
-	return (NULL);
-}
-
-int	ft_find_arg_amount(t_token *tokens)
-{
-	int	amount;
-
-	amount = 0;
-	tokens = tokens->next;
-	while (tokens)
-	{
-		if (tokens->type == T_ARG)
-			amount++;
-		else
-			break ;
-		tokens = tokens->next;
-	}
-	return (amount);
-}
 
 char	**ft_get_args(t_state *s, t_token *tokens)
 {
@@ -100,20 +62,6 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 		tmp = tmp->next;
 	}
 	return (0);
-}
-
-int	ft_amount_cmd(t_token *tokens)
-{
-	int	amount;
-
-	amount = 0;
-	while (tokens)
-	{
-		if (tokens->type == T_CMD)
-			amount++;
-		tokens = tokens->next;
-	}
-	return (amount);
 }
 
 void	ft_run_pipes(t_state *s, t_exec **exec)

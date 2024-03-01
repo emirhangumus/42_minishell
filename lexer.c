@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:32:25 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 11:24:26 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/01 12:11:56 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -358,3 +358,5 @@ int	ft_lexer(t_state *s)
 	// s->tokens = NULL;
 	return (0);
 }
+
+//ls -""l -a | wc""
