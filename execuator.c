@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/01 12:10:38 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/01 12:18:33 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,39 +64,41 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 	return (0);
 }
 
+void	ft_for_child(t_state *s, int i, int pipefd[2], t_exec **exec)
+{
+	if (i != 0)
+	{
+		dup2(s->fd, 0);
+		close(s->fd);
+	}
+	if (exec[i + 1])
+	{
+		close(pipefd[0]);
+		dup2(pipefd[1], 1);
+	}
+	if (exec[i]->type == CMD_BUILTIN)
+		exit(ft_execute_builtin(exec[i], s, pipefd));
+	execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
+	exit(0);
+}
+
 void	ft_run_pipes(t_state *s, t_exec **exec)
 {
 	int	i;
 	int	pipefd[2];
 
-	i = 0;
-	while (exec[i])
+	i = -1;
+	while (exec[++i])
 	{
 		pipe(pipefd);
 		if (exec[i]->type == CMD_BUILTIN && !exec[i + 1])
 		{
 			s->status = ft_execute_builtin(exec[i], s, pipefd);
-			i++;
 			continue ;
 		}
 		s->pid = fork();
 		if (s->pid == 0)
-		{
-			if (i != 0)
-			{
-				dup2(s->fd, 0);
-				close(s->fd);
-			}
-			if (exec[i + 1])
-			{
-				close(pipefd[0]);
-				dup2(pipefd[1], 1);
-			}
-			if (exec[i]->type == CMD_BUILTIN)
-				exit(ft_execute_builtin(exec[i], s, pipefd));
-			execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
-			exit(0);
-		}
+			ft_for_child(s, i, pipefd, exec);
 		else
 		{
 			waitpid(s->pid, &s->status, 0);
@@ -105,7 +107,6 @@ void	ft_run_pipes(t_state *s, t_exec **exec)
 			close(pipefd[1]);
 			s->fd = pipefd[0];
 		}
-		i++;
 	}
 }
 

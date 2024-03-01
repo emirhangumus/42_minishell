@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 12:10:47 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/01 12:12:46 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	ft_start(t_state *s);
 
 /* EXEC */
 int		ft_execuator(t_state *s);
-int 	ft_amount_cmd(t_token *tokens);
+int		ft_amount_cmd(t_token *tokens);
 int 	ft_find_arg_amount(t_token *tokens);
 char	*ft_get_cmd_path(t_token *start_token, t_state *s);
 
