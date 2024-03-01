@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_quote_split.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:23:06 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 11:07:12 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/01 12:30:17 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,32 @@ static int	ft_count_words_with_quotes(char *s, char c)
 {
 	int		count;
 	int		seen_quote_type;
+	int		toggle;
 
 	count = 0;
+	toggle = 0;
 	seen_quote_type = 0;
 	while (*s)
 	{
 		if (*s == '\'' || *s == '\"')
 		{
 			if (seen_quote_type == QUOTE_NONE)
-				seen_quote_type = (*s == '\'') ? QUOTE_ONE : QUOTE_TWO;
+				seen_quote_type = *s;
 			else if (seen_quote_type == QUOTE_ONE && *s == '\'')
 				seen_quote_type = QUOTE_NONE;
 			else if (seen_quote_type == QUOTE_TWO && *s == '\"')
 				seen_quote_type = QUOTE_NONE;
-			s++;
 		}
 		if (*s == c && seen_quote_type == QUOTE_NONE)
+		{
 			count++;
+			toggle = 0;
+		}
+		else
+			toggle = 1;
 		s++;
 	}
-	if (*(s - 1) != c)
+	if (*s != c || toggle)
 		count++;
 	return (count);
 }

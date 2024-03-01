@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:32:25 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 12:11:56 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/01 12:31:27 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,7 +353,7 @@ int	ft_lexer(t_state *s)
 	}
 	ft_remove_tokens(&s->tokens, (int (*)(void *))ft_is_empty);
 	// printf("tokens:\n");
-	ft_print_tokens(s->tokens);
+	// ft_print_tokens(s->tokens);
 	// ft_free_tokens(s->tokens);
 	// s->tokens = NULL;
 	return (0);
