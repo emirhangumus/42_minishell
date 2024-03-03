@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/03 14:02:05 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/03 15:00:24 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,86 +89,134 @@ void	ft_for_cat(t_state *s, int i, int pipefd[2], t_exec **exec)
     execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
     exit(0);
 }
-	
-	
-	
-	// if (i != 0)
-	// {
-	// 	close(s->fd);
-	// 	dup2(pipefd[1], 1);
-	// }
-	// if (exec[i + 1])
-	// {
-	// 	close(pipefd[0]);
-	// 	dup2(pipefd[1], 1);
-	// }
-	// execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
-	// exit(0);
 
-
-void	ft_run_pipes(t_state *s, t_exec **exec)
+void    ft_run_pipes(t_state *s, t_exec **exec)
 {
-	int	i;
-	int	pipefd[2];
-	t_exec	**tmp;
-	int	j;
-	int	k;
-	int	status;
-	i = 0;
-	j = 0;
-	status = 1;
-	while (exec[i] && ft_strcmp(exec[i]->cmd_path, "/bin/cat") == 0)
-		i++;
-	k = i;
-	if (i != 0)
-		status = 0;
-	if ((status == 0 && i != 0) || status == 1 )
-	{
-		while (exec[i])
-		{
-            if (exec[i]->type == CMD_BUILTIN)
-            {
-                ft_execute_builtin(exec[i], s, pipefd);
-                i++;
-                continue;
-            }
-			pipe(pipefd);
-			s->pid = fork();
-			if (s->pid == 0)
-				ft_for_child(s, i, pipefd, exec);
-			else
-			{
-				waitpid(s->pid, &s->status, 0);
-				close(pipefd[1]);
-				s->fd = pipefd[0];
-				i++;
-			}
-		}
-	}
-	tmp = malloc(sizeof(t_exec *) * (k - j + 1));
-	tmp[k - j] = NULL;
-	while (j < k)
-	{
-		tmp[j] = exec[j];
-		j++;
-	}
-	j = 0;
-	while (tmp[j])
-	{
-		pipe(pipefd);
-		s->pid = fork();
-		if (s->pid == 0)
-			ft_for_cat(s, j, pipefd, tmp);
-		else
-		{
-			waitpid(s->pid, &s->status, 0);
-			printf("status: %d\n", s->status);
-			close(pipefd[1]); // close the write end of the pipe in the parent process
-			s->fd = pipefd[0];
-			j++;
-		}
-	}
+    int i;
+    int j;
+    int k;
+    int pipefd[2];
+    int amount;
+    t_exec  **tmp;
+    (void)s;
+    (void)pipefd;
+    k = 0;
+    j = 0;
+    i = 0;
+    int a = 0;
+    amount = ft_amount_cmd(s->tokens);
+    tmp = malloc(sizeof(t_exec *) * (amount + 1));
+    tmp[amount] = NULL;
+    printf("%s\n", exec[0]->cmd_path);
+    while (exec[i] && ft_strcmp(exec[i]->cmd_path, "/bin/ls") != 0)
+        i++;
+    k = i;
+    while (exec[i])
+    {
+        tmp[j] = exec[i];
+        j++;
+        i++;
+    }
+    while (a < k)
+    {
+        tmp[j] = exec[a];
+        j++;
+        a++;
+    }
+    i = 0;
+    while (tmp[i])
+    {
+        printf("cmd_path: %s\n", tmp[i]->cmd_path);
+        i++;
+    }
+    i = 0;
+    while (tmp[i])
+    {
+        if (tmp[i]->type == CMD_BUILTIN)
+        {
+            ft_execute_builtin(tmp[i], s, pipefd);
+            i++;
+            continue;
+        }
+        pipe(pipefd);
+        s->pid = fork();
+        if (s->pid == 0)
+            ft_for_child(s, i, pipefd, tmp);
+        else
+        {
+            waitpid(s->pid, &s->status, 0);
+            close(pipefd[1]);
+            s->fd = pipefd[0];
+            i++;
+        }
+    }
 }
+
+
+// void	ft_run_pipes(t_state *s, t_exec **exec)
+// {
+// 	int	i;
+// 	int	pipefd[2];
+// 	t_exec	**tmp;
+// 	int	j;
+// 	int	k;
+// 	int	status;
+// 	i = 0;
+// 	j = 0;
+// 	status = 1;
+// 	while (exec[i] && ft_strcmp(exec[i]->cmd_path, "/bin/cat") == 0)
+// 		i++;
+// 	k = i;
+// 	if (i != 0)
+// 		status = 0;
+// 	if ((status == 0 && i != 0) || status == 1 )
+// 	{
+// 		while (exec[i])
+// 		{
+//             if (exec[i]->type == CMD_BUILTIN)
+//             {
+//                 ft_execute_builtin(exec[i], s, pipefd);
+//                 i++;
+//                 continue;
+//             }
+// 			pipe(pipefd);
+// 			s->pid = fork();
+// 			if (s->pid == 0)
+// 				ft_for_child(s, i, pipefd, exec);
+// 			else
+// 			{
+// 				waitpid(s->pid, &s->status, 0);
+// 				close(pipefd[1]);
+// 				s->fd = pipefd[0];
+// 				i++;
+// 			}
+// 		}
+// 	}
+// 	tmp = malloc(sizeof(t_exec *) * (k - j + 1));
+// 	tmp[k - j] = NULL;
+// 	while (j < k)
+// 	{
+// 		tmp[j] = exec[j];
+// 		j++;
+// 	}
+// 	j = 0;
+// 	while (tmp[j])
+// 	{
+// 		pipe(pipefd);
+// 		s->pid = fork();
+// 		if (s->pid == 0)
+// 			ft_for_cat(s, j, pipefd, tmp);
+// 		else
+// 		{
+// 			waitpid(s->pid, &s->status, 0);
+// 			printf("status: %d\n", s->status);
+// 			close(pipefd[1]); // close the write end of the pipe in the parent process
+// 			s->fd = pipefd[0];
+// 			j++;
+// 		}
+// 	}
+// }
+// first ls after ls then before ls
 
 int	ft_execuator(t_state *s)
 {
