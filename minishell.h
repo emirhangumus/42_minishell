@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/03 15:56:34 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/03 16:23:55 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ void	ft_arr_push(char ***arr, char *str);
 int		ft_arr_include(char **arr, char *str, int (*cmp)(const char *, const char *));
 int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
+int		ft_isfullof(char *str, char c);
+
 
 /* GARBAGE */
 void	ft_add_garbage(t_state *s, void *ptr);
