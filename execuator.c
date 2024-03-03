@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/01 17:13:46 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/03 14:02:05 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,12 @@ void	ft_run_pipes(t_state *s, t_exec **exec)
 	{
 		while (exec[i])
 		{
+            if (exec[i]->type == CMD_BUILTIN)
+            {
+                ft_execute_builtin(exec[i], s, pipefd);
+                i++;
+                continue;
+            }
 			pipe(pipefd);
 			s->pid = fork();
 			if (s->pid == 0)

@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 02:43:20 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 11:18:46 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/03 14:06:20 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,16 @@ int	ft_cd(t_exec *exec, t_state *s)
 	{
 		if (chdir(ft_get_env(s->env, "HOME")) == -1)
 			printf("cd: HOME not set\n");
+	}
+	else if (ft_strcmp(exec->cmd_args[1], "~") == 0)
+	{
+		if (chdir(ft_get_env(s->env, "HOME")) == -1)
+			printf("cd: HOME not set\n");
+	}
+	else if (ft_strcmp(exec->cmd_args[1], "-") == 0)
+	{
+		if (chdir(ft_get_env(s->env, "OLDPWD")) == -1)
+			printf("cd: OLDPWD not set\n");
 	}
 	else if (chdir(exec->cmd_args[1]) == -1)
 	{
