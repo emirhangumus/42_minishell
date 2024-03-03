@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execuator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/03 15:00:24 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/03 15:32:25 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,15 +100,15 @@ void    ft_run_pipes(t_state *s, t_exec **exec)
     t_exec  **tmp;
     (void)s;
     (void)pipefd;
-    k = 0;
+    
+	k = 0;
     j = 0;
     i = 0;
     int a = 0;
     amount = ft_amount_cmd(s->tokens);
     tmp = malloc(sizeof(t_exec *) * (amount + 1));
     tmp[amount] = NULL;
-    printf("%s\n", exec[0]->cmd_path);
-    while (exec[i] && ft_strcmp(exec[i]->cmd_path, "/bin/ls") != 0)
+    while (exec[i] && (exec[i]->type != CMD_BUILTIN && ft_strcmp(exec[i]->cmd_path, "/bin/ls") != 0))
         i++;
     k = i;
     while (exec[i])
@@ -126,7 +126,7 @@ void    ft_run_pipes(t_state *s, t_exec **exec)
     i = 0;
     while (tmp[i])
     {
-        printf("cmd_path: %s\n", tmp[i]->cmd_path);
+        // printf("cmd_path: %s\n", tmp[i]->cmd_path);
         i++;
     }
     i = 0;

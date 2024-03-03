@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-char    **ft_dup_arr(char **arr)
+char    **ft_arr_dup(char **arr)
 {
     char	**dup;
     int		i;

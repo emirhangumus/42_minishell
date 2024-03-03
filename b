@@ -1,1 +1,0 @@
-/Users/burkaya/Desktop/anam

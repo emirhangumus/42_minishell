@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 02:43:20 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/03 14:06:20 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/03 15:30:23 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,8 +162,24 @@ int	ft_export(t_exec *exec, t_state *s)
 				ft_strlen(exec->cmd_args[i]) - j - 1, s);
 		else
 			value = NULL;
-		printf("key: %s, value: %s\n", key, value);
-		printf("%d\n", ft_arr_include(s->env, key, ft_env_key_cmp));
+		if (ft_arr_include(s->env, key, ft_env_key_cmp) == -1)
+			s->env = ft_add_env(s->env, key, value, s);
+		else
+		{
+			j = 0;
+			while (s->env[j])
+			{
+				if (ft_strncmp(s->env[j], key, ft_strlen(key)) == 0)
+				{
+					free(s->env[j]);
+					s->env[j] = ft_strjoin(key, "=", s);
+					if (value)
+						s->env[j] = ft_strjoin(s->env[j], value, s);
+					break ;
+				}
+				j++;
+			}
+		}
 		i++;
 	}
 	return (0);
@@ -216,6 +232,29 @@ int	ft_unset(t_exec *exec, t_state *s)
 	return (0);
 }
 
+int	ft_exit(t_exec *exec, t_state *s)
+{
+	int	i;
+
+	i = 0;
+	if (exec->cmd_args[1])
+	{
+		while (exec->cmd_args[1][i])
+		{
+			if (ft_isdigit(exec->cmd_args[1][i]) == 0)
+			{
+				printf("exit\n");
+				printf("minishell: exit: %s: numeric argument required\n", \
+					exec->cmd_args[1]);
+				exit(255);
+			}
+			i++;
+		}
+		exit(ft_atoi(exec->cmd_args[1]));
+	}
+	exit(s->status);
+}
+
 int	ft_execute_builtin(t_exec *exec, t_state *s, int pipefd[2])
 {
 	(void)pipefd;
@@ -231,7 +270,7 @@ int	ft_execute_builtin(t_exec *exec, t_state *s, int pipefd[2])
 		return (ft_unset(exec, s));
 	if (ft_strcmp(exec->cmd_args[0], "env") == 0)
 		return (ft_env(s));
-	// if (ft_strcmp(start_token->value, "exit") == 0)
-	// 	return (ft_exit(start_token, s));
+	if (ft_strcmp(exec->cmd_args[0], "exit") == 0)
+		return (ft_exit(exec, s));
 	return (0);
 }

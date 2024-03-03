@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 14:53:41 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/03 15:31:46 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,12 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_trim_quotes(char const *str, t_state *s);
 void	ft_free_tab(char **tab);
 int		ft_is_empty(char *s);
-char	**ft_dup_arr(char **arr);
+char	**ft_arr_dup(char **arr);
 int		ft_arr_len(char **arr);
 void	ft_arr_push(char ***arr, char *str);
 int		ft_arr_include(char **arr, char *str, int (*cmp)(const char *, const char *));
+int		ft_atoi(const char *str);
+int		ft_isdigit(int c);
 
 /* GARBAGE */
 void	ft_add_garbage(t_state *s, void *ptr);
