@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:42:03 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/03 18:57:44 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/03 21:53:06 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	ft_start(t_state *s)
 		{
 			add_history(ft_strdup(s->cmd, s));
 			ft_lexer(s);
-			ft_env_check(s);
 			if (ft_execuator(s))
 			{
 				printf("minishell: an error accured %s\n", s->tokens->value);

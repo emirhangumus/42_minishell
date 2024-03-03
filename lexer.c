@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:32:25 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 16:41:17 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/03 21:53:20 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_lexer_iterate(t_state *s, t_lexer *l)
 	{
 		if (l->i == 0 || l->is_pipe_added)
 		{
-			ft_create_token(&s->tokens, ft_trim_quotes(l->str, s), T_CMD);
+			ft_create_token(&s->tokens, ft_trim_quotes(l->str, s, 1), T_CMD);
 			if (l->is_pipe_added && l->i != 0)
 				l->is_pipe_added = 0;
 			l->str = l->sp[++(l->i)];

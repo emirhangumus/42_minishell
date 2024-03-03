@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:49:53 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 14:54:00 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/03 21:53:03 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,12 @@ int	ft_toggle_quote(t_lexer *l, char c)
 	return (0);
 }
 
-int	ft_merge_args_init(t_token *start_token, int *ta, t_token **wc)
+int	ft_merge_args_init(t_token *start_token, t_token **wc)
 {
 	t_token	*tmp;
+	int	total_args;
 
+	total_args = 0;
 	tmp = start_token;
 	while (tmp)
 	{
@@ -42,13 +44,17 @@ int	ft_merge_args_init(t_token *start_token, int *ta, t_token **wc)
 		{
 			if (!(*wc))
 				*wc = tmp;
-			(*ta)++;
+			total_args++;
 		}
 		tmp = tmp->next;
 	}
-	if (*ta == 0 || *ta == 1)
-		return (1);
-	return (0);
+	if (total_args == 0 || total_args == 1)
+	{
+		if (total_args == 1)
+			return (-2);
+		return (-1);
+	}
+	return (total_args);
 }
 
 int	ft_merge_args_iterate(t_token **tmp, t_state *s, char **str)
@@ -60,7 +66,8 @@ int	ft_merge_args_iterate(t_token **tmp, t_state *s, char **str)
 	}
 	if ((*tmp)->next && (*tmp)->next->type == T_ARG)
 	{
-		*str = ft_strjoin((*tmp)->value, ft_strdup((*tmp)->next->value, s), s);
+		ft_env_check(*tmp, s);
+		*str = ft_strjoin(ft_trim_quotes(ft_strdup((*tmp)->value, s), s, 1), ft_trim_quotes(ft_strdup((*tmp)->next->value, s), s, 1), s);
 		(*tmp)->value = *str;
 		(*tmp)->next = (*tmp)->next->next;
 	}
@@ -80,10 +87,21 @@ void	ft_merge_args(t_token *start_token, t_state *s)
 	will_change = NULL;
 	total_args = 0;
 	str = NULL;
-	if (ft_merge_args_init(start_token, &total_args, &will_change))
-		return ;
+	total_args = ft_merge_args_init(start_token, &will_change);
 	if (will_change == NULL)
 		return ;
+	if (total_args < 0)
+	{
+		
+		if (total_args == -2)
+		{
+			ft_env_check(will_change, s);
+			will_change->value = ft_trim_quotes(ft_strdup(will_change->value, s), s, 1);
+		}
+		if (total_args == -1)
+			will_change->value = ft_strdup("", s);
+		return ;
+	}
 	while (tmp)
 	{
 		if (ft_merge_args_iterate(&tmp, s, &str))

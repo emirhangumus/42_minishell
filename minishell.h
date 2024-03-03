@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/03 18:18:32 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/03 21:49:21 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ char	*ft_substr(const char *s, unsigned int start, size_t len, t_state *st);
 char	*ft_strchr(const char *s, int c);
 char	**ft_quote_split(char *s, char c, t_state *state);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-char	*ft_trim_quotes(char const *str, t_state *s);
+char	*ft_trim_quotes(char const *str, t_state *s, int n);
 void	ft_free_tab(char **tab);
 int		ft_is_empty(char *s);
 char	**ft_arr_dup(char **arr);
@@ -120,6 +120,7 @@ int		ft_arr_include(char **arr, char *str, int (*cmp)(const char *, const char *
 int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
 int		ft_isfullof(char *str, char c);
+char	*ft_itoa(int n, t_state *s);
 
 /* SIGNALS */
 void	ft_sigint(int sig);
@@ -127,7 +128,7 @@ void	ft_sigquit(int sig);
 void	ft_signals(void);
 
 /* ENV CHECK */
-void	ft_env_check(t_state *s);
+void	ft_env_check(t_token *tmp, t_state *s);
 
 /* GARBAGE */
 void	ft_add_garbage(t_state *s, void *ptr);
@@ -138,7 +139,7 @@ void	ft_addarr_garbage(t_state *s, void **ptr);
 int		ft_lexer(t_state *s);
 void	ft_free_tokens(t_token *token);
 int		ft_toggle_quote(t_lexer *l, char c);
-int		ft_merge_args_init(t_token *start_token, int *ta, t_token **wc);
+int		ft_merge_args_init(t_token *start_token, t_token **wc);
 int		ft_merge_args_iterate(t_token **tmp, t_state *s, char **str);
 void	ft_merge_args(t_token *start_token, t_state *s);
 int		ft_take_it(t_lexer *l, t_state *s, int *i, int *j);

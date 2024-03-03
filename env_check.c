@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 17:51:35 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/03 19:09:57 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/03 21:55:43 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,39 +42,37 @@ int	ft_cmd_add_env(t_token *t, t_state *s, int i)
 			env_len++;
 		t->value = ft_strjoin(ft_substr(t->value, 0, i, s), \
 			ft_strjoin(value, ft_strdup(t->value + j, s), s), s);
+		return (j);
 	}
 	else
 	{
 		t->value = ft_strjoin(ft_substr(t->value, 0, i, s), \
 			ft_strdup(t->value + j, s), s);
-	
+		return (-1);
 	}
-	return (j);
 }
 
-void	ft_env_check(t_state *s)
+void	ft_env_check(t_token *tmp, t_state *s)
 {
 	int		i;
 	int		h;
-	t_token *t;
+	t_token	*t;
 
-	t = s->tokens;
-	while (t)
+	t = tmp;
+	i = 0;
+	if (!t->value || !t->value[i] || t->value[i] == '\'')
+		return;
+	while (t->value[i])
 	{
-		i = 0;
-		while (t->value[i])
+		if (t->value[i] == '$')
 		{
-			if (t->value[i] == '$')
+			h = ft_cmd_add_env(t, s, i);
+			if (h != -1)
 			{
-				h = ft_cmd_add_env(t, s, i);
-				if (h != -1)
-				{
-					i = h;
-					continue;
-				}
+				i = h;
+				continue;
 			}
-			i++;
 		}
-		t = t->next;
+		i++;
 	}
 }

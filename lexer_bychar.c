@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:47:25 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 14:54:34 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/03 21:35:26 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_take_it(t_lexer *l, t_state *s, int *i, int *j)
 {
 	ft_create_token(&s->tokens, \
-		ft_trim_quotes(ft_substr(l->str, *j, *i - *j + 1, s), s), T_ARG);
+		ft_substr(l->str, *j, *i - *j + 1, s), T_ARG);
 	*j = *i + 1;
 	l->take_it = 0;
 	l->is_happend = 0;
@@ -29,7 +29,7 @@ void	ft_lexer_bychar_pipe(t_state *s, t_lexer *l, int *i, int *j)
 	{
 		if (*i != 0 && !l->is_pipe_added)
 			ft_create_token(&s->tokens, \
-				ft_trim_quotes(ft_substr(l->str, *j, *i - *j, s), s), T_ARG);
+				ft_trim_quotes(ft_substr(l->str, *j, *i - *j, s), s, 1), T_ARG);
 		ft_create_token(&s->tokens, ft_strdup("|", s), T_PIPE);
 		l->is_pipe_added = 1;
 		*j = *i + 1;
@@ -52,7 +52,7 @@ int	ft_lexer_bychar_iterate(t_state *s, t_lexer *l, int	*i, int	*j)
 		while (l->str[*i])
 			(*i)++;
 		ft_create_token(&s->tokens, \
-			ft_trim_quotes(ft_substr(l->str, *j, *i - *j + 1, s), s), T_CMD);
+			ft_trim_quotes(ft_substr(l->str, *j, *i - *j + 1, s), s, 1), T_CMD);
 		l->is_pipe_added = 0;
 		return (2);
 	}

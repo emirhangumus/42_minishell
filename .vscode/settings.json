@@ -20,7 +20,8 @@
 		"type_traits": "c",
 		"vector": "c",
 		"readline.h": "c",
-		"history.h": "c"
+		"history.h": "c",
+		"sstream": "c"
 	},
     "files.exclude": {
         "**/**.o": true,

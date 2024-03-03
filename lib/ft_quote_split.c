@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:23:06 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 12:30:17 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/03 20:27:40 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,14 @@ static	void	ft_set_quote_type(char *s, int *i, int *seen_quote_type)
 {
 	if (s[*i] == '\'' || s[*i] == '\"')
 	{
-		if (s[*i] == '\'')
-			*seen_quote_type = QUOTE_ONE;
-		else
-			*seen_quote_type = QUOTE_TWO;
-		(*i)++;
-		while (s[*i] && s[*i] != *seen_quote_type)
-			(*i)++;
-		if (s[*i] == *seen_quote_type)
-			(*i)++;
+		if (*seen_quote_type == QUOTE_NONE)
+			*seen_quote_type = s[*i];
+		else if (*seen_quote_type == QUOTE_ONE && s[*i] == '\'')
+			*seen_quote_type = QUOTE_NONE;
+		else if (*seen_quote_type == QUOTE_TWO && s[*i] == '\"')
+			*seen_quote_type = QUOTE_NONE;
 	}
+	(*i)++;
 }
 
 char	**ft_quote_split(char *s, char c, t_state *state)
@@ -91,12 +89,9 @@ char	**ft_quote_split(char *s, char c, t_state *state)
 		return (NULL);
 	while (s[i])
 	{
-		while (s[i] && s[i] == c)
-			i++;
 		k = i;
-		ft_set_quote_type(s, &i, &seen_quote_type);
-		while (s[i] != c && s[i] != '\0')
-			i++;
+		while (s[i] && (seen_quote_type != QUOTE_NONE || s[i] != c))
+			ft_set_quote_type(s, &i, &seen_quote_type);
 		if (i > k)
 			result[j++] = ft_substr(s, k, i - k, state);
 		if (!result[j - 1])
