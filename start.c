@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:42:03 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 11:08:18 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/01 15:54:01 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ void	ft_start(t_state *s)
 		if (s->cmd)
 			free(s->cmd);
 		s->cmd = readline(ft_get_prompt_text(s));
-		if (!s->cmd)
-			break ;
 		if (ft_strlen(s->cmd) > 0)
 		{
 			add_history(ft_strdup(s->cmd, s));
