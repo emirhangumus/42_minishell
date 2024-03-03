@@ -24,6 +24,9 @@
 # include <stdarg.h>
 # include <fcntl.h>
 
+// linux
+# include <sys/wait.h>
+
 # define T_CMD 1
 # define T_ARG 2
 # define T_PIPE 3
@@ -105,6 +108,10 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_trim_quotes(char const *str, t_state *s);
 void	ft_free_tab(char **tab);
 int		ft_is_empty(char *s);
+char	**ft_dup_arr(char **arr);
+int		ft_arr_len(char **arr);
+void	ft_arr_push(char ***arr, char *str);
+int		ft_arr_include(char **arr, char *str, int (*cmp)(const char *, const char *));
 
 /* GARBAGE */
 void	ft_add_garbage(t_state *s, void *ptr);
