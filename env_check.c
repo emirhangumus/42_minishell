@@ -6,11 +6,19 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 17:51:35 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/03 19:08:03 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/03 19:09:57 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_isalphanum(char c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || \
+		(c >= '0' && c <= '9') || c == '_')
+		return (1);
+	return (0);
+}
 
 int	ft_cmd_add_env(t_token *t, t_state *s, int i)
 {
@@ -22,7 +30,8 @@ int	ft_cmd_add_env(t_token *t, t_state *s, int i)
 	j = i + 1;
 	if (!t->value[j])
 		return (-1);
-	while (t->value[j] && t->value[j] != ' ')
+	while (t->value[j] && t->value[j] != ' ' && t->value[j] != '$' && \
+		ft_isalphanum(t->value[j]))
 		j++;
 	key = ft_substr(t->value, i + 1, j - i - 1, s);
 	value = ft_get_env(s->env, key);
