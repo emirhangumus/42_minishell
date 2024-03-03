@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:05 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/03 16:35:50 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/03 16:48:16 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,27 +47,6 @@ int	ft_init_state(t_state *s)
 	s->status = 0;
 	return (0);
 }
-
-void	ft_sigint(int sig)
-{
-	(void)sig;
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
-void	ft_sigquit(int sig)
-{
-	(void)sig;
-}
-
-void	ft_signals(void)
-{
-	signal(SIGINT, ft_sigint);
-	signal(SIGQUIT, ft_sigquit);
-}
-
 
 int	main(void)
 {

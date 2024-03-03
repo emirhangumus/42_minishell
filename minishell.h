@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/03 16:36:32 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/03 16:49:26 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,7 @@
 # include <signal.h>
 # include <stdarg.h>
 # include <fcntl.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <unistd.h>
-# include <stdlib.h>
+
 // linux
 # include <sys/wait.h>
 
@@ -120,6 +116,10 @@ int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
 int		ft_isfullof(char *str, char c);
 
+/* SIGNALS */
+void	ft_sigint(int sig);
+void	ft_sigquit(int sig);
+void	ft_signals(void);
 
 /* GARBAGE */
 void	ft_add_garbage(t_state *s, void *ptr);
