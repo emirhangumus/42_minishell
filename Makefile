@@ -21,7 +21,6 @@ fclean: clean
 re: fclean all
 
 push:
-	@echo Username › $(USERNAME)
 	git add .
 	git commit -m "$(M)"
 	git push
