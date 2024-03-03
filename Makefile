@@ -21,9 +21,9 @@ fclean: clean
 re: fclean all
 
 push:
-	@echo Username › $(USERNAME)
+	read AGE;
 	git add .
-	git commit -m "push"
+	git commit -m "$(AGE)"
 	git push
 
 .PHONY: all clean fclean re push
