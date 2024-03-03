@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:09:01 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/01 12:10:41 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/03 15:54:14 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ char	*ft_get_cmd_path(t_token *start_token, t_state *s)
 	int		i;
 
 	i = 0;
+    
 	path = ft_get_env(s->env, "PATH");
 	paths = ft_split(path, ':', s);
 	while (paths[i])
