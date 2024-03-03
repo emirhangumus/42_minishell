@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:49:53 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/03 21:53:03 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/03 22:14:09 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	ft_merge_args_iterate(t_token **tmp, t_state *s, char **str)
 	if ((*tmp)->next && (*tmp)->next->type == T_ARG)
 	{
 		ft_env_check(*tmp, s);
+		ft_env_check((*tmp)->next, s);
 		*str = ft_strjoin(ft_trim_quotes(ft_strdup((*tmp)->value, s), s, 1), ft_trim_quotes(ft_strdup((*tmp)->next->value, s), s, 1), s);
 		(*tmp)->value = *str;
 		(*tmp)->next = (*tmp)->next->next;
@@ -87,6 +88,7 @@ void	ft_merge_args(t_token *start_token, t_state *s)
 	will_change = NULL;
 	total_args = 0;
 	str = NULL;
+	ft_print_tokens(start_token);
 	total_args = ft_merge_args_init(start_token, &will_change);
 	if (will_change == NULL)
 		return ;

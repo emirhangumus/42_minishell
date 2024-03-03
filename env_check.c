@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 17:51:35 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/03 21:55:43 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/03 22:22:33 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	ft_cmd_add_env(t_token *t, t_state *s, int i)
 		j++;
 	key = ft_substr(t->value, i + 1, j - i - 1, s);
 	value = ft_get_env(s->env, key);
+	printf("key: %s\n", key);
+	printf("value: %s\n", value);
 	if (value != NULL)
 	{
 		env_len = 0;
@@ -48,6 +50,7 @@ int	ft_cmd_add_env(t_token *t, t_state *s, int i)
 	{
 		t->value = ft_strjoin(ft_substr(t->value, 0, i, s), \
 			ft_strdup(t->value + j, s), s);
+		printf("---------->value: %s\n", t->value);
 		return (-1);
 	}
 }
@@ -60,6 +63,7 @@ void	ft_env_check(t_token *tmp, t_state *s)
 
 	t = tmp;
 	i = 0;
+	printf("-Z>value: %s\n", t->value);
 	if (!t->value || !t->value[i] || t->value[i] == '\'')
 		return;
 	while (t->value[i])
@@ -72,6 +76,8 @@ void	ft_env_check(t_token *tmp, t_state *s)
 				i = h;
 				continue;
 			}
+			else
+				i = 0;
 		}
 		i++;
 	}

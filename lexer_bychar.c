@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:47:25 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/03 21:35:26 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/03 22:19:05 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	ft_lexer_bychar_pipe(t_state *s, t_lexer *l, int *i, int *j)
 int	ft_lexer_bychar_iterate(t_state *s, t_lexer *l, int	*i, int	*j)
 {
 	if (l->quote == QUOTE_NONE && \
+		(l->str[*i] != '\'' && l->str[*i] != '\"') && \
 		(l->str[*i + 1] == '\'' || l->str[*i + 1] == '\"'))
 		l->take_it = 1;
 	if (ft_toggle_quote(l, l->str[*i]) == 1)
