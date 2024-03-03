@@ -21,9 +21,8 @@ fclean: clean
 re: fclean all
 
 push:
-	read AGE;
 	git add .
-	git commit -m "$(AGE)"
+	git commit -m "$(m)"
 	git push
 
-.PHONY: all clean fclean re push
+.PHONY: all clean fclean re push action
