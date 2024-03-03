@@ -46,8 +46,20 @@ int	ft_cmd_add_env(t_token *t, t_state *s, int i)
 	}
 	else
 	{
+<<<<<<< HEAD
 		t->value = ft_strjoin(ft_substr(t->value, 0, i, s), \
 			ft_strdup(t->value + j, s), s);
+=======
+		if (i != 0)
+			t->value = ft_strjoin(ft_substr(t->value, 0, i, s), \
+				ft_strdup(t->value + j, s), s);
+		else
+			t->value = ft_strdup("", s);
+		if (!t->value || !t->value[0])
+		{
+			return (-2);
+		}
+>>>>>>> ff42252b050d2cc11ea5bf0b4f19e35707dbd733
 		return (-1);
 	}
 }
@@ -60,11 +72,15 @@ void	ft_env_check(t_token *tmp, t_state *s)
 
 	t = tmp;
 	i = 0;
+<<<<<<< HEAD
 	if (!t->value || !t->value[i] || t->value[i] == '\'')
+=======
+	if (!t || !t->value || !t->value[i] || t->value[i] == '\'')
+>>>>>>> ff42252b050d2cc11ea5bf0b4f19e35707dbd733
 		return;
-	while (t->value[i])
+	while (t->value && t->value[i] != 0)
 	{
-		if (t->value[i] == '$')
+		if (t->value && t->value[i] == '$')
 		{
 			h = ft_cmd_add_env(t, s, i);
 			if (h != -1)
@@ -72,6 +88,8 @@ void	ft_env_check(t_token *tmp, t_state *s)
 				i = h;
 				continue;
 			}
+			else if (h == -2)
+				return ;
 			else
 				i = 0;
 		}

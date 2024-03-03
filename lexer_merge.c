@@ -57,8 +57,24 @@ int	ft_merge_args_init(t_token *start_token, t_token **wc)
 	return (total_args);
 }
 
+void	ft_set_envs(t_token *t, t_state *s)
+{
+	t_token *tmp;
+
+	tmp = t;
+	while (tmp)
+	{
+		if (tmp->type == T_ARG)
+		{
+			ft_env_check(tmp, s);
+		}
+		tmp = tmp->next;
+	}
+}
+
 int	ft_merge_args_iterate(t_token **tmp, t_state *s, char **str)
 {
+
 	if ((*tmp)->type != T_ARG)
 	{
 		(*tmp) = (*tmp)->next;
@@ -66,8 +82,6 @@ int	ft_merge_args_iterate(t_token **tmp, t_state *s, char **str)
 	}
 	if ((*tmp)->next && (*tmp)->next->type == T_ARG)
 	{
-		ft_env_check(*tmp, s);
-		ft_env_check((*tmp)->next, s);
 		*str = ft_strjoin(ft_trim_quotes(ft_strdup((*tmp)->value, s), s, 1), ft_trim_quotes(ft_strdup((*tmp)->next->value, s), s, 1), s);
 		(*tmp)->value = *str;
 		(*tmp)->next = (*tmp)->next->next;
@@ -88,13 +102,11 @@ void	ft_merge_args(t_token *start_token, t_state *s)
 	will_change = NULL;
 	total_args = 0;
 	str = NULL;
-	ft_print_tokens(start_token);
 	total_args = ft_merge_args_init(start_token, &will_change);
 	if (will_change == NULL)
 		return ;
 	if (total_args < 0)
 	{
-		
 		if (total_args == -2)
 		{
 			ft_env_check(will_change, s);
@@ -104,6 +116,7 @@ void	ft_merge_args(t_token *start_token, t_state *s)
 			will_change->value = ft_strdup("", s);
 		return ;
 	}
+	ft_set_envs(tmp, s);
 	while (tmp)
 	{
 		if (ft_merge_args_iterate(&tmp, s, &str))
