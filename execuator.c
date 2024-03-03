@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execuator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/03 17:28:42 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/03 22:40:41 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void    ft_run_pipes(t_state *s, t_exec **exec)
     i = 0;
     while (tmp[i])
     {
-        if (tmp[i]->type == CMD_BUILTIN)
+        if (tmp[i]->type == CMD_BUILTIN && amount == 1)
         {
             s->status = ft_execute_builtin(tmp[i], s, pipefd);
             i++;
