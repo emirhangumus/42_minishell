@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/03 16:57:20 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/03 18:18:32 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,12 @@ typedef struct s_garbage
 	void				*ptr;
 	struct s_garbage	*next;
 }	t_garbage;
+
+typedef struct s_cmdenv
+{
+	char	*cmd;
+	char	**env;
+}	t_cmdenv;
 
 typedef struct s_lexer
 {
@@ -119,6 +125,9 @@ int		ft_isfullof(char *str, char c);
 void	ft_sigint(int sig);
 void	ft_sigquit(int sig);
 void	ft_signals(void);
+
+/* ENV CHECK */
+void	ft_env_check(t_state *s);
 
 /* GARBAGE */
 void	ft_add_garbage(t_state *s, void *ptr);
