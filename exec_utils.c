@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:09:01 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/03 15:54:14 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/03 16:12:42 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,13 @@ char	*ft_get_cmd_path(t_token *start_token, t_state *s)
 	int		i;
 
 	i = 0;
-    
+    if (ft_strchr(start_token->value, '/') != NULL)
+    {
+        if (access(start_token->value, F_OK) == 0)
+            return (start_token->value);
+        else
+            return (NULL);
+    }
 	path = ft_get_env(s->env, "PATH");
 	paths = ft_split(path, ':', s);
 	while (paths[i])
