@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/03 16:49:26 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/03 16:57:20 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <unistd.h>
 # include <string.h>
 # include <readline/readline.h>
-# include <readline/history.h>
 # include <readline/history.h>
 # include <signal.h>
 # include <stdarg.h>

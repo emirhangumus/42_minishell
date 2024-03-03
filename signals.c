@@ -6,25 +6,22 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 16:34:36 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/03 16:48:02 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/03 17:27:16 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+extern int	g_sig;
+
 void	ft_sigint(int sig)
 {
-	(void)sig;
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	g_sig = sig;
 }
 
 void	ft_sigquit(int sig)
 {
-	(void)sig;
-	write(1, "Quit: 3\n", 8);
+	g_sig = sig;
 }
 
 void	ft_signals(void)

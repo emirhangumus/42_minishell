@@ -6,11 +6,13 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:05 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/03 16:48:16 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/03 17:29:01 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int g_sig = -1;
 
 char	**ft_init_env(void)
 {
@@ -57,7 +59,7 @@ int	main(void)
 		return (1);
 	if (ft_init_state(s))
 		return (free(s), 1);
-	ft_signals();
+	// ft_signals();
 	ft_start(s);
 	ft_free_tab(s->env);
 	free(s->cwd);

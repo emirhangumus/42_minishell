@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/03 15:32:25 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/03 17:28:42 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void    ft_run_pipes(t_state *s, t_exec **exec)
     {
         if (tmp[i]->type == CMD_BUILTIN)
         {
-            ft_execute_builtin(tmp[i], s, pipefd);
+            s->status = ft_execute_builtin(tmp[i], s, pipefd);
             i++;
             continue;
         }
