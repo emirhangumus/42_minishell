@@ -22,6 +22,7 @@
 # include <signal.h>
 # include <stdarg.h>
 # include <fcntl.h>
+# include <sys/ioctl.h>
 
 // linux
 # include <sys/wait.h>

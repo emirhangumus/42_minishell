@@ -21,6 +21,7 @@ char	**ft_get_args(t_state *s, t_token *tokens)
 	i = 1;
 	arg_amount = ft_find_arg_amount(tokens);
 	args = malloc(sizeof(char *) * (arg_amount + 2));
+	ft_add_garbage(s, args);
 	args[0] = tokens->value;
 	tokens = tokens->next;
 	if (args == NULL)
@@ -47,6 +48,7 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 		if (tmp->type == T_CMD)
 		{
 			exec[j] = malloc(sizeof(t_exec));
+			ft_add_garbage(s, exec[j]);
 			if (exec[j] == NULL)
 				return (1);
 			if (ft_is_builtin(tmp->value))
@@ -107,6 +109,7 @@ void    ft_run_pipes(t_state *s, t_exec **exec)
 	int a = 0;
 	amount = ft_amount_cmd(s->tokens);
 	tmp = malloc(sizeof(t_exec *) * (amount + 1));
+	ft_add_garbage(s, tmp);
 	tmp[amount] = NULL;
 	while (exec[i] && (exec[i]->type != CMD_BUILTIN && ft_strcmp(exec[i]->cmd_path, "/bin/ls") != 0))
 		i++;
@@ -125,10 +128,7 @@ void    ft_run_pipes(t_state *s, t_exec **exec)
 	}
 	i = 0;
 	while (tmp[i])
-	{
-		// printf("cmd_path: %s\n", tmp[i]->cmd_path);
 		i++;
-	}
 	i = 0;
 	while (tmp[i])
 	{
@@ -218,6 +218,7 @@ void    ft_run_pipes(t_state *s, t_exec **exec)
 // }
 // first ls after ls then before ls
 
+
 int	ft_execuator(t_state *s)
 {
 	t_exec	**exec;
@@ -226,6 +227,7 @@ int	ft_execuator(t_state *s)
 
 	cmd_amount = ft_amount_cmd(s->tokens);
 	exec = malloc(sizeof(t_exec *) * (cmd_amount + 1));
+	ft_add_garbage(s, exec);
 	exec[cmd_amount] = NULL;
 	err_no = ft_init_execs(s, exec);
 	if (err_no)

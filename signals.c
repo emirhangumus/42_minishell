@@ -14,10 +14,10 @@
 
 extern int	g_sig;
 
-void	ft_sigquit(int num)
+void	ft_sigquit(int sig)
 {
-	(void)num;
-	if (g_sig== 1)
+	(void)sig;
+	if (g_sig == 1)
 	{
 		write(1, "\033[2D", 4);
 		write(1, "  ", 2);
@@ -25,7 +25,7 @@ void	ft_sigquit(int num)
 		ioctl(0, TIOCSTI);
 		g_sig = 0;
 	}
-	g_sig= 1;
+	g_sig = 1;
 }
 
 void	ft_sigint(int sig)

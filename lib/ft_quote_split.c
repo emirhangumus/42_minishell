@@ -101,5 +101,6 @@ char	**ft_quote_split(char *s, char c, t_state *state)
 		i++;
 	}
 	result[j] = NULL;
+	ft_add_garbage(state, result);
 	return (result);
 }

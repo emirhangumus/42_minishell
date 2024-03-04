@@ -62,5 +62,6 @@ int	ft_lexer(t_state *s)
 		return (1);
 	if (ft_lexer_iterate(s, l))
 		return (1);
+	free(l);
 	return (0);
 }
