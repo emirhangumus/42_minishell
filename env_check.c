@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 17:51:35 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/04 03:55:53 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/04 22:47:16 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_isalphanum(char c)
+int	ft_is_valid_env_name(char c)
 {
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || \
 		(c >= '0' && c <= '9') || c == '_')
@@ -28,10 +28,16 @@ int	ft_cmd_add_env(t_token *t, t_state *s, int i)
 	char	*value;
 
 	j = i + 1;
-	if (!t->value[j])
+	if (!t->value || !t->value[j])
 		return (-1);
-	while (t->value[j] && t->value[j] != ' ' && t->value[j] != '$' && \
-		ft_isalphanum(t->value[j]))
+	if (t->value[j] == '?')
+	{
+		t->value = ft_strjoin(ft_substr(t->value, 0, i, s), \
+			ft_itoa(s->status, s), s);
+		return (j);
+	}
+	while (t->value[j] && t->value[j] != ' ' && t->value[j] != '$' && t->value[j] != '?' && \
+		ft_is_valid_env_name(t->value[j]))
 		j++;
 	key = ft_substr(t->value, i + 1, j - i - 1, s);
 	value = ft_get_env(s->env, key);
@@ -46,15 +52,10 @@ int	ft_cmd_add_env(t_token *t, t_state *s, int i)
 	}
 	else
 	{
-		if (i != 0)
-			t->value = ft_strjoin(ft_substr(t->value, 0, i, s), \
-				ft_strdup(t->value + j, s), s);
-		else
-			t->value = ft_strdup("", s);
+		t->value = ft_strjoin(ft_substr(t->value, 0, i, s), \
+			ft_strdup(t->value + j, s), s);
 		if (!t->value || !t->value[0])
-		{
 			return (-2);
-		}
 		return (-1);
 	}
 }
@@ -69,12 +70,12 @@ void	ft_env_check(t_token *tmp, t_state *s)
 	i = 0;
 	if (!t || !t->value || !t->value[i] || t->value[i] == '\'')
 		return;
-	while (t->value && t->value[i] != 0)
+	while (t->value && t->value[i])
 	{
 		if (t->value && t->value[i] == '$')
 		{
 			h = ft_cmd_add_env(t, s, i);
-			if (h != -1)
+			if (h > -1)
 			{
 				i = h;
 				continue;
