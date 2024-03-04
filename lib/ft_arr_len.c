@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_arr_len.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/04 04:18:21 by burkaya           #+#    #+#             */
+/*   Updated: 2024/03/04 04:18:23 by burkaya          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-int ft_arr_len(char **arr)
+int	ft_arr_len(char **arr)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (arr[i])
-        i++;
-    return (i);
+	i = 0;
+	while (arr[i])
+		i++;
+	return (i);
 }

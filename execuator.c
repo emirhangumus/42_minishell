@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/03 22:40:41 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/04 04:19:42 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,72 +84,72 @@ void	ft_for_child(t_state *s, int i, int pipefd[2], t_exec **exec)
 
 void	ft_for_cat(t_state *s, int i, int pipefd[2], t_exec **exec)
 {
-    dup2(pipefd[1], STDOUT_FILENO); // set the output to pipefd[1]
-    close(pipefd[0]);
-    execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
-    exit(0);
+	dup2(pipefd[1], STDOUT_FILENO); // set the output to pipefd[1]
+	close(pipefd[0]);
+	execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
+	exit(0);
 }
 
 void    ft_run_pipes(t_state *s, t_exec **exec)
 {
-    int i;
-    int j;
-    int k;
-    int pipefd[2];
-    int amount;
-    t_exec  **tmp;
-    (void)s;
-    (void)pipefd;
-    
+	int i;
+	int j;
+	int k;
+	int pipefd[2];
+	int amount;
+	t_exec  **tmp;
+	(void)s;
+	(void)pipefd;
+	
 	k = 0;
-    j = 0;
-    i = 0;
-    int a = 0;
-    amount = ft_amount_cmd(s->tokens);
-    tmp = malloc(sizeof(t_exec *) * (amount + 1));
-    tmp[amount] = NULL;
-    while (exec[i] && (exec[i]->type != CMD_BUILTIN && ft_strcmp(exec[i]->cmd_path, "/bin/ls") != 0))
-        i++;
-    k = i;
-    while (exec[i])
-    {
-        tmp[j] = exec[i];
-        j++;
-        i++;
-    }
-    while (a < k)
-    {
-        tmp[j] = exec[a];
-        j++;
-        a++;
-    }
-    i = 0;
-    while (tmp[i])
-    {
-        // printf("cmd_path: %s\n", tmp[i]->cmd_path);
-        i++;
-    }
-    i = 0;
-    while (tmp[i])
-    {
-        if (tmp[i]->type == CMD_BUILTIN && amount == 1)
-        {
-            s->status = ft_execute_builtin(tmp[i], s, pipefd);
-            i++;
-            continue;
-        }
-        pipe(pipefd);
-        s->pid = fork();
-        if (s->pid == 0)
-            ft_for_child(s, i, pipefd, tmp);
-        else
-        {
-            waitpid(s->pid, &s->status, 0);
-            close(pipefd[1]);
-            s->fd = pipefd[0];
-            i++;
-        }
-    }
+	j = 0;
+	i = 0;
+	int a = 0;
+	amount = ft_amount_cmd(s->tokens);
+	tmp = malloc(sizeof(t_exec *) * (amount + 1));
+	tmp[amount] = NULL;
+	while (exec[i] && (exec[i]->type != CMD_BUILTIN && ft_strcmp(exec[i]->cmd_path, "/bin/ls") != 0))
+		i++;
+	k = i;
+	while (exec[i])
+	{
+		tmp[j] = exec[i];
+		j++;
+		i++;
+	}
+	while (a < k)
+	{
+		tmp[j] = exec[a];
+		j++;
+		a++;
+	}
+	i = 0;
+	while (tmp[i])
+	{
+		// printf("cmd_path: %s\n", tmp[i]->cmd_path);
+		i++;
+	}
+	i = 0;
+	while (tmp[i])
+	{
+		if (tmp[i]->type == CMD_BUILTIN && amount == 1)
+		{
+			s->status = ft_execute_builtin(tmp[i], s, pipefd);
+			i++;
+			continue;
+		}
+		pipe(pipefd);
+		s->pid = fork();
+		if (s->pid == 0)
+			ft_for_child(s, i, pipefd, tmp);
+		else
+		{
+			waitpid(s->pid, &s->status, 0);
+			close(pipefd[1]);
+			s->fd = pipefd[0];
+			i++;
+		}
+	}
 }
 
 

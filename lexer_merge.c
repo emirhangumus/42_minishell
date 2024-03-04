@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_merge.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:49:53 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/03 22:14:09 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/04 04:20:29 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int	ft_toggle_quote(t_lexer *l, char c)
 
 int	ft_merge_args_init(t_token *start_token, t_token **wc)
 {
-	t_token	*tmp;
-	int	total_args;
+	t_token *tmp;
+	int     total_args;
 
 	total_args = 0;
 	tmp = start_token;
