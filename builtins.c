@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 02:43:20 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/05 01:43:45 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/05 01:47:49 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,9 +162,6 @@ int	ft_export(t_exec *exec, t_state *s)
 				ft_strlen(exec->cmd_args[i]) - j - 1, s);
 		else
 			value = NULL;
-		printf("key: %s, value: %s\n", key, value);
-		printf("value: %s\n", value);
-		printf("%d\n", ft_arr_include(s->env, key, ft_env_key_cmp));
 		if (ft_arr_include(s->env, key, ft_env_key_cmp) == -1)
 			s->env = ft_add_env(s->env, key, value, s);
 		else
