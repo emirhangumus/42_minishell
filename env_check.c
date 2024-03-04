@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 17:51:35 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/04 02:52:08 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/04 03:55:53 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,6 @@ int	ft_cmd_add_env(t_token *t, t_state *s, int i)
 	}
 	else
 	{
-<<<<<<< HEAD
-		t->value = ft_strjoin(ft_substr(t->value, 0, i, s), \
-			ft_strdup(t->value + j, s), s);
-=======
 		if (i != 0)
 			t->value = ft_strjoin(ft_substr(t->value, 0, i, s), \
 				ft_strdup(t->value + j, s), s);
@@ -59,7 +55,6 @@ int	ft_cmd_add_env(t_token *t, t_state *s, int i)
 		{
 			return (-2);
 		}
->>>>>>> ff42252b050d2cc11ea5bf0b4f19e35707dbd733
 		return (-1);
 	}
 }
@@ -72,11 +67,7 @@ void	ft_env_check(t_token *tmp, t_state *s)
 
 	t = tmp;
 	i = 0;
-<<<<<<< HEAD
-	if (!t->value || !t->value[i] || t->value[i] == '\'')
-=======
 	if (!t || !t->value || !t->value[i] || t->value[i] == '\'')
->>>>>>> ff42252b050d2cc11ea5bf0b4f19e35707dbd733
 		return;
 	while (t->value && t->value[i] != 0)
 	{

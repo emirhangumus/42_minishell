@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/03 21:49:21 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/04 04:01:15 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,5 +172,5 @@ void	ft_free_tokens(t_token *token);
 
 /* DEBUG */
 void	ft_print_tokens(t_token *token);
-
+void	ft_signals(void);
 #endif
