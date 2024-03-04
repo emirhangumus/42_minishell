@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 02:43:20 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/03 17:28:08 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/05 01:43:45 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,17 +117,17 @@ char	**ft_add_env(char **env, char *key, char *value, t_state *s)
 	while (env[i])
 		i++;
 	new_env = ft_strjoin(key, "=", s);
-	if (value)
-		new_env = ft_strjoin(new_env, value, s);
+	new_env = ft_strjoin(new_env, value, NULL);
 	new_envp = (char **)malloc(sizeof(char *) * (i + 2));
 	i = 0;
 	while (env[i])
 	{
-		new_envp[i] = ft_strdup(env[i], s);
+		new_envp[i] = ft_strdup(env[i], NULL);
 		i++;
 	}
 	new_envp[i] = new_env;
 	new_envp[i + 1] = NULL;
+	ft_free_tab(env);
 	return (new_envp);
 }
 
@@ -162,23 +162,17 @@ int	ft_export(t_exec *exec, t_state *s)
 				ft_strlen(exec->cmd_args[i]) - j - 1, s);
 		else
 			value = NULL;
+		printf("key: %s, value: %s\n", key, value);
+		printf("value: %s\n", value);
+		printf("%d\n", ft_arr_include(s->env, key, ft_env_key_cmp));
 		if (ft_arr_include(s->env, key, ft_env_key_cmp) == -1)
 			s->env = ft_add_env(s->env, key, value, s);
 		else
 		{
-			j = 0;
-			while (s->env[j])
-			{
-				if (ft_strncmp(s->env[j], key, ft_strlen(key)) == 0)
-				{
-					free(s->env[j]);
-					s->env[j] = ft_strjoin(key, "=", s);
-					if (value)
-						s->env[j] = ft_strjoin(s->env[j], value, s);
-					break ;
-				}
-				j++;
-			}
+			j = ft_arr_include(s->env, key, ft_env_key_cmp);
+			free(s->env[j]);
+			s->env[j] = ft_strjoin(key, "=", s);
+			s->env[j] = ft_strjoin(s->env[j], value, NULL);
 		}
 		i++;
 	}

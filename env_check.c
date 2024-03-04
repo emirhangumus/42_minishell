@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 17:51:35 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/04 22:47:16 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/05 00:36:52 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int	ft_cmd_add_env(t_token *t, t_state *s, int i)
 	if (t->value[j] == '?')
 	{
 		t->value = ft_strjoin(ft_substr(t->value, 0, i, s), \
-			ft_itoa(s->status, s), s);
-		return (j);
+			ft_strjoin(ft_itoa(s->status, NULL), ft_strdup(t->value + j + 1, s), s), s);
+		return (-1);
 	}
 	while (t->value[j] && t->value[j] != ' ' && t->value[j] != '$' && t->value[j] != '?' && \
 		ft_is_valid_env_name(t->value[j]))

@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:05 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/03 18:57:40 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/05 01:36:40 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,15 @@ int	main(void)
 		return (1);
 	if (ft_init_state(s))
 		return (free(s), 1);
-	// ft_signals();
 	ft_start(s);
 	ft_free_tab(s->env);
+	ft_free_garbage(s);
 	free(s->cwd);
 	free(s);
 	return (0);
 }
 
-// __attribute__((destructor))
-// static void test() {
-// 	system("leaks minishell");
-// }
+__attribute__((destructor))
+static void test() {
+	system("leaks minishell");
+}
