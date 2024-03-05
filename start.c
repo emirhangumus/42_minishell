@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:42:03 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/05 01:35:41 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/05 05:30:39 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_start(t_state *s)
 		}
 		if (ft_strlen(s->cmd) > 0 && ft_isfullof(s->cmd, ' ') == 0)
 		{
-			add_history(ft_strdup(s->cmd, s));
+			add_history(s->cmd);
 			ft_lexer(s);
 			if (ft_execuator(s))
 			{
