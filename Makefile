@@ -31,7 +31,7 @@ RLclean:
 clean:
 	$(RM) $(OBJ)
 
-fclean: clean RLclean
+fclean: clean
 	$(RM) $(NAME)
 
 re: fclean all

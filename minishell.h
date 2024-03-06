@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/04 04:01:15 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/05 06:42:46 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@
 # define QUOTE_NONE 0
 # define QUOTE_ONE 39
 # define QUOTE_TWO 34
+
+# define ENV_RECHECK -1
+# define ENV_NO_MORE -2
+# define ENV_SINGLE_VALUE -3
+# define ENV_ERROR -4
 
 # define CMD_PATH 19
 # define CMD_BUILTIN 20
