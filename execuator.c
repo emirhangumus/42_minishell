@@ -6,11 +6,19 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/07 18:57:26 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/07 19:33:13 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	exec_one_command(t_state *s, t_exec **exec)
+{
+	s->forks[0] = fork();
+	if (s->forks[0] == 0)
+		execve(exec[0]->cmd_path, exec[0]->cmd_args, s->env);
+	waitpid(s->forks[0], &s->status, 0);
+}
 
 void	ft_run_pipes(t_state *s, t_exec **exec, int cmd_amount, int i)
 {
@@ -40,19 +48,24 @@ void	ft_lets_go(t_state *s, t_exec **exec, int cmd_amount)
 	int	i;
 
 	i = -1;
-	while (exec[++i])
+	if (cmd_amount > 1)
 	{
-		s->forks[i] = fork();
-		if (s->forks[i] == 0)
-			ft_run_pipes(s, exec, cmd_amount, i);
+		while (exec[++i])
+		{
+			s->forks[i] = fork();
+			if (s->forks[i] == 0)
+				ft_run_pipes(s, exec, cmd_amount, i);
+		}
+		mother_close_pipes_all(s->pipes, cmd_amount);
+		i = cmd_amount - 1;
+		while (i >= 0)
+		{
+			waitpid(s->forks[i], &s->status, 0);
+			i--;
+		}
 	}
-	mother_close_pipes_all(s->pipes, cmd_amount);
-	i = cmd_amount - 1;
-	while (i >= 0)
-	{
-		waitpid(s->forks[i], &s->status, 0);
-		i--;
-	}
+	else
+		exec_one_command(s, exec);
 }
 
 int	ft_execuator(t_state *s)
