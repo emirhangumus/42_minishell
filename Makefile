@@ -22,7 +22,7 @@ $(RL):
 	@$(RM) readline-8.2-rc1.tar.gz
 	@cd readline-8.2-rc1 && ./configure --prefix=$(DIR)/lib/readline && make && make install
 	@$(RM) readline-8.2-rc1
-	@echo "Readline installed"
+	@  echo "Readline installed"
 
 RLclean:
 	@$(RM) lib/readline

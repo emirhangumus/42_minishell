@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 16:34:36 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/04 04:05:17 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/07 18:20:00 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	ft_sigint(int sig)
 	ioctl(0, TIOCSTI, "\n");
 	g_sig = 1;
 }
+
+
 
 void	ft_signals(void)
 {
