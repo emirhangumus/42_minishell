@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/07 18:46:24 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/07 18:47:04 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,44 +124,6 @@ void    ft_lets_go(t_state *s, t_exec **exec, int cmd_amount, int **pipes, int *
         waitpid((*forks)[i], &s->status, 0);
         i--;
     }
-    //int i;
-
-    // i = 0;
-    // while (exec[i])
-    // {
-    //     printf("%d\n", i); 
-    //     forks[i] = fork();
-    //     if (forks[i] == 0)
-    //     {    
-    //         if (i == 0)
-    //         {
-    //             dup2(pipes[i * 2 + 1], 1);
-    //             close_pipes_all(pipes, cmd_amount, i);
-    //             execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
-    //         }
-    //         else if (i == cmd_amount - 1)
-    //         {
-    //             dup2(pipes[(i - 1) * 2], 0);
-    //             close_pipes_all(pipes, cmd_amount, i);
-    //             execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
-    //         }
-    //         else
-    //         {
-    //             dup2(pipes[(i - 1) * 2], 0);
-    //             dup2(pipes[i * 2 + 1], 1);
-    //             close_pipes_all(pipes, cmd_amount, i);
-    //             execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
-    //         }
-    //     }
-    //     else
-    //         i++;
-    // }
-    // i = 0;
-    // while (i < cmd_amount - 1)
-    // {
-    //     waitpid(forks[i], NULL, 0);
-    //     i++;
-    // }
 }
 
 int	ft_execuator(t_state *s)
