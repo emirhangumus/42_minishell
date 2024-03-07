@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/07 18:48:16 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/07 18:57:52 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,9 @@ int		ft_find_arg_amount(t_token *tokens);
 char	*ft_get_cmd_path(t_token *start_token, t_state *s);
 void    close_pipes_all(int *pipes, int cmd_amount, int i);
 void    mother_close_pipes_all(int *pipes, int cmd_amount);
+char	**ft_get_args(t_state *s, t_token *tokens);
+int	ft_init_execs(t_state *s, t_exec **exec);
+void	ft_init_pipes(t_state *s, int cmd_amount);
 
 /* BUILTIN */
 int		ft_is_builtin(char *value);

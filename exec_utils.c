@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:09:01 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/07 18:45:54 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/07 19:07:23 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,43 +71,26 @@ char	*ft_get_cmd_path(t_token *start_token, t_state *s)
 	return (NULL);
 }
 
-void    close_pipes_all(int *pipes, int cmd_amount, int i)
-{ 
-	int j;
+void	close_pipes_all(int *pipes, int cmd_amount, int i)
+{
+	int	j;
 
-	j = 0;
-	if (i == 0)
+	j = -1;
+	while (++j < cmd_amount * 2)
 	{
-		while (j < cmd_amount * 2)
+		if ((i == 0 && j != i * 2 + 1)
+			|| (i == cmd_amount - 1 && j != (i - 1) * 2)
+			|| (i != 0 && i != cmd_amount - 1 && j != (i - 1) * 2 \
+				&& j != i * 2 + 1))
 		{
-			if (j != i * 2 + 1)
-				close(pipes[j]);
-			j++;
-		}
-	}
-	else if (i == cmd_amount - 1)
-	{
-		while (j < cmd_amount * 2)
-		{
-			if (j != (i - 1) * 2)
-				close(pipes[j]);
-			j++;
-		}
-	}
-	else
-	{
-		while (j < cmd_amount * 2)
-		{
-			if (j != (i - 1) * 2 && j != i * 2 + 1)
-				close(pipes[j]);
-			j++;
+			close(pipes[j]);
 		}
 	}
 }
 
-void    mother_close_pipes_all(int *pipes, int cmd_amount)
+void	mother_close_pipes_all(int *pipes, int cmd_amount)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (j < cmd_amount * 2)
