@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:09:01 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/03 16:12:42 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/07 18:45:54 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ char	*ft_get_cmd_path(t_token *start_token, t_state *s)
 	int		i;
 
 	i = 0;
-    if (ft_strchr(start_token->value, '/') != NULL)
-    {
-        if (access(start_token->value, F_OK) == 0)
-            return (start_token->value);
-        else
-            return (NULL);
-    }
+	if (ft_strchr(start_token->value, '/') != NULL)
+	{
+		if (access(start_token->value, F_OK) == 0)
+			return (start_token->value);
+		else
+			return (NULL);
+	}
 	path = ft_get_env(s->env, "PATH");
 	paths = ft_split(path, ':', s);
 	while (paths[i])
@@ -69,4 +69,50 @@ char	*ft_get_cmd_path(t_token *start_token, t_state *s)
 		i++;
 	}
 	return (NULL);
+}
+
+void    close_pipes_all(int *pipes, int cmd_amount, int i)
+{ 
+	int j;
+
+	j = 0;
+	if (i == 0)
+	{
+		while (j < cmd_amount * 2)
+		{
+			if (j != i * 2 + 1)
+				close(pipes[j]);
+			j++;
+		}
+	}
+	else if (i == cmd_amount - 1)
+	{
+		while (j < cmd_amount * 2)
+		{
+			if (j != (i - 1) * 2)
+				close(pipes[j]);
+			j++;
+		}
+	}
+	else
+	{
+		while (j < cmd_amount * 2)
+		{
+			if (j != (i - 1) * 2 && j != i * 2 + 1)
+				close(pipes[j]);
+			j++;
+		}
+	}
+}
+
+void    mother_close_pipes_all(int *pipes, int cmd_amount)
+{
+	int j;
+
+	j = 0;
+	while (j < cmd_amount * 2)
+	{
+		close(pipes[j]);
+		j++;
+	}
 }
