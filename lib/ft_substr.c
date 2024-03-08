@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:35:23 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/21 02:44:15 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/08 08:21:58 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char	*ft_substr(const char *s, unsigned int start, size_t len, t_state *st)
 		count++;
 	}
 	tab[count] = '\0';
-	ft_add_garbage(st, tab);
+	if (st)
+		ft_add_garbage(st, tab);
 	return (tab);
 }

@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:28:31 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/01 14:52:35 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/07 23:27:07 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	ft_add_token(t_state *s, char *token, int type)
 	new->value = token;
 	new->type = type;
 	new->next = NULL;
+	new->prev = NULL;
 	if (!s->tokens)
 		s->tokens = new;
 	else
@@ -31,6 +32,7 @@ void	ft_add_token(t_state *s, char *token, int type)
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new;
+		new->prev = tmp;
 	}
 }
 
@@ -45,6 +47,7 @@ void	ft_create_token(t_token **token, char *value, int type)
 	new->value = value;
 	new->type = type;
 	new->next = NULL;
+	new->prev = NULL;
 	if (!*token)
 		*token = new;
 	else
@@ -53,6 +56,7 @@ void	ft_create_token(t_token **token, char *value, int type)
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new;
+		new->prev = tmp;
 	}
 }
 
@@ -61,6 +65,8 @@ t_token	*ft_get_last_token(t_token *token)
 	t_token	*tmp;
 
 	tmp = token;
+	if (!tmp)
+		return (NULL);
 	while (tmp->next)
 		tmp = tmp->next;
 	return (tmp);
@@ -93,7 +99,9 @@ void	ft_remove_tokens(t_token **token, int (*f)(void *))
 void	ft_free_tokens(t_token *token)
 {
 	t_token	*tmp;
-
+	
+	if (!token)
+		return ;
 	while (token)
 	{
 		tmp = token;

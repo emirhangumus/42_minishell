@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:11:50 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/04 22:36:15 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/06 21:10:11 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,11 @@ void	ft_free_garbage(t_state *s)
 	{
 		tmp = s->garbage;
 		s->garbage = s->garbage->next;
-		free(tmp->ptr);
-		free(tmp);
+		if (tmp->ptr != NULL)
+		{
+			free(tmp->ptr);
+			tmp->ptr = NULL;
+			free(tmp);
+		}
 	}
 }

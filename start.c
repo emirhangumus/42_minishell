@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:42:03 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/05 05:30:39 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/08 07:50:51 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	ft_start(t_state *s)
 		{
 			add_history(s->cmd);
 			ft_lexer(s);
-			if (ft_execuator(s))
+			ft_print_tokens(s->tokens);
+			if (s->tokens != NULL && ft_execuator(s))
 			{
 				printf("minishell: an error accured %s\n", s->tokens->value);
 				s->status = ERR_CMD_NOT_FOUND;
