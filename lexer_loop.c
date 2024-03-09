@@ -20,7 +20,7 @@ int ft_toggle_quote(t_lexer *l, char c)
 	return (0);
 }
 
-int ft_l_remove_quotes(t_lexer *l, t_state *s)
+int	ft_l_remove_quotes(t_lexer *l, t_state *s)
 {
 	int i;
 
@@ -136,7 +136,7 @@ int	ft_l_update_meta(t_lexer *l, int added_sp_count)
 	i = -1;
 	flag = 0;
 	tmp = l->meta;
-	printf("added_sp_count: %d\n", added_sp_count);
+	// printf("added_sp_count: %d\n", added_sp_count);
 	new_meta = (t_lmeta **)malloc(sizeof(t_lmeta *) * (ft_arr_len((char **)tmp) + 1 + added_sp_count));
 	if (!new_meta)
 		return (1);
@@ -176,10 +176,10 @@ int	ft_l_update_meta(t_lexer *l, int added_sp_count)
 	new_meta[i] = NULL;
 	// print values of tmp_meta
 	i = -1;
-	while (new_meta[++i])
-	{
-		printf("tmp_meta->forced_arg %d: %d & %d\n", i, tmp_meta->forced_arg, new_meta[i]->can_be_cmd);
-	}
+	// while (new_meta[++i])
+	// {
+	// 	printf("tmp_meta->forced_arg %d: %d & %d\n", i, tmp_meta->forced_arg, new_meta[i]->can_be_cmd);
+	// }
 
 	return (0);
 }

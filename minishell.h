@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/08 17:17:36 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/09 17:04:39 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
 # define T_REDIR_R_APPEND 5
 # define T_REDIR_L_TRUNC 6
 # define T_REDIR_L_APPEND 7
-
 
 # define QUOTE_NONE 0
 # define QUOTE_SINGLE 39
@@ -85,7 +84,7 @@ typedef struct s_lmeta
 {
 	int		forced_arg;
 	int		can_be_cmd;
-} t_lmeta;
+}	t_lmeta;
 
 typedef struct s_lexer
 {
@@ -144,7 +143,8 @@ int		ft_is_empty(char *s);
 char	**ft_arr_dup(char **arr);
 int		ft_arr_len(char **arr);
 void	ft_arr_push(char ***arr, char *str);
-int		ft_arr_include(char **arr, char *str, int (*cmp)(const char *, const char *));
+int		ft_arr_include(char **arr, char *str, \
+	int (*cmp)(const char *, const char *));
 int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
 int		ft_isfullof(char *str, char c);
@@ -186,15 +186,22 @@ int		ft_execuator(t_state *s);
 int		ft_amount_cmd(t_token *tokens);
 int		ft_find_arg_amount(t_token *tokens);
 char	*ft_get_cmd_path(t_token *start_token, t_state *s);
-void    close_pipes_all(int *pipes, int cmd_amount, int i);
-void    mother_close_pipes_all(int *pipes, int cmd_amount);
+void	close_pipes_all(int *pipes, int cmd_amount, int i);
+void	mother_close_pipes_all(int *pipes, int cmd_amount);
 char	**ft_get_args(t_state *s, t_token *tokens);
-int	ft_init_execs(t_state *s, t_exec **exec);
+int		ft_init_execs(t_state *s, t_exec **exec);
 void	ft_init_pipes(t_state *s, int cmd_amount);
 
 /* BUILTIN */
 int		ft_is_builtin(char *value);
-int		ft_execute_builtin(t_exec *exec, t_state *s, int pipefd[2]);
+void	ft_execute_builtin(t_state *s, t_exec *exec);
+int		ft_echo(t_exec *exec);
+int		ft_export(t_exec *exec, t_state *s);
+int		ft_pwd(t_state *s);
+int		ft_cd(t_exec *exec, t_state *s);
+int		ft_exit(t_exec *exec, t_state *s);
+int		ft_unset(t_exec *exec, t_state *s);
+int		ft_env(t_state *s);
 
 /* HELPERS */
 char	*ft_get_env(char **env, char *key);

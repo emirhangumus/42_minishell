@@ -3,13 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 00:55:47 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/07 22:24:38 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/09 16:57:47 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-

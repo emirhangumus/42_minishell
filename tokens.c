@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:28:31 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/07 23:27:07 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/09 16:54:04 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	ft_remove_tokens(t_token **token, int (*f)(void *))
 void	ft_free_tokens(t_token *token)
 {
 	t_token	*tmp;
-	
+
 	if (!token)
 		return ;
 	while (token)
