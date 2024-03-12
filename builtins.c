@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 02:43:20 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/09 17:02:56 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/12 14:06:14 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,21 @@ int	ft_is_builtin(char *value)
 	return (0);
 }
 
-void	ft_execute_builtin(t_state *s, t_exec *exec)
+int	ft_execute_builtin(t_state *s, t_exec *exec)
 {
 	if (ft_strcmp(exec->cmd_args[0], "echo") == 0)
-		ft_echo(exec);
+		return (ft_echo(exec));
 	else if (ft_strcmp(exec->cmd_args[0], "cd") == 0)
-		ft_cd(exec, s);
+		return (ft_cd(exec, s));
 	else if (ft_strcmp(exec->cmd_args[0], "pwd") == 0)
-		ft_pwd(s);
+		return (ft_pwd(s));
 	else if (ft_strcmp(exec->cmd_args[0], "export") == 0)
-		ft_export(exec, s);
+		return (ft_export(exec, s));
 	else if (ft_strcmp(exec->cmd_args[0], "unset") == 0)
-		ft_unset(exec, s);
+		return (ft_unset(exec, s));
 	else if (ft_strcmp(exec->cmd_args[0], "env") == 0)
-		ft_env(s);
+		return (ft_env(s));
 	else if (ft_strcmp(exec->cmd_args[0], "exit") == 0)
-		ft_exit(exec, s);
-	exit(0);
+		return (ft_exit(exec, s));
+	return (127);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/09 17:04:39 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/12 14:36:49 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ void	ft_init_pipes(t_state *s, int cmd_amount);
 
 /* BUILTIN */
 int		ft_is_builtin(char *value);
-void	ft_execute_builtin(t_state *s, t_exec *exec);
+int		ft_execute_builtin(t_state *s, t_exec *exec);
 int		ft_echo(t_exec *exec);
 int		ft_export(t_exec *exec, t_state *s);
 int		ft_pwd(t_state *s);

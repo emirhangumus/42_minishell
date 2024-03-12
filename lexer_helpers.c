@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_helpers.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 16:52:26 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/09 16:53:01 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/12 15:07:44 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

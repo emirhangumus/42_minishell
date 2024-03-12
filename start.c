@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:42:03 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/09 17:23:09 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/12 15:10:21 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,17 @@ char	*ft_get_prompt_text(t_state *s)
 
 void	ft_start(t_state *s)
 {
+	char	*h;
+	
 	ft_signals();
 	while (1)
 	{
 		if (s->cmd)
 			free(s->cmd);
 		s->cmd = readline(ft_get_prompt_text(s));
+		h = s->cmd;
+		s->cmd = ft_strtrim(s->cmd, " ", NULL);
+		free(h);
 		if (!s->cmd)
 		{
 			write(1, "\033[2Dexit\n", 8);
@@ -39,6 +44,7 @@ void	ft_start(t_state *s)
 		{
 			add_history(s->cmd);
 			ft_lexer(s);
+			s->tokens->type = T_CMD;
 			if (s->tokens != NULL && ft_execuator(s))
 			{
 				printf("minishell: an error accured %s\n", s->tokens->value);

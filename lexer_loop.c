@@ -103,7 +103,7 @@ int ft_l_key_len(char *str, int index)
 	int end = index;
 
 	// Find the end of the variable name
-	while (str[end] != '\0' && ft_isalnum(str[end]))
+	while (str[end] != '\0' && (ft_isalnum(str[end]) || str[end] == '_'))
 	{
 		end++;
 	}
@@ -146,7 +146,7 @@ int	ft_l_update_meta(t_lexer *l, int added_sp_count)
 		if (!tmp_meta)
 			return (1);
 		tmp_meta->forced_arg = tmp[i]->forced_arg;
-		if (flag == 0)
+		if (flag == 0 && (l->i == 0 || l->is_pipe_added))
 		{
 			tmp_meta->can_be_cmd = 1;
 			flag = 1;
@@ -155,11 +155,8 @@ int	ft_l_update_meta(t_lexer *l, int added_sp_count)
 			tmp_meta->can_be_cmd = tmp[i]->can_be_cmd;
 		new_meta[i] = tmp_meta;
 	}
-
 	if (added_sp_count == 0)
-	{
 		l->meta[l->i]->forced_arg = 1;
-	}
 	else
 	{
 		while (added_sp_count--)
@@ -174,13 +171,7 @@ int	ft_l_update_meta(t_lexer *l, int added_sp_count)
 	}
 
 	new_meta[i] = NULL;
-	// print values of tmp_meta
-	i = -1;
-	// while (new_meta[++i])
-	// {
-	// 	printf("tmp_meta->forced_arg %d: %d & %d\n", i, tmp_meta->forced_arg, new_meta[i]->can_be_cmd);
-	// }
-
+	l->meta = new_meta;
 	return (0);
 }
 
@@ -253,6 +244,15 @@ int ft_l_env(t_lexer *l, t_state *s)
 			l->current_dollar_index++;
 		if (l->str[i] == '$' && l->insert_env[l->current_dollar_index] == 1)
 		{
+			if (l->str[i + 1] && l->str[i + 1] == '?')
+			{
+				// Replace the variable with its value
+				ft_remove_char_by_index(&l->str, i, s);
+				ft_remove_char_by_index(&l->str, i, s);
+				l->str = ft_joinstr_index(l->str, ft_itoa(s->status, NULL), i, s);
+				i = i + ft_strlen(ft_itoa(s->status, NULL));
+				continue;
+			}
 			env = ft_l_extract_key(l->str, i + 1);
 			len = ft_l_key_len(l->str, i + 1);
 			if (env == NULL)
@@ -401,6 +401,7 @@ int ft_take_it(t_lexer *l, t_state *s, int *i, int *j)
 
 int ft_lexer_bychar_pipe(t_state *s, t_lexer *l, int *i, int *j)
 {
+	// egumus burkaya kkarakus
 	if (l->seen_quote_type == QUOTE_NONE && l->str[*i] == '|' && (l->is_pipe_is_arg == NULL || (l->is_pipe_is_arg != NULL && l->is_pipe_is_arg[l->current_pipe_index] == 0)))
 	{
 		if (l->toggle_pipe_flag != 1 && l->i == 0 && !l->is_pipe_added)

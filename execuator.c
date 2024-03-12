@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execuator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/09 16:49:24 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/12 14:10:08 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 void	exec_one_command(t_state *s, t_exec **exec)
 {
 	if (exec[0]->type == CMD_BUILTIN)
-		ft_execute_builtin(s, exec[0]);
+	{
+		s->status = ft_execute_builtin(s, exec[0]);
+		return ;
+	}
 	s->forks[0] = fork();
 	if (s->forks[0] == 0)
 		execve(exec[0]->cmd_path, exec[0]->cmd_args, s->env);
@@ -29,7 +32,10 @@ void	ft_run_pipes(t_state *s, t_exec **exec, int cmd_amount, int i)
 		dup2(s->pipes[i * 2 + 1], 1);
 		close_pipes_all(s->pipes, cmd_amount, i);
 		if (exec[i]->type == CMD_BUILTIN)
-			ft_execute_builtin(s, exec[i]);
+		{
+			s->status = ft_execute_builtin(s, exec[i]);
+			exit(s->status);
+		}
 		execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
 	}
 	else if (i == cmd_amount - 1)
@@ -37,7 +43,10 @@ void	ft_run_pipes(t_state *s, t_exec **exec, int cmd_amount, int i)
 		dup2(s->pipes[(i - 1) * 2], 0);
 		close_pipes_all(s->pipes, cmd_amount, i);
 		if (exec[i]->type == CMD_BUILTIN)
-			ft_execute_builtin(s, exec[i]);
+		{
+			s->status = ft_execute_builtin(s, exec[i]);
+			exit(s->status);
+		}
 		execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
 	}
 	else
@@ -46,7 +55,10 @@ void	ft_run_pipes(t_state *s, t_exec **exec, int cmd_amount, int i)
 		dup2(s->pipes[i * 2 + 1], 1);
 		close_pipes_all(s->pipes, cmd_amount, i);
 		if (exec[i]->type == CMD_BUILTIN)
-			ft_execute_builtin(s, exec[i]);
+		{
+			s->status = ft_execute_builtin(s, exec[i]);
+			exit(s->status);
+		}
 		execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
 	}
 }
