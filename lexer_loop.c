@@ -208,7 +208,7 @@ int	ft_rescale_sp(t_lexer *l, int space_index)
 	if (i == j + 1)
 		i++;
 	new_sp[i] = NULL;
-	ft_free_tab(l->sp);
+	// ft_free_tab(l->sp);
 	l->sp = new_sp;
 	// these have to forced argument typed
 	i = -1;
@@ -244,6 +244,8 @@ int ft_l_env(t_lexer *l, t_state *s)
 			l->current_dollar_index++;
 		if (l->str[i] == '$' && l->insert_env[l->current_dollar_index] == 1)
 		{
+			if (!l->str[i + 1])
+				break;
 			if (l->str[i + 1] && l->str[i + 1] == '?')
 			{
 				// Replace the variable with its value
