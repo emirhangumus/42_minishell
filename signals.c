@@ -6,38 +6,30 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 16:34:36 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/07 18:44:12 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/16 15:48:35 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int	g_sig;
 
-void	ft_sigquit(int sig)
+
+void    ifsendsigquit(int signal)
 {
-	(void)sig;
-	if (g_sig == 1)
-	{
-		write(1, "\033[2D", 4);
-		write(1, "  ", 2);
-		write(1, "\033[2D", 4);
-		ioctl(0, TIOCSTI);
-		g_sig = 0;
-	}
-	g_sig = 1;
+    (void)signal;
+	rl_redisplay();
+    return ;
 }
 
-void	ft_sigint(int sig)
+void    ifsendsigint(int signal)
 {
-	(void)sig;
-	write(1, "\033[A", 3);
-	ioctl(0, TIOCSTI, "\n");
-	g_sig = 1;
+	(void)signal;
+    write(1, "\033[A", 4);
+    ioctl(0, TIOCSTI, "\n");
 }
 
-void	ft_signals(void)
+void    ft_signals(void)
 {
-	signal(SIGINT, ft_sigint);
-	signal(SIGQUIT, ft_sigquit);
+    signal(SIGINT, ifsendsigint);
+    signal(SIGQUIT, ifsendsigquit);
 }

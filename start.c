@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:42:03 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/12 15:40:41 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/16 15:49:01 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_start(t_state *s)
 				err = ft_strjoin(err, ": command not found\n", s);
 				write(2, err, ft_strlen(err));
 				s->status = ERR_CMD_NOT_FOUND;
-				break ;
+				// break ;
 			}
 			ft_free_tokens(s->tokens);
 			s->tokens = NULL;
