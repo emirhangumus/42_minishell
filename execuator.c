@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/19 21:04:31 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/19 22:21:40 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	exec_one_command(t_state *s, t_exec **exec)
 	s->forks[0] = fork();
 	if (s->forks[0] == 0)
 		execve(exec[0]->cmd_path, exec[0]->cmd_args, s->env);
-	waitpid(s->forks[0], &s->status, 0);
+	waitpid(s->forks[0], (int *)&s->status, 0);
 }
 
 void	ft_run_pipes(t_state *s, t_exec **exec, int cmd_amount, int i)
@@ -80,7 +80,7 @@ void	ft_lets_go(t_state *s, t_exec **exec, int cmd_amount)
 		i = cmd_amount - 1;
 		while (i >= 0)
 		{
-			waitpid(s->forks[i], &s->status, 0);
+			waitpid(s->forks[i], (int *)&s->status, 0);
 			i--;
 		}
 	}
@@ -101,7 +101,7 @@ int	ft_execuator(t_state *s)
 	err_no = ft_init_execs(s, exec);
 	if (err_no)
 		return (err_no);
-
+	// ft_print_execs(exec);
 	ft_init_pipes(s, cmd_amount);
 	ft_lets_go(s, exec, cmd_amount);
 	return (0);

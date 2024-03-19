@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/19 21:05:19 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/19 22:21:16 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,16 +105,16 @@ typedef struct s_exec
 
 typedef struct s_state
 {
-	char		*cmd;
-	char		*cwd;
-	char		**env;
-	int			status;
-	int			fd;
-	int			*pipes;
-	int			*forks;
-	t_token		**tokens;
-	t_garbage	*garbage;
-	t_garbage	*last_garbage;
+	char			*cmd;
+	char			*cwd;
+	char			**env;
+	char			status;
+	int				fd;
+	int				*pipes;
+	int				*forks;
+	t_token			**tokens;
+	t_garbage		*garbage;
+	t_garbage		*last_garbage;
 }	t_state;
 
 
@@ -174,7 +174,7 @@ int		ft_find_arg_amount(t_token *tokens);
 char	*ft_get_cmd_path(t_token *start_token, t_state *s);
 void	close_pipes_all(int *pipes, int cmd_amount, int i);
 void	mother_close_pipes_all(int *pipes, int cmd_amount);
-char	**ft_get_args(t_state *s, t_token *tokens);
+char	**ft_get_args(t_state *s, t_token *tokens, char *cmd_name);
 int		ft_init_execs(t_state *s, t_exec **exec);
 void	ft_init_pipes(t_state *s, int cmd_amount);
 
@@ -205,5 +205,6 @@ void	ft_print_tokens(t_token **token);
 void	ft_print_tab(char **tab);
 void	ft_signals(void);
 void	ft_print_execs(t_exec **exec);
+void	ft_print_exec(t_exec *exec);
 
 #endif

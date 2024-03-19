@@ -6,13 +6,13 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/19 21:03:14 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/19 22:21:02 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**ft_get_args(t_state *s, t_token *tokens)
+char	**ft_get_args(t_state *s, t_token *tokens, char *cmd_name)
 {
 	char	**args;
 	int		i;
@@ -22,7 +22,7 @@ char	**ft_get_args(t_state *s, t_token *tokens)
 	arg_amount = ft_find_arg_amount(tokens);
 	args = malloc(sizeof(char *) * (arg_amount + 2));
 	ft_add_garbage(s, args);
-	args[0] = "value";
+	args[0] = ft_strdup(cmd_name, s);
 	args[arg_amount + 1] = NULL;
 	while (tokens)
 	{
@@ -34,28 +34,31 @@ char	**ft_get_args(t_state *s, t_token *tokens)
 		tokens = tokens->next;
 	}
 	return (args);
-	// args[0] = tokens->value;
-	// tokens = tokens->next;
-	// if (args == NULL)
-	// 	return (NULL);
-	// args[arg_amount + 1] = NULL;
-	// while (i <= arg_amount)
-	// {
-	// 	args[i] = ft_strdup(tokens->value, s);
-	// 	tokens = tokens->next;
-	// 	i++;
-	// }
 }
-// echo asdasdasd dasdasdas
 
-int	tab_len(t_token **tab)
+/*
+T_APPEND = <<
+T_LREDIR = <
+T_RAPPEND = >>
+T_RREDIR = >
+*/
+
+void	ft_init_redirections(t_token *tokens, t_exec *exec)
 {
-	int	i;
-
-	i = 0;
-	while (tab[i])
-		i++;
-	return (i);
+	exec->in_type = 0;
+	exec->out_type = 0;
+	while (tokens)
+	{
+		if (tokens->type == T_LAPPEND)
+			exec->in_type = T_LAPPEND;
+		else if (tokens->type == T_LREDIR)
+			exec->in_type = T_LREDIR;
+		else if (tokens->type == T_RAPPEND)
+			exec->out_type = T_RAPPEND;
+		else if (tokens->type == T_RREDIR)
+			exec->out_type = T_RREDIR;
+		tokens = tokens->next;
+	}
 }
 
 int	ft_init_execs(t_state *s, t_exec **exec)
@@ -86,7 +89,8 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 				exec[j]->cmd_path = ft_get_cmd_path(tmp[i], s);
 				if (exec[j]->cmd_path == NULL && !(exec[0]->type == CMD_BUILTIN))
 					return (ERR_CMD_NOT_FOUND);
-				exec[j]->cmd_args = ft_get_args(s, tmp1[i]);
+				exec[j]->cmd_args = ft_get_args(s, tmp1[i], tmp[i]->value);
+				ft_init_redirections(tmp1[i], exec[j]);
 				j++;
 			}
 			tmp[i] = tmp[i]->next;

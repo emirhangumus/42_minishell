@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:29:10 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/19 21:05:04 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/19 22:17:29 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,30 @@ void	ft_print_execs(t_exec **exec)
 	{
 		j = 0;
 		printf("exec[%d]->cmd_path: %s\n", i, exec[i]->cmd_path);
+		printf("exec[%d]->in: %d\n", i, exec[i]->in_type);
+		printf("exec[%d]->out: %d\n", i, exec[i]->out_type);
+		printf("exec[%d]->type: %d\n", i, exec[i]->type);
 		while (exec[i]->cmd_args[j])
 		{
 			printf("exec[%d]->cmd_args[%d]: %s\n", i, j, exec[i]->cmd_args[j]);
 			j++;
 		}
+		i++;
+	}
+}
+
+void	ft_print_exec(t_exec *exec)
+{
+	int i;
+
+	i = 0;
+	printf("exec->cmd_path: %s\n", exec->cmd_path);
+	printf("exec->in: %d\n", exec->in_type);
+	printf("exec->out: %d\n", exec->out_type);
+	printf("exec->type: %d\n", exec->type);
+	while (exec->cmd_args[i])
+	{
+		printf("exec->cmd_args[%d]: %s\n", i, exec->cmd_args[i]);
 		i++;
 	}
 }

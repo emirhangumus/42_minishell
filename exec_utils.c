@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:09:01 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/19 20:51:44 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/19 21:15:01 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	ft_amount_cmd(t_token **tokens)
 
 int	ft_find_arg_amount(t_token *tokens)
 {
-	// echo adasd ad as 
 	int	amount;
 
 	amount = 0;
