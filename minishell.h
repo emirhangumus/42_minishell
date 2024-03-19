@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/16 15:47:51 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/19 19:09:38 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,14 @@
 
 # define T_CMD 1
 # define T_ARG 2
-# define T_PIPE 3
-# define T_REDIR_R_TRUNC 4
-# define T_REDIR_R_APPEND 5
-# define T_REDIR_L_TRUNC 6
-# define T_REDIR_L_APPEND 7
+# define T_LREDIR 3
+# define T_RREDIR 4
+# define T_RAPPEND 5
+# define T_LAPPEND 6
 
 # define QUOTE_NONE 0
-# define QUOTE_SINGLE 39
-# define QUOTE_DOUBLE 34
+# define QUOTE_ONE 39
+# define QUOTE_TWO 34
 
 # define ENV_RECHECK -1
 # define ENV_NO_MORE -2
@@ -59,6 +58,8 @@
 
 # define ERR_CMD_NOT_FOUND 127
 # define ERR_PIPE_INIT 126
+# define ERR_UNEXPECTED_TOKEN 1
+# define SUCCESS 0
 
 typedef struct s_token
 {
@@ -80,30 +81,17 @@ typedef struct s_cmdenv
 	char	**env;
 }	t_cmdenv;
 
-typedef struct s_lmeta
+typedef struct s_lexer_meta
 {
-	int		forced_arg;
-	int		can_be_cmd;
-}	t_lmeta;
+	int	*dollars;
+}	t_lexer_meta;
 
 typedef struct s_lexer
 {
-	t_lmeta		**meta;
-	int			i;
-	int			j;
-	int			toggle_pipe_flag;
-	int			seen_quote_type;
-	char		**sp;
-	char		*str;
-	char		*result;
-	int			current_dollar_index;
-	int			*insert_env;
-	int			is_pipe_added;
-	int			take_it;
-	int			q1i;
-	int			q2i;
-	int			*is_pipe_is_arg;
-	int			current_pipe_index;
+	t_lexer_meta	*meta;
+	char			*str;
+	int				i;
+	int				quote;
 }	t_lexer;
 
 typedef struct s_exec
@@ -122,9 +110,11 @@ typedef struct s_state
 	int			fd;
 	int			*pipes;
 	int			*forks;
-	t_token		*tokens;
+	t_token		**tokens;
 	t_garbage	*garbage;
+	t_garbage	*last_garbage;
 }	t_state;
+
 
 /* LIB */
 size_t	ft_strlen(const char *s);
@@ -135,7 +125,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strtrim(char const *s1, char const *set, t_state *s);
 char	*ft_substr(const char *s, unsigned int start, size_t len, t_state *st);
 char	*ft_strchr(const char *s, int c);
-char	**ft_quote_split(char *s, char c, t_state *state);
+char	**ft_quote_split(char *s, char *c, t_state *state);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_trim_quotes(char const *str, t_state *s, int n);
 void	ft_free_tab(char **tab);
@@ -168,15 +158,9 @@ void	ft_remove_char_by_index(char **str, int index, t_state *s);
 char	*ft_joinstr_index(char *s1, char *s2, int start_index, t_state *s);
 
 /* LEXER */
-int		ft_lexer_loop(t_lexer *l, t_state *s);
-char	*ft_current_str(t_lexer *l);
 int		ft_lexer(t_state *s);
-void	ft_free_tokens(t_token *token);
-int		ft_toggle_quote(t_lexer *l, char c);
-int		ft_take_it(t_lexer *l, t_state *s, int *i, int *j);
-int		ft_lexer_bychar_pipe(t_state *s, t_lexer *l, int *i, int *j);
-int		ft_lexer_bychar_iterate(t_state *s, t_lexer *l, int	*i, int	*j);
-void	ft_l_merge_tokens(t_token *start_token, t_state *s, int merge_type);
+int		ft_count_pipes(char *cmd);
+void	ft_remove_char_by_index(char **str, int index, t_state *s);
 
 /* SHELL */
 void	ft_start(t_state *s);
@@ -205,17 +189,18 @@ int		ft_env(t_state *s);
 
 /* HELPERS */
 char	*ft_get_env(char **env, char *key);
+void	ft_extend_str_by_index(char **str, int index, char c, t_state *s);
 
 /* TOKENS */
-void	ft_add_token(t_state *s, char *token, int type);
-void	ft_create_token(t_token **token, char *value, int type);
+void	ft_add_token(t_state *s, char *token, int type, int index);
+t_token *ft_create_token(char *value, int type);
 t_token	*ft_get_last_token(t_token *token);
-void	ft_remove_tokens(t_token **token, int (*f)(void *));
-void	ft_free_tokens(t_token *token);
+void	ft_remove_tokens(t_token ***token, int (*f)(void *));
+void	ft_free_tokens(t_token **token);
 
 /* DEBUG */
-void	ft_print_tokens(t_token *token);
-void	ft_signals(void);
+void	ft_print_tokens(t_token **token);
 void	ft_print_tab(char **tab);
+void	ft_signals(void);
 
 #endif

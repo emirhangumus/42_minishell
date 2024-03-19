@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:11:50 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/06 21:10:11 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/19 19:15:16 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,17 @@ void	ft_add_garbage(t_state *s, void *ptr)
 		s->garbage = new;
 	else
 	{
-		tmp = s->garbage;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
+		if (s->last_garbage)
+			s->last_garbage->next = new;
+		else
+		{
+			tmp = s->garbage;
+			while (tmp->next)
+				tmp = tmp->next;
+			tmp->next = new;
+		}
 	}
+	s->last_garbage = new;
 }
 
 void	ft_addarr_garbage(t_state *s, void **ptr)
@@ -54,11 +60,7 @@ void	ft_free_garbage(t_state *s)
 	{
 		tmp = s->garbage;
 		s->garbage = s->garbage->next;
-		if (tmp->ptr != NULL)
-		{
-			free(tmp->ptr);
-			tmp->ptr = NULL;
-			free(tmp);
-		}
+		free(tmp->ptr);
+		free(tmp);
 	}
 }

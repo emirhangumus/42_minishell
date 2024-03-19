@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:30:51 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/09 17:42:54 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/03 15:30:59 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int	ft_atoi(const char *str)
 	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || \
 		str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
 		i++;
-	if (str[i] != '-' && str[i] != '+' && !ft_isdigit(str[i]))
-		return (-1);
 	if (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i] == '-')

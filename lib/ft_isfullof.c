@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 16:23:05 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/03 16:23:17 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/19 16:54:21 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_isfullof(char *str, char c)
 	while (str[i])
 	{
 		if (str[i] != c)
-			return (0);
+			return (SUCCESS);
 		i++;
 	}
 	return (1);

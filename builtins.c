@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 02:43:20 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/12 14:06:14 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/19 19:12:39 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_is_builtin(char *value)
 		return (1);
 	if (ft_strcmp(value, "exit") == 0)
 		return (1);
-	return (0);
+	return (SUCCESS);
 }
 
 int	ft_execute_builtin(t_state *s, t_exec *exec)

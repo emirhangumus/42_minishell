@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:46:49 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/08 02:04:04 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/19 17:51:03 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ int	ft_is_empty(char *s)
 {
 	int	i;
 
-	if (!s)
-		return (1);
 	i = ft_strlen(s);
 	if (i == 0)
 		return (1);

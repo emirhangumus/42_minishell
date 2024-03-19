@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:05 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/12 15:37:41 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/19 19:14:08 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	ft_init_state(t_state *s)
 int	main(void)
 {
 	t_state	*s;
-	int	ret;
 
 	s = (t_state *)malloc(sizeof(t_state));
 	if (!s)
@@ -61,12 +60,11 @@ int	main(void)
 	if (ft_init_state(s))
 		return (free(s), 1);
 	ft_start(s);
-	ret = s->status;
 	ft_free_tab(s->env);
 	ft_free_garbage(s);
 	free(s->cwd);
 	free(s);
-	return (ret);
+	return (SUCCESS);
 }
 
 // __attribute__((destructor))

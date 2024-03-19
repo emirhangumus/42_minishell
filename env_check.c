@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 17:51:35 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/05 06:45:18 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/19 16:54:35 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_is_valid_env_name(char c)
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || \
 		(c >= '0' && c <= '9') || c == '_')
 		return (1);
-	return (0);
+	return (SUCCESS);
 }
 
 int	ft_cmd_add_env(t_token *t, t_state *s, int i)
