@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:29:10 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/19 17:42:44 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/19 21:05:04 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,25 @@ void ft_print_tab(char **tab)
 	while (tab[i])
 	{
 		printf("[%d]: %s\n", i, tab[i]);
+		i++;
+	}
+}
+
+void	ft_print_execs(t_exec **exec)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (exec[i])
+	{
+		j = 0;
+		printf("exec[%d]->cmd_path: %s\n", i, exec[i]->cmd_path);
+		while (exec[i]->cmd_args[j])
+		{
+			printf("exec[%d]->cmd_args[%d]: %s\n", i, j, exec[i]->cmd_args[j]);
+			j++;
+		}
 		i++;
 	}
 }

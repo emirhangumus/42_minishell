@@ -3,41 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:09:01 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/19 19:10:24 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/19 20:51:44 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_amount_cmd(t_token *tokens)
+int	ft_amount_cmd(t_token **tokens)
 {
-	int	amount;
+	int	i;
 
-	amount = 0;
-	while (tokens)
-	{
-		if (tokens->type == T_CMD)
-			amount++;
-		tokens = tokens->next;
-	}
-	return (amount);
+	i = 0;
+	while (tokens[i])
+		i++;
+	return (i);
 }
 
 int	ft_find_arg_amount(t_token *tokens)
 {
+	// echo adasd ad as 
 	int	amount;
 
 	amount = 0;
-	tokens = tokens->next;
 	while (tokens)
 	{
 		if (tokens->type == T_ARG)
 			amount++;
-		else
-			break ;
 		tokens = tokens->next;
 	}
 	return (amount);

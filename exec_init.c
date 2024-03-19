@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exec_init.c                                     :+:      :+:    :+:   */
+/*   exec_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/07 18:58:53 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/19 21:03:14 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,45 +22,76 @@ char	**ft_get_args(t_state *s, t_token *tokens)
 	arg_amount = ft_find_arg_amount(tokens);
 	args = malloc(sizeof(char *) * (arg_amount + 2));
 	ft_add_garbage(s, args);
-	args[0] = tokens->value;
-	tokens = tokens->next;
-	if (args == NULL)
-		return (NULL);
+	args[0] = "value";
 	args[arg_amount + 1] = NULL;
-	while (i <= arg_amount)
+	while (tokens)
 	{
-		args[i] = ft_strdup(tokens->value, s);
+		if (tokens->type == T_ARG)
+		{
+			args[i] = ft_strdup(tokens->value, s);
+			i++;
+		}
 		tokens = tokens->next;
-		i++;
 	}
 	return (args);
+	// args[0] = tokens->value;
+	// tokens = tokens->next;
+	// if (args == NULL)
+	// 	return (NULL);
+	// args[arg_amount + 1] = NULL;
+	// while (i <= arg_amount)
+	// {
+	// 	args[i] = ft_strdup(tokens->value, s);
+	// 	tokens = tokens->next;
+	// 	i++;
+	// }
+}
+// echo asdasdasd dasdasdas
+
+int	tab_len(t_token **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
 }
 
 int	ft_init_execs(t_state *s, t_exec **exec)
 {
-	int		j;
-	t_token	*tmp;
+	t_token		**tmp;
+	t_token		**tmp1;
+	int			i;
+	int			j;
 
-	j = -1;
+	j = 0;
+	i = 0;
 	tmp = s->tokens;
-	while (tmp)
+	tmp1 = s->tokens;
+	while (tmp[i])
 	{
-		if (tmp->type == T_CMD)
+		while (tmp[i])
 		{
-			exec[++j] = malloc(sizeof(t_exec));
-			ft_add_garbage(s, exec[j]);
-			if (exec[j] == NULL)
-				return (1);
-			if (ft_is_builtin(tmp->value))
-				exec[j]->type = CMD_BUILTIN;
-			else
-				exec[j]->type = CMD_PATH;
-			exec[j]->cmd_path = ft_get_cmd_path(tmp, s);
-			if (exec[j]->cmd_path == NULL && !(exec[j]->type == CMD_BUILTIN))
-				return (ERR_CMD_NOT_FOUND);
-			exec[j]->cmd_args = ft_get_args(s, tmp);
+			if (tmp[i]->type == T_CMD)
+			{
+				exec[j] = malloc(sizeof(t_exec));
+				ft_add_garbage(s, exec[j]);
+				if (!exec[j])
+					return (1);
+				if (ft_is_builtin(tmp[i]->value))
+					exec[j]->type = CMD_BUILTIN;
+				else
+					exec[j]->type = CMD_PATH;
+				exec[j]->cmd_path = ft_get_cmd_path(tmp[i], s);
+				if (exec[j]->cmd_path == NULL && !(exec[0]->type == CMD_BUILTIN))
+					return (ERR_CMD_NOT_FOUND);
+				exec[j]->cmd_args = ft_get_args(s, tmp1[i]);
+				j++;
+			}
+			tmp[i] = tmp[i]->next;
 		}
-		tmp = tmp->next;
+		i++;
 	}
 	return (0);
 }

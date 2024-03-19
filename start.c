@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:42:03 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/19 19:19:25 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/19 20:16:34 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void	ft_start(t_state *s)
 				s->tokens = NULL;
 				continue ;
 			}
-			ft_print_tokens(s->tokens);
+			ft_execuator(s);
+			// ft_print_tokens(s->tokens);
 			// if (s->tokens != NULL && ft_execuator(s))
 			// {
 			// 	printf("minishell: [duzenlenecek]: command not found\n");

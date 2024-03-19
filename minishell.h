@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/19 19:09:38 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/19 21:05:19 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ typedef struct s_exec
 {
 	char	*cmd_path;
 	char	**cmd_args;
+	int		out_type;
+	int		in_type;
 	int		type;
 }	t_exec;
 
@@ -167,7 +169,7 @@ void	ft_start(t_state *s);
 
 /* EXEC */
 int		ft_execuator(t_state *s);
-int		ft_amount_cmd(t_token *tokens);
+int		ft_amount_cmd(t_token **tokens);
 int		ft_find_arg_amount(t_token *tokens);
 char	*ft_get_cmd_path(t_token *start_token, t_state *s);
 void	close_pipes_all(int *pipes, int cmd_amount, int i);
@@ -202,5 +204,6 @@ void	ft_free_tokens(t_token **token);
 void	ft_print_tokens(t_token **token);
 void	ft_print_tab(char **tab);
 void	ft_signals(void);
+void	ft_print_execs(t_exec **exec);
 
 #endif

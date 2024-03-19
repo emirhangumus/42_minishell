@@ -24,7 +24,9 @@
 		"sstream": "c",
 		"ostream": "c"
 	},
+	"editor.fontSize": 12,
     "files.exclude": {
         "**/**.o": true,
     }
+
 }
