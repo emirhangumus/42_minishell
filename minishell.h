@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/19 22:21:16 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/19 23:07:35 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,11 @@ typedef struct s_exec
 	char	*cmd_path;
 	char	**cmd_args;
 	int		out_type;
+	char	*out_file;
+	char	*in_file;
 	int		in_type;
+	int		in_fd;
+	int		out_fd;
 	int		type;
 }	t_exec;
 
@@ -177,6 +181,8 @@ void	mother_close_pipes_all(int *pipes, int cmd_amount);
 char	**ft_get_args(t_state *s, t_token *tokens, char *cmd_name);
 int		ft_init_execs(t_state *s, t_exec **exec);
 void	ft_init_pipes(t_state *s, int cmd_amount);
+void	ft_dup_redictions(t_exec *exec);
+
 
 /* BUILTIN */
 int		ft_is_builtin(char *value);

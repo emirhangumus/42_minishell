@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:29:10 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/19 22:17:29 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/19 22:38:56 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	ft_print_execs(t_exec **exec)
 		printf("exec[%d]->in: %d\n", i, exec[i]->in_type);
 		printf("exec[%d]->out: %d\n", i, exec[i]->out_type);
 		printf("exec[%d]->type: %d\n", i, exec[i]->type);
+		printf("exec[%d]->in_file: %s\n", i, exec[i]->in_file);
+		printf("exec[%d]->out_file: %s\n", i, exec[i]->out_file);
 		while (exec[i]->cmd_args[j])
 		{
 			printf("exec[%d]->cmd_args[%d]: %s\n", i, j, exec[i]->cmd_args[j]);

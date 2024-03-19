@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/19 22:21:02 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/19 22:49:55 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,37 @@ T_RAPPEND = >>
 T_RREDIR = >
 */
 
-void	ft_init_redirections(t_token *tokens, t_exec *exec)
+void	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 {
+	int	i;
+
+	i = 0;
 	exec->in_type = 0;
 	exec->out_type = 0;
+	exec->in_file = NULL;
+	exec->out_file = NULL;
 	while (tokens)
 	{
 		if (tokens->type == T_LAPPEND)
+		{
 			exec->in_type = T_LAPPEND;
+			exec->in_file = ft_strdup(tokens->next->value, s);
+		}
 		else if (tokens->type == T_LREDIR)
+		{
 			exec->in_type = T_LREDIR;
+			exec->in_file = ft_strdup(tokens->next->value, s);
+		}
 		else if (tokens->type == T_RAPPEND)
+		{
 			exec->out_type = T_RAPPEND;
+			exec->out_file = ft_strdup(tokens->next->value, s);
+		}
 		else if (tokens->type == T_RREDIR)
+		{
 			exec->out_type = T_RREDIR;
+			exec->out_file = ft_strdup(tokens->next->value, s);
+		}
 		tokens = tokens->next;
 	}
 }
@@ -89,8 +106,8 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 				exec[j]->cmd_path = ft_get_cmd_path(tmp[i], s);
 				if (exec[j]->cmd_path == NULL && !(exec[0]->type == CMD_BUILTIN))
 					return (ERR_CMD_NOT_FOUND);
+				ft_init_redirections(tmp1[i], exec[j], s);
 				exec[j]->cmd_args = ft_get_args(s, tmp1[i], tmp[i]->value);
-				ft_init_redirections(tmp1[i], exec[j]);
 				j++;
 			}
 			tmp[i] = tmp[i]->next;
