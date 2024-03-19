@@ -6,38 +6,11 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/19 23:18:55 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/20 01:20:06 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	close_redir_fd(t_exec *exec)
-{
-	if (exec->in_fd)
-		close(exec->in_fd);
-	if (exec->out_fd)
-		close(exec->out_fd);
-}
-
-void	ft_dup_redictions(t_exec *exec)
-{
-	if (exec->in_file)
-	{
-		if (exec->in_type == T_LREDIR)
-			exec->in_fd = open(exec->in_file, O_RDONLY);
-		else if (exec->in_type == T_LAPPEND)
-			exec->in_fd = open(exec->in_file, O_RDONLY);
-	}
-	if (exec->out_file)
-	{
-		if (exec->out_type == T_RREDIR)
-			exec->out_fd = open(exec->out_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else if (exec->out_type == T_RAPPEND)
-			exec->out_fd = open(exec->out_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		dup2(exec->out_fd, 1);
-	}
-}
 
 void	exec_one_command(t_state *s, t_exec **exec)
 {
@@ -52,6 +25,7 @@ void	exec_one_command(t_state *s, t_exec **exec)
 	{
 		if (exec[0]->in_type || exec[0]->out_type)
 			ft_dup_redictions(exec[0]);
+		close_redir_fd(exec[0]);
 		execve(exec[0]->cmd_path, exec[0]->cmd_args, s->env);
 	}
 	waitpid(s->forks[0], (int *)&s->status, 0);
@@ -139,3 +113,10 @@ int	ft_execuator(t_state *s)
 	ft_lets_go(s, exec, cmd_amount);
 	return (0);
 }
+
+/*
+T_APPEND = <<
+T_LREDIR = <
+T_RAPPEND = >>
+T_RREDIR = >
+*/

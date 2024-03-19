@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/19 23:07:35 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/20 01:04:14 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,8 @@ char	**ft_get_args(t_state *s, t_token *tokens, char *cmd_name);
 int		ft_init_execs(t_state *s, t_exec **exec);
 void	ft_init_pipes(t_state *s, int cmd_amount);
 void	ft_dup_redictions(t_exec *exec);
+int		ft_is_redirection(t_token *token);
+void	close_redir_fd(t_exec *exec);
 
 
 /* BUILTIN */
@@ -205,6 +207,7 @@ t_token *ft_create_token(char *value, int type);
 t_token	*ft_get_last_token(t_token *token);
 void	ft_remove_tokens(t_token ***token, int (*f)(void *));
 void	ft_free_tokens(t_token **token);
+void	ft_init_prev_tokens(t_token **tokens);
 
 /* DEBUG */
 void	ft_print_tokens(t_token **token);

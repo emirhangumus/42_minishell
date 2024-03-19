@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:09:01 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/19 21:15:01 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/20 01:05:39 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,18 @@ int	ft_amount_cmd(t_token **tokens)
 int	ft_find_arg_amount(t_token *tokens)
 {
 	int	amount;
+	int	i;
 
+	i = 0;
 	amount = 0;
 	while (tokens)
 	{
-		if (tokens->type == T_ARG)
+		if (i == 0 && tokens->type == T_ARG)
+			amount++;
+		if (i != 0 && tokens->type == T_ARG && !ft_is_redirection(tokens->prev))
 			amount++;
 		tokens = tokens->next;
+		i++;
 	}
 	return (amount);
 }

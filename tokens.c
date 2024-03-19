@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:28:31 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/19 18:09:01 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/20 00:48:29 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,24 @@ void	ft_free_tokens(t_token **token)
 		i++;
 	}
 	free(token);
+}
+
+void	ft_init_prev_tokens(t_token **tokens)
+{
+	t_token	**tmp;
+	t_token	*next;
+	int		i;
+
+	tmp = tokens;
+	i = 0;
+	while (tmp[i])
+	{
+		next = tmp[i];
+		while (next->next)
+		{
+			next->next->prev = next;
+			next = next->next;
+		}
+		i++;
+	}
 }

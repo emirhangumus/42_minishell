@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/19 22:49:55 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/20 01:11:19 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	**ft_get_args(t_state *s, t_token *tokens, char *cmd_name)
 	args[arg_amount + 1] = NULL;
 	while (tokens)
 	{
-		if (tokens->type == T_ARG)
+		if (tokens->type == T_ARG && !ft_is_redirection(tokens->prev))
 		{
 			args[i] = ft_strdup(tokens->value, s);
 			i++;
@@ -36,12 +36,6 @@ char	**ft_get_args(t_state *s, t_token *tokens, char *cmd_name)
 	return (args);
 }
 
-/*
-T_APPEND = <<
-T_LREDIR = <
-T_RAPPEND = >>
-T_RREDIR = >
-*/
 
 void	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 {
@@ -54,25 +48,18 @@ void	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 	exec->out_file = NULL;
 	while (tokens)
 	{
-		if (tokens->type == T_LAPPEND)
+		if (ft_is_redirection(tokens))
 		{
-			exec->in_type = T_LAPPEND;
-			exec->in_file = ft_strdup(tokens->next->value, s);
-		}
-		else if (tokens->type == T_LREDIR)
-		{
-			exec->in_type = T_LREDIR;
-			exec->in_file = ft_strdup(tokens->next->value, s);
-		}
-		else if (tokens->type == T_RAPPEND)
-		{
-			exec->out_type = T_RAPPEND;
-			exec->out_file = ft_strdup(tokens->next->value, s);
-		}
-		else if (tokens->type == T_RREDIR)
-		{
-			exec->out_type = T_RREDIR;
-			exec->out_file = ft_strdup(tokens->next->value, s);
+			if (tokens->type == T_LREDIR || tokens->type == T_LAPPEND)
+			{
+				exec->in_type = tokens->type;
+				exec->in_file = ft_strdup(tokens->next->value, s);
+			}
+			else if (tokens->type == T_RREDIR || tokens->type == T_RAPPEND)
+			{
+				exec->out_type = tokens->type;
+				exec->out_file = ft_strdup(tokens->next->value, s);
+			}
 		}
 		tokens = tokens->next;
 	}
