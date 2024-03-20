@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 10:25:01 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/20 10:31:31 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/20 12:04:41 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	ft_write_error(char *cmd, char *error)
 {
-	write(2, "minishell: ", 11);
-	write(2, cmd, ft_strlen(cmd));
-	write(2, ": ", 2);
-	write(2, error, ft_strlen(error));
-	write(2, "\n", 1);
+	write(STDERR_FILENO, "minishell: ", 11);
+	write(STDERR_FILENO, cmd, ft_strlen(cmd));
+	write(STDERR_FILENO, ": ", 2);
+	write(STDERR_FILENO, error, ft_strlen(error));
+	write(STDERR_FILENO, "\n", 1);
 }

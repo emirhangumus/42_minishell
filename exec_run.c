@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:04:11 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/20 11:05:16 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/20 12:23:43 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,18 +76,36 @@ void	ft_run_redirects(t_state *s, t_exec **exec, int cmd_amount, int i)
 {
 	if (i == 0)
 	{
+		ft_init_dupes(exec[i], s->pipes, cmd_amount, i);
+		if (exec[i]->type == CMD_BUILTIN)
+		{
+			s->status = ft_execute_builtin(s, exec[i]);
+			exit(s->status);
+		}
 		ft_dup_redictions(exec[i]);
 		close_redir_pipe_fd(exec[i], s->pipes, cmd_amount, i);
 		execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
 	}
 	else if (i == cmd_amount - 1)
 	{
+		ft_init_dupes(exec[i], s->pipes, cmd_amount, i);
+		if (exec[i]->type == CMD_BUILTIN)
+		{
+			s->status = ft_execute_builtin(s, exec[i]);
+			exit(s->status);
+		}
 		ft_dup_redictions(exec[i]);
 		close_redir_pipe_fd(exec[i], s->pipes, cmd_amount, i);
 		execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
 	}
 	else
 	{
+		ft_init_dupes(exec[i], s->pipes, cmd_amount, i);
+		if (exec[i]->type == CMD_BUILTIN)
+		{
+			s->status = ft_execute_builtin(s, exec[i]);
+			exit(s->status);
+		}
 		ft_dup_redictions(exec[i]);
 		close_redir_pipe_fd(exec[i], s->pipes, cmd_amount, i);
 		execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);

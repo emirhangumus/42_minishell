@@ -6,11 +6,53 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 01:02:10 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/20 10:58:47 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/20 12:02:57 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_init_dupes(t_exec *exec, int *pipes, int cmd_amount, int i)
+{
+	if (i == 0)
+	{
+		if (exec->in_file && exec->out_file)
+			mother_close_pipes_all(pipes, cmd_amount);
+		else if (exec->in_file)
+		{
+			dup2(pipes[i * 2 + 1], 1);
+			close_pipes_all(pipes, cmd_amount, i);
+		}
+		else if (exec->out_fd)
+		{
+			close_pipes_all(pipes, cmd_amount, i);
+		}
+	}
+	else if (i == cmd_amount - 1)
+	{
+		if (exec->in_file && exec->out_fd)
+			mother_close_pipes_all(pipes, cmd_amount);
+		else if (exec->in_file)
+			mother_close_pipes_all(pipes, cmd_amount);
+		else if (exec->out_fd)
+			mother_close_pipes_all(pipes, cmd_amount);
+	}
+	else
+	{
+		if (exec->in_file && exec->out_fd)
+			mother_close_pipes_all(pipes, cmd_amount);
+		else if (exec->in_file)
+		{
+			dup2(pipes[i * 2 + 1], 1);
+			close_pipes_all(pipes, cmd_amount, i);
+		}
+		else if (exec->out_fd)
+		{
+			dup2(pipes[(i - 1) * 2], 0);
+			close_pipes_all(pipes, cmd_amount, i);
+		}
+	}
+}
 
 int	close_redir_pipe_fd(t_exec *exec, int *pipes, int cmd_amount, int i)
 {

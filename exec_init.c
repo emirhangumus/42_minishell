@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/20 11:00:24 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/20 11:23:02 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,6 @@ static char	**ft_get_args(t_state *s, t_token *tokens, char *cmd_name)
 
 static void	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 {
-	int	i;
-
-	i = 0;
 	exec->in_type = 0;
 	exec->out_type = 0;
 	exec->in_file = NULL;
