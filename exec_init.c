@@ -6,13 +6,13 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/20 01:11:19 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/20 11:00:24 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**ft_get_args(t_state *s, t_token *tokens, char *cmd_name)
+static char	**ft_get_args(t_state *s, t_token *tokens, char *cmd_name)
 {
 	char	**args;
 	int		i;
@@ -36,8 +36,7 @@ char	**ft_get_args(t_state *s, t_token *tokens, char *cmd_name)
 	return (args);
 }
 
-
-void	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
+static void	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 {
 	int	i;
 
@@ -65,6 +64,23 @@ void	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 	}
 }
 
+static int	get_all_cmd(t_exec *exec, t_state *s, t_token *tmp, t_token *tmp1)
+{
+	ft_add_garbage(s, exec);
+	if (!exec)
+		return (1);
+	if (ft_is_builtin(tmp->value))
+		exec->type = CMD_BUILTIN;
+	else
+		exec->type = CMD_PATH;
+	exec->cmd_path = ft_get_cmd_path(tmp, s);
+	if (exec->cmd_path == NULL && !(exec->type == CMD_BUILTIN))
+		return (ERR_CMD_NOT_FOUND);
+	ft_init_redirections(tmp1, exec, s);
+	exec->cmd_args = ft_get_args(s, tmp1, tmp->value);
+	return (0);
+}
+
 int	ft_init_execs(t_state *s, t_exec **exec)
 {
 	t_token		**tmp;
@@ -72,34 +88,22 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 	int			i;
 	int			j;
 
-	j = 0;
-	i = 0;
+	j = -1;
+	i = -1;
 	tmp = s->tokens;
 	tmp1 = s->tokens;
-	while (tmp[i])
+	while (tmp[++i])
 	{
 		while (tmp[i])
 		{
 			if (tmp[i]->type == T_CMD)
 			{
-				exec[j] = malloc(sizeof(t_exec));
-				ft_add_garbage(s, exec[j]);
-				if (!exec[j])
+				exec[++j] = malloc(sizeof(t_exec));
+				if (get_all_cmd(exec[j], s, tmp[i], tmp1[i]))
 					return (1);
-				if (ft_is_builtin(tmp[i]->value))
-					exec[j]->type = CMD_BUILTIN;
-				else
-					exec[j]->type = CMD_PATH;
-				exec[j]->cmd_path = ft_get_cmd_path(tmp[i], s);
-				if (exec[j]->cmd_path == NULL && !(exec[0]->type == CMD_BUILTIN))
-					return (ERR_CMD_NOT_FOUND);
-				ft_init_redirections(tmp1[i], exec[j], s);
-				exec[j]->cmd_args = ft_get_args(s, tmp1[i], tmp[i]->value);
-				j++;
 			}
 			tmp[i] = tmp[i]->next;
 		}
-		i++;
 	}
 	return (0);
 }

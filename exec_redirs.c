@@ -6,75 +6,42 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 01:02:10 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/20 10:35:02 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/20 10:58:47 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	close_redir_pipe_fd(t_exec *exec, int *pipes, int cmd_amount, int i)
+int	close_redir_pipe_fd(t_exec *exec, int *pipes, int cmd_amount, int i)
 {
 	if (i == 0)
 	{	
 		if (exec->in_file && exec->out_fd)
-		{
-			mother_close_pipes_all(pipes, cmd_amount);
-			return ;
-		}
+			return (mother_close_pipes_all(pipes, cmd_amount), 1);
 		else if (exec->in_file)
-		{
-			close_pipes_all(pipes, cmd_amount, i);
-			return ;
-		}
+			return (close_pipes_all(pipes, cmd_amount, i), 1);
 		else if (exec->out_fd)
-		{
-			close_pipes_all(pipes, cmd_amount, i);
-			close(pipes[i * 2 + 1]);
-			return ;
-		}
+			return (close_pipes_all(pipes, cmd_amount, i), close(pipes[i * 2 + 1]), 1);
 	}
 	else if (i == cmd_amount - 1)
 	{
 		if (exec->in_file && exec->out_fd)
-		{
-			close_pipes_all(pipes, cmd_amount, i);
-			close(pipes[(i - 1) * 2]);
-			return ;
-		}
+			return (close_pipes_all(pipes, cmd_amount, i), close(pipes[(i - 1) * 2]), 1);
 		else if (exec->in_file)
-		{
-			close_pipes_all(pipes, cmd_amount, i);
-			close(pipes[(i - 1) * 2]);
-			return ;
-		}
+			return (close_pipes_all(pipes, cmd_amount, i), close(pipes[(i - 1) * 2]), 1);
 		else if (exec->out_fd)
-		{
-			close_pipes_all(pipes, cmd_amount, i);
-			close(pipes[(i - 1) * 2]);
-			return ;
-		}
+			return (close_pipes_all(pipes, cmd_amount, i), close(pipes[(i - 1) * 2]), 1);
 	}
 	else
 	{
 		if (exec->in_file && exec->out_fd)
-		{
-			close_pipes_all(pipes, cmd_amount, i);
-			return ;
-		}
+			return (close_pipes_all(pipes, cmd_amount, i), 1);
 		else if (exec->in_file)
-		{
-			close_pipes_all(pipes, cmd_amount, i);
-			close(pipes[(i - 1) * 2]);
-			return ;
-		}
+			return (close_pipes_all(pipes, cmd_amount, i), close(pipes[(i - 1) * 2]), 1);
 		else if (exec->out_fd)
-		{
-			close_pipes_all(pipes, cmd_amount, i);
-			close(pipes[i * 2 + 1]);
-			return ;
-		}
-	
+			return (close_pipes_all(pipes, cmd_amount, i), close(pipes[i * 2 + 1]), 1);
 	}
+	return (0);
 }
 
 int	close_redir_fd(t_exec *exec, int fd)
