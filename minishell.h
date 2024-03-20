@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/20 09:55:51 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/20 10:31:35 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
 int		ft_isfullof(char *str, char c);
 char	*ft_itoa(int n, t_state *s);
+void	ft_write_error(char *cmd, char *error);
 
 /* SIGNALS */
 void	ft_sigint(int sig);
@@ -181,9 +182,9 @@ void	mother_close_pipes_all(int *pipes, int cmd_amount);
 char	**ft_get_args(t_state *s, t_token *tokens, char *cmd_name);
 int		ft_init_execs(t_state *s, t_exec **exec);
 void	ft_init_pipes(t_state *s, int cmd_amount);
-void	ft_dup_redictions(t_exec *exec);
+int		ft_dup_redictions(t_exec *exec);
 int		ft_is_redirection(t_token *token);
-int	close_redir_fd(t_exec *exec, int fd);
+int		close_redir_fd(t_exec *exec, int fd);
 void	close_redir_pipe_fd(t_exec *exec, int *pipes, int cmd_amount, int i);
 
 /* BUILTIN */

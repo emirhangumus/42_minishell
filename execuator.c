@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/20 09:58:58 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/20 10:35:20 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 void	exec_one_command(t_state *s, t_exec **exec)
 {
 	int	fd;
+	
 	if (exec[0]->type == CMD_BUILTIN)
 	{
-		fd = dup(1);	
+		fd = dup(1);
 		s->status = ft_execute_builtin(s, exec[0]);
 		close_redir_fd(exec[0], fd);
 		return ;

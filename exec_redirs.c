@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 01:02:10 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/20 09:55:33 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/20 10:35:02 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,14 @@ int	close_redir_fd(t_exec *exec, int fd)
 		close(exec->in_fd);
 	if (exec->out_fd)
 		close(exec->out_fd);
-	dup2(fd, 1);
+	if (exec->type == CMD_BUILTIN)
+		dup2(fd, 1);
+	if (exec->type == CMD_BUILTIN)
+		close(fd);
 	return (0);
 }
 
-void	ft_dup_redictions(t_exec *exec)
+int	ft_dup_redictions(t_exec *exec)
 {
 	if (exec->in_file)
 	{
@@ -95,6 +98,14 @@ void	ft_dup_redictions(t_exec *exec)
 			exec->in_fd = open(exec->in_file, O_RDONLY);
 		else if (exec->in_type == T_LAPPEND)
 			exec->in_fd = open(exec->in_file, O_RDONLY);
+		if (exec->in_fd == -1)
+		{
+			ft_write_error(exec->in_file, "No such file or directory");
+			if (exec->type == CMD_PATH)
+				exit(1);
+			else
+				return (1);
+		}
 		dup2(exec->in_fd, 0);
 	}
 	if (exec->out_file)
@@ -103,8 +114,17 @@ void	ft_dup_redictions(t_exec *exec)
 			exec->out_fd = open(exec->out_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else if (exec->out_type == T_RAPPEND)
 			exec->out_fd = open(exec->out_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (exec->out_fd == -1)
+		{
+			ft_write_error(exec->out_file, "No such file or directory");
+			if (exec->type == CMD_PATH)
+				exit(1);
+			else
+				return (1);
+		}
 		dup2(exec->out_fd, 1);
 	}
+	return (0);
 }
 
 int	ft_is_redirection(t_token *token)

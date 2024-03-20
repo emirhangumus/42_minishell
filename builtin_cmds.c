@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:00:37 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/09 17:45:51 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/20 10:32:14 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,11 @@ int	ft_exit(t_exec *exec, t_state *s)
 	(void)s;
 	cmd_args_amount = ft_arr_len(exec->cmd_args);
 	if (cmd_args_amount > 2)
-	{
-		printf("exit\n");
-		printf("minishell: exit: too many arguments\n");
-		return (1);
-	}
+		return (ft_write_error("exit", "too many arguments"), 1);
 	exit_code = ft_atoi(exec->cmd_args[1]);
 	if (exit_code == 255)
 	{
-		printf("exit\n");
-		printf("minishell: exit: %s: numeric argument required\n", \
-			exec->cmd_args[1]);
+		ft_write_error("exit", "numeric argument required");
 		exit(255);
 	}
 	exit(exit_code);
