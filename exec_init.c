@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/20 11:23:02 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/20 13:52:21 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 	t_token		**tmp1;
 	int			i;
 	int			j;
+	int			err_amount;
 
+	err_amount = 0;
 	j = -1;
 	i = -1;
 	tmp = s->tokens;
@@ -97,11 +99,16 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 			{
 				exec[++j] = malloc(sizeof(t_exec));
 				if (get_all_cmd(exec[j], s, tmp[i], tmp1[i]))
-					return (1);
+				{
+					ft_write_error(tmp[i]->value, "command not found");
+					err_amount++;		
+				}
 			}
 			tmp[i] = tmp[i]->next;
 		}
 	}
+	if (err_amount)
+		return (ERR_CMD_NOT_FOUND);
 	return (0);
 }
 
