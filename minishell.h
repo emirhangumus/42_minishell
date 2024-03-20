@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/20 01:04:14 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/20 09:55:51 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,8 +183,8 @@ int		ft_init_execs(t_state *s, t_exec **exec);
 void	ft_init_pipes(t_state *s, int cmd_amount);
 void	ft_dup_redictions(t_exec *exec);
 int		ft_is_redirection(t_token *token);
-void	close_redir_fd(t_exec *exec);
-
+int	close_redir_fd(t_exec *exec, int fd);
+void	close_redir_pipe_fd(t_exec *exec, int *pipes, int cmd_amount, int i);
 
 /* BUILTIN */
 int		ft_is_builtin(char *value);

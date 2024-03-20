@@ -6,18 +6,85 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 01:02:10 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/20 01:06:40 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/20 09:55:33 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	close_redir_fd(t_exec *exec)
+void	close_redir_pipe_fd(t_exec *exec, int *pipes, int cmd_amount, int i)
+{
+	if (i == 0)
+	{	
+		if (exec->in_file && exec->out_fd)
+		{
+			mother_close_pipes_all(pipes, cmd_amount);
+			return ;
+		}
+		else if (exec->in_file)
+		{
+			close_pipes_all(pipes, cmd_amount, i);
+			return ;
+		}
+		else if (exec->out_fd)
+		{
+			close_pipes_all(pipes, cmd_amount, i);
+			close(pipes[i * 2 + 1]);
+			return ;
+		}
+	}
+	else if (i == cmd_amount - 1)
+	{
+		if (exec->in_file && exec->out_fd)
+		{
+			close_pipes_all(pipes, cmd_amount, i);
+			close(pipes[(i - 1) * 2]);
+			return ;
+		}
+		else if (exec->in_file)
+		{
+			close_pipes_all(pipes, cmd_amount, i);
+			close(pipes[(i - 1) * 2]);
+			return ;
+		}
+		else if (exec->out_fd)
+		{
+			close_pipes_all(pipes, cmd_amount, i);
+			close(pipes[(i - 1) * 2]);
+			return ;
+		}
+	}
+	else
+	{
+		if (exec->in_file && exec->out_fd)
+		{
+			close_pipes_all(pipes, cmd_amount, i);
+			return ;
+		}
+		else if (exec->in_file)
+		{
+			close_pipes_all(pipes, cmd_amount, i);
+			close(pipes[(i - 1) * 2]);
+			return ;
+		}
+		else if (exec->out_fd)
+		{
+			close_pipes_all(pipes, cmd_amount, i);
+			close(pipes[i * 2 + 1]);
+			return ;
+		}
+	
+	}
+}
+
+int	close_redir_fd(t_exec *exec, int fd)
 {
 	if (exec->in_fd)
 		close(exec->in_fd);
 	if (exec->out_fd)
 		close(exec->out_fd);
+	dup2(fd, 1);
+	return (0);
 }
 
 void	ft_dup_redictions(t_exec *exec)
