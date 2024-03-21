@@ -57,8 +57,10 @@ int	ft_execuator(t_state *s)
 	exec[cmd_amount] = NULL;
 	err_no = ft_init_execs(s, exec);
 	if (err_no)
+	{
+		s->status = err_no;
 		return (err_no);
-	ft_print_execs(exec);
+	}
 	ft_init_pipes(s, cmd_amount);
 	ft_lets_go(s, exec, cmd_amount);
 	return (0);

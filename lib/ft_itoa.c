@@ -50,6 +50,6 @@ char	*ft_itoa(int n, t_state *s)
 		n /= 10;
 	}
 	if (s)
-		ft_add_garbage((void *)str, s);
+		ft_add_garbage(s, (void *)str);
 	return (str);
 }

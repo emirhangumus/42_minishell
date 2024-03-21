@@ -57,9 +57,10 @@
 # define COLOR_RESET "\x1b[0m"
 
 # define ERR_CMD_NOT_FOUND 127
-# define ERR_PIPE_INIT 120
-# define ERR_NO_FILE_DIR 126
-# define ERR_UNEXPECTED_TOKEN 1
+# define ERR_PIPE_INIT 126
+# define ERR_EMPTY_COMMAND 1
+# define ERR_UNEXPECTED_TOKEN 2
+# define ERR_MALLOC 3
 # define SUCCESS 0
 
 typedef struct s_token
@@ -211,9 +212,12 @@ void	ft_extend_str_by_index(char **str, int index, char c, t_state *s);
 void	ft_add_token(t_state *s, char *token, int type, int index);
 t_token *ft_create_token(char *value, int type);
 t_token	*ft_get_last_token(t_token *token);
-void	ft_remove_tokens(t_token ***token, int (*f)(void *));
+int		ft_remove_tokens(t_token ***token, int (*f)(void *));
 void	ft_free_tokens(t_token **token);
 void	ft_init_prev_tokens(t_token **tokens);
+
+/* ERROR */
+void	ft_error(int err, char *str, int throw_exit);
 
 /* DEBUG */
 void	ft_print_tokens(t_token **token);

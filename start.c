@@ -59,19 +59,20 @@ void	ft_start(t_state *s)
 			add_history(s->cmd);
 			ft_init_tokens(s);
 			err = ft_lexer(s);
-			if (err != 0)
+			if (err)
 			{
+				printf("error: %d\n", err);
 				ft_free_tokens(s->tokens);
 				s->tokens = NULL;
+				ft_error(err, NULL, 0);
 				continue ;
 			}
 			ft_init_prev_tokens(s->tokens);
-			ft_execuator(s);
 			// ft_print_tokens(s->tokens);
-			// if (s->tokens != NULL && ft_execuator(s))
-			// {
-			// 	printf("minishell: [duzenlenecek]: command not found\n");
-			// }
+			if (s->tokens != NULL && ft_execuator(s))
+			{
+				// ft_error(s->status, NULL, 0);
+			}
 			ft_free_tokens(s->tokens);
 			s->tokens = NULL;
 		}

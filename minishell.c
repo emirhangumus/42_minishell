@@ -53,6 +53,7 @@ int	ft_init_state(t_state *s)
 int	main(void)
 {
 	t_state	*s;
+	int		exit_status;
 
 	s = (t_state *)malloc(sizeof(t_state));
 	if (!s)
@@ -63,8 +64,9 @@ int	main(void)
 	ft_free_tab(s->env);
 	ft_free_garbage(s);
 	free(s->cwd);
+	exit_status = s->status;
 	free(s);
-	return (SUCCESS);
+	return (exit_status);
 }
 
 // __attribute__((destructor))

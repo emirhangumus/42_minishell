@@ -22,7 +22,8 @@
 		"readline.h": "c",
 		"history.h": "c",
 		"sstream": "c",
-		"ostream": "c"
+		"ostream": "c",
+		"cstdlib": "c"
 	},
 	"editor.fontSize": 12,
     "files.exclude": {
