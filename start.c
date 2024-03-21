@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:42:03 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/20 14:08:10 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/22 01:47:57 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	ft_start(t_state *s)
 		s->cmd = readline(ft_get_prompt_text(s));
 		if (!s->cmd)
 		{
-			write(1, "\033[2Dexit\n", 8);
+			write(1, "\033[2Dexit\n", 9);
 			ft_free_tokens(s->tokens);
 			break;
 		}

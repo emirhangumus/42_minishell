@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:05 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/19 19:14:08 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/22 02:04:12 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ int	ft_init_state(t_state *s)
 	s->env = ft_init_env();
 	s->cmd = NULL;
 	s->tokens = NULL;
-	s->cwd = (char *)malloc(1024);
-	getcwd(s->cwd, 1024);
+	s->cwd = getcwd(NULL, 0);
 	s->status = 0;
+	s->exit_status = NULL;
 	return (0);
 }
 
@@ -63,7 +63,6 @@ int	main(void)
 	ft_start(s);
 	ft_free_tab(s->env);
 	ft_free_garbage(s);
-	free(s->cwd);
 	exit_status = s->status;
 	free(s);
 	return (exit_status);

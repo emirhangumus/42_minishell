@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/20 13:45:50 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/22 02:04:00 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 
 // linux
 # include <sys/wait.h>
+
+# define SYS_EXIT 42
 
 # define T_CMD 1
 # define T_ARG 2
@@ -118,6 +120,7 @@ typedef struct s_state
 	int				fd;
 	int				*pipes;
 	int				*forks;
+	int				*exit_status;
 	t_token			**tokens;
 	t_garbage		*garbage;
 	t_garbage		*last_garbage;
