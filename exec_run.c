@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:04:11 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/20 13:37:28 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/22 14:53:33 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	exec_one_command(t_state *s, t_exec **exec)
 		execve(exec[0]->cmd_path, exec[0]->cmd_args, s->env);
 	}
 	waitpid(s->forks[0], (int *)&s->status, 0);
+
 }
 
 void	ft_run_commands(t_state *s, t_exec **exec, int cmd_amount, int i)

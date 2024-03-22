@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 01:02:10 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/20 13:30:02 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/22 14:50:40 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,26 @@ void	ft_init_dupes(t_exec *exec, int *pipes, int cmd_amount, int i)
 	}
 	else if (i == cmd_amount - 1)
 	{
-		if (exec->in_file && exec->out_fd)
+		if (exec->in_file && exec->out_file)
 			mother_close_pipes_all(pipes, cmd_amount);
 		else if (exec->in_file)
 			mother_close_pipes_all(pipes, cmd_amount);
-		else if (exec->out_fd)
-			mother_close_pipes_all(pipes, cmd_amount);
+		else if (exec->out_file)
+		{
+			dup2(pipes[(i - 1) * 2], 0);
+			close_pipes_all(pipes, cmd_amount, i);
+		}
 	}
 	else
 	{
-		if (exec->in_file && exec->out_fd)
+		if (exec->in_file && exec->out_file)
 			mother_close_pipes_all(pipes, cmd_amount);
 		else if (exec->in_file)
 		{
 			dup2(pipes[i * 2 + 1], 1);
 			close_pipes_all(pipes, cmd_amount, i);
 		}
-		else if (exec->out_fd)
+		else if (exec->out_file)
 		{
 			dup2(pipes[(i - 1) * 2], 0);
 			close_pipes_all(pipes, cmd_amount, i);

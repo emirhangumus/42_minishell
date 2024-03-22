@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:42:03 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/22 01:47:57 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/22 14:54:48 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	ft_start(t_state *s)
 			err = ft_lexer(s);
 			if (err)
 			{
-				printf("error: %d\n", err);
 				ft_free_tokens(s->tokens);
 				s->tokens = NULL;
 				ft_error(err, NULL, 0);

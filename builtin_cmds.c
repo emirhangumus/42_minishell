@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cmds.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:00:37 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/22 02:05:24 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/22 13:36:07 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,18 +81,25 @@ int	ft_exit(t_exec *exec, t_state *s)
 	cmd_args_amount = ft_arr_len(exec->cmd_args);
 	printf("exit\n");
 	if (cmd_args_amount > 2)
+	{
 		ft_write_error("exit", "too many arguments");
-	if (exec->cmd_args[1])
-		exit_code = ft_atoi(exec->cmd_args[1]);
+		exit_code = 255;
+	}
 	else
-		exit_code = 0;
-	if (ft_isallnum(exec->cmd_args[1]) == 0)
+	{
+		if (exec->cmd_args[1])
+			exit_code = ft_atoi(exec->cmd_args[1]);
+		else
+			exit_code = 0;
+	}
+	if (exec->cmd_args[1] && ft_isallnum(exec->cmd_args[1]) == 0)
 	{
 		ft_write_error("exit", "numeric argument required");
-		exit(255);
+		exit_code = 255;
 	}
 	s->exit_status = &exit_code;
-	return (SYS_EXIT);
+	exit(exit_code);
+	return (0);
 }
 
 int	ft_cd(t_exec *exec, t_state *s)

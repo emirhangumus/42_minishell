@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/20 14:02:46 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/22 14:53:18 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int	ft_execuator(t_state *s)
 	int		err_no;
 
 	cmd_amount = ft_amount_cmd(s->tokens);
+	if (cmd_amount == 0)
+		return (0);
 	exec = malloc(sizeof(t_exec *) * (cmd_amount + 1));
 	ft_add_garbage(s, exec);
 	exec[cmd_amount] = NULL;
