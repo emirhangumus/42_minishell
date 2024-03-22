@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:05 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/22 14:19:01 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/22 15:31:46 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	main(void)
 	if (ft_init_state(s))
 		return (free(s), 1);
 	ft_start(s);
-	ft_free_tab(s->env);
 	ft_free_garbage(s);
 	exit_status = s->status;
 	free(s);

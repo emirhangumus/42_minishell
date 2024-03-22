@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:35:23 by egumus            #+#    #+#             */
-/*   Updated: 2024/02/21 02:44:15 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/22 15:29:22 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char	*ft_substr(const char *s, unsigned int start, size_t len, t_state *st)
 		count++;
 	}
 	tab[count] = '\0';
-	ft_add_garbage(st, tab);
+	if (st)
+		ft_add_garbage(st, tab);
 	return (tab);
 }

@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:00:46 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/20 09:56:08 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/22 15:33:29 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,6 @@ char	**ft_add_env(char **env, char *key, char *value, t_state *s)
 	new_envp[i + 1] = NULL;
 	ft_free_tab(env);
 	return (new_envp);
-}
-
-int	ft_env_key_cmp(const char *s1, const char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	if (s1[i] == '=' && s2[i] == '\0')
-		return (0);
-	return (1);
 }
 
 int	ft_export(t_exec *exec, t_state *s)

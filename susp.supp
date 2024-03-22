@@ -1,0 +1,34 @@
+# Valgrind'a, readline ile ilgili belirli sızıntıları görmezden gelmesini söyle
+{
+    leak_check=no
+    suppressions
+
+    # readline'ın malloc ettiği bellek sızıntıları
+    Memcheck:leak
+        startsWith("malloc:")
+        obj.malloc_fn = {valgrind_free}
+
+    # readline'ın realloc ettiği bellek sızıntıları
+    Memcheck:leak
+        startsWith("realloc:")
+        obj.realloc_fn = {valgrind_realloc}
+
+    # readline'ın calloc ettiği bellek sızıntıları
+    Memcheck:leak
+        startsWith("calloc:")
+        obj.calloc_fn = {valgrind_calloc}
+
+    # readline'ın free ettiği bellek için yanlış free
+    Memcheck:free_ptr_out_of_bounds
+        startsWith("free:")
+
+    # readline'ın realloc ettiği bellek için yanlış free
+    Memcheck:free_ptr_out_of_bounds
+        startsWith("realloc:")
+
+    # Valgrind'ın bilmediği bellek türleri için sızıntılar
+    Memcheck:leak
+        startsWith("???")
+
+    ends
+}

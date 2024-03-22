@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:42:03 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/22 14:54:48 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/22 18:48:49 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 char	*ft_get_prompt_text(t_state *s)
 {
+	return (ft_strjoin(COLOR_GREEN"MINISHELL"COLOR_RESET":"COLOR_BLUE, \
+		ft_strjoin(s->cwd, COLOR_RESET"$ ", s), s));
 	if (s->status == 0)
 		return (ft_strjoin(COLOR_GREEN"MINISHELL"COLOR_RESET":"COLOR_BLUE, \
 		ft_strjoin(s->cwd, COLOR_RESET"$ ", s), s));
@@ -50,9 +52,8 @@ void	ft_start(t_state *s)
 		s->cmd = readline(ft_get_prompt_text(s));
 		if (!s->cmd)
 		{
-			write(1, "\033[2Dexit\n", 9);
 			ft_free_tokens(s->tokens);
-			break;
+			exit(0);
 		}
 		if (ft_strlen(s->cmd) > 0 && ft_isfullof(s->cmd, ' ') == 0)
 		{

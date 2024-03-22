@@ -31,6 +31,16 @@ RLclean:
 clean:
 	$(RM) $(OBJ)
 
+run: all
+	./$(NAME)
+
+val: all
+	#give it with output file
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes  --log-file=valgrind-out.txt ./$(NAME)
+
+
+
+
 fclean: clean
 	$(RM) $(NAME)
 

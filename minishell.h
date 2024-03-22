@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/22 02:04:00 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/22 17:10:07 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # include <stdarg.h>
 # include <fcntl.h>
 # include <sys/ioctl.h>
+# include <sys/stat.h>
+//ernoh
+# include <errno.h>
 
 // linux
 # include <sys/wait.h>
@@ -59,7 +62,9 @@
 # define COLOR_RESET "\x1b[0m"
 
 # define ERR_CMD_NOT_FOUND 127
-# define ERR_PIPE_INIT 126
+# define ERR_IS_A_DIRECTORY 126
+# define ERR_PERMISSION_DENIED 125
+# define ERR_PIPE_INIT 124
 # define ERR_EMPTY_COMMAND 1
 # define ERR_UNEXPECTED_TOKEN 2
 # define ERR_MALLOC 3
@@ -182,7 +187,7 @@ void	ft_start(t_state *s);
 int		ft_execuator(t_state *s);
 int		ft_amount_cmd(t_token **tokens);
 int		ft_find_arg_amount(t_token *tokens);
-char	*ft_get_cmd_path(t_token *start_token, t_state *s);
+int		ft_get_cmd_path(t_token *start_token, t_state *s, char **cmd_path);
 void	close_pipes_all(int *pipes, int cmd_amount, int i);
 void	mother_close_pipes_all(int *pipes, int cmd_amount);
 int		ft_init_execs(t_state *s, t_exec **exec);
@@ -210,6 +215,7 @@ int		ft_env(t_state *s);
 /* HELPERS */
 char	*ft_get_env(char **env, char *key);
 void	ft_extend_str_by_index(char **str, int index, char c, t_state *s);
+int		ft_env_key_cmp(const char *s1, const char *s2);
 
 /* TOKENS */
 void	ft_add_token(t_state *s, char *token, int type, int index);

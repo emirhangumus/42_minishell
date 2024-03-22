@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/20 14:02:42 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/22 18:25:14 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 {
 	exec->in_type = 0;
 	exec->out_type = 0;
+	exec->in_fd = 0;
+	exec->out_fd = 0;
 	exec->in_file = NULL;
 	exec->out_file = NULL;
 	while (tokens)
@@ -63,6 +65,9 @@ static void	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 
 static int	get_all_cmd(t_exec *exec, t_state *s, t_token *tmp, t_token *tmp1)
 {
+	int	err;
+
+	err = 0;
 	ft_add_garbage(s, exec);
 	if (!exec)
 		return (1);
@@ -70,9 +75,10 @@ static int	get_all_cmd(t_exec *exec, t_state *s, t_token *tmp, t_token *tmp1)
 		exec->type = CMD_BUILTIN;
 	else
 		exec->type = CMD_PATH;
-	exec->cmd_path = ft_get_cmd_path(tmp, s);
-	if (exec->cmd_path == NULL && !(exec->type == CMD_BUILTIN))
-		return (ERR_CMD_NOT_FOUND);
+	if (exec->type == CMD_PATH)
+		err = ft_get_cmd_path(tmp, s, &exec->cmd_path);
+	if (err && !(exec->type == CMD_BUILTIN))
+		return (err);
 	ft_init_redirections(tmp1, exec, s);
 	exec->cmd_args = ft_get_args(s, tmp1, tmp->value);
 	return (0);
@@ -99,10 +105,7 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 			{
 				exec[++j] = malloc(sizeof(t_exec));
 				if (get_all_cmd(exec[j], s, tmp[i], tmp1[i]))
-				{
-					ft_write_error(tmp[i]->value, "command not found");
 					err_amount++;		
-				}
 			}
 			tmp[i] = tmp[i]->next;
 		}
