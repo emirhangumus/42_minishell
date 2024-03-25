@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 01:02:10 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 14:52:22 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 15:00:02 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ int	ft_dup_redictions(t_exec *exec, t_state *s)
 {
 	if (ft_open_check_files(exec))
 		return (1);
-	if (s->cmd_amount == 1 && exec->in_file)
+	if (s->cmd_amount == 1 && exec->in_file && exec->type == CMD_BUILTIN)
 	{
 		if (exec->in_file)
 			close(exec->in_fd);
