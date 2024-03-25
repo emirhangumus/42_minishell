@@ -71,9 +71,9 @@ void    ft_error(int err, char *str, int throw_exit)
 	else if (err == ERR_NO_FILE_OR_DIR)
 	{
 		if (str)
-			ft_err_arg("no such file or directory", str);
+			ft_err_arg("No such file or directory", str);
 		else
-			write(2, "minishell: no such file or directory\n", 37);
+			write(2, "minishell: No such file or directory\n", 37);
 	}
 	else if (err == ERR_NOT_VALID_IDENTIFIER)
 	{

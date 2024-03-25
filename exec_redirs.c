@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 01:02:10 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 15:00:02 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 15:29:02 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,19 +104,18 @@ int	close_redir_fd(t_exec *exec, int fd)
 
 int	ft_open_check_files(t_exec *exec)
 {
+	static int i = 0;
+	static int j = 0;
 	if (exec->in_file)
 	{
 		if (exec->in_type == T_LREDIR)
 			exec->in_fd = open(exec->in_file, O_RDONLY);
 		else if (exec->in_type == T_LAPPEND)
 			exec->in_fd = open(exec->in_file, O_RDONLY);
-		if (exec->in_fd == -1)
+		if (exec->in_fd == -1 && i == 0)
 		{
 			ft_error(ERR_NO_FILE_OR_DIR, exec->in_file, 0);
-			if (exec->type == CMD_PATH)
-				exit(1);
-			else
-				return (1);
+			i = 1;
 		}
 	}
 	if (exec->out_file)
@@ -125,13 +124,10 @@ int	ft_open_check_files(t_exec *exec)
 			exec->out_fd = open(exec->out_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else if (exec->out_type == T_RAPPEND)
 			exec->out_fd = open(exec->out_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (exec->out_fd == -1)
+		if (exec->out_fd == -1 && j == 0)
 		{
 			ft_error(ERR_NO_FILE_OR_DIR, exec->out_file, 0);
-			if (exec->type == CMD_PATH)
-				exit(1);
-			else
-				return (1);
+			j = 1;
 		}
 	}
 	return (0);
@@ -139,8 +135,8 @@ int	ft_open_check_files(t_exec *exec)
 
 int	ft_dup_redictions(t_exec *exec, t_state *s)
 {
-	if (ft_open_check_files(exec))
-		return (1);
+	// if (ft_open_check_files(exec))
+	// 	return (1);
 	if (s->cmd_amount == 1 && exec->in_file && exec->type == CMD_BUILTIN)
 	{
 		if (exec->in_file)
@@ -150,7 +146,7 @@ int	ft_dup_redictions(t_exec *exec, t_state *s)
 	if (exec->in_file)
 		dup2(exec->in_fd, 0);
 	if (exec->out_file)
-		dup2(exec->out_fd, 1);
+		dup2(exec->out_fd, 1);	
 	return (0);
 }
 

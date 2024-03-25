@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:04:11 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 13:53:13 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 15:18:06 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	exec_one_command(t_state *s, t_exec **exec)
 		close_redir_fd(exec[0], fd);
 		return ;
 	}
+	if (exec[0]->in_fd == -1 || exec[0]->out_fd == -1)
+		return ;
 	s->forks[0] = fork();
 	if (s->forks[0] == 0)
 	{

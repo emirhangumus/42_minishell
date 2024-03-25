@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 13:49:24 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 15:09:13 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,14 @@ static void	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 			{
 				exec->in_type = tokens->type;
 				exec->in_file = ft_strdup(tokens->next->value, s);
+				
 			}
 			else if (tokens->type == T_RREDIR || tokens->type == T_RAPPEND)
 			{
 				exec->out_type = tokens->type;
 				exec->out_file = ft_strdup(tokens->next->value, s);
 			}
+			ft_open_check_files(exec);
 		}
 		tokens = tokens->next;
 	}
