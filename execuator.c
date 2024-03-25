@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 16:06:14 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 16:34:57 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_lets_go(t_state *s, t_exec **exec)
 		}
 	}
 	else
-		exec_one_command(s, exec);
+		s->status = exec_one_command(s, exec);
 }
 
 int	ft_execuator(t_state *s)

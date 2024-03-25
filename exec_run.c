@@ -6,13 +6,13 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:04:11 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 16:05:38 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 16:35:30 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_one_command(t_state *s, t_exec **exec)
+int	exec_one_command(t_state *s, t_exec **exec)
 {
 	int	fd;
 
@@ -21,10 +21,10 @@ void	exec_one_command(t_state *s, t_exec **exec)
 		fd = dup(1);
 		s->status = ft_execute_builtin(s, exec[0]);
 		close_redir_fd(exec[0], fd);
-		return ;
+		return (0);
 	}
 	if (exec[0]->in_fd == -1 || exec[0]->out_fd == -1)
-		return ;
+		return (1);
 	s->forks[0] = fork();
 	if (s->forks[0] == 0)
 	{
@@ -34,7 +34,7 @@ void	exec_one_command(t_state *s, t_exec **exec)
 		execve(exec[0]->cmd_path, exec[0]->cmd_args, s->env);
 	}
 	waitpid(s->forks[0], (int *)&s->status, 0);
-
+	return (0);
 }
 
 void	ft_run_commands(t_state *s, t_exec **exec, int cmd_amount, int i)

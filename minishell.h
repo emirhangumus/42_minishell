@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/25 15:56:05 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 16:35:21 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@ int		close_redir_fd(t_exec *exec, int fd);
 int		close_redir_pipe_fd(t_exec *exec, int *pipes, int cmd_amount, int i);
 void	ft_run_redirects(t_state *s, t_exec **exec, int cmd_amount, int i);
 void	ft_run_commands(t_state *s, t_exec **exec, int cmd_amount, int i);
-void	exec_one_command(t_state *s, t_exec **exec);
+int		exec_one_command(t_state *s, t_exec **exec);
 void	ft_init_dupes(t_exec *exec, int *pipes, int cmd_amount, int i);
 int		ft_open_check_files(t_exec *exec);
 
