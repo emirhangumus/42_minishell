@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 01:02:10 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 13:56:37 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 14:52:22 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	ft_open_check_files(t_exec *exec)
 			exec->in_fd = open(exec->in_file, O_RDONLY);
 		if (exec->in_fd == -1)
 		{
-			dprintf(2, "minishell: %s: No such file or directory\n", exec->in_file);
+			ft_error(ERR_NO_FILE_OR_DIR, exec->in_file, 0);
 			if (exec->type == CMD_PATH)
 				exit(1);
 			else
@@ -127,7 +127,7 @@ int	ft_open_check_files(t_exec *exec)
 			exec->out_fd = open(exec->out_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (exec->out_fd == -1)
 		{
-			dprintf(2, "minishell: %s: No such file or directory\n", exec->out_file);
+			ft_error(ERR_NO_FILE_OR_DIR, exec->out_file, 0);
 			if (exec->type == CMD_PATH)
 				exit(1);
 			else

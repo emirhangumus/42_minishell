@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:00:46 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 14:25:12 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 14:54:40 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ int	ft_export_is_valid(t_exec *exec)
 		{
 			if (exec->cmd_args[i][j] == '-')
 			{
-				dprintf(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", exec->cmd_args[i]);
+				ft_error(ERR_NOT_VALID_IDENTIFIER, exec->cmd_args[i], 0);
 				return (1);
 			}
 			j++;
 		}
 		if (exec->cmd_args[i][j] && !exec->cmd_args[i][j + 1])
 		{
-			dprintf(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", exec->cmd_args[i]);
+			ft_error(ERR_NOT_VALID_IDENTIFIER, exec->cmd_args[i], 0);
 			return (1);
 		}
 		i++;

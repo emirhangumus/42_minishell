@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:00:37 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/22 18:13:01 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 14:46:44 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	ft_exit(t_exec *exec, t_state *s)
 	printf("exit\n");
 	if (cmd_args_amount > 2)
 	{
-		dprintf(2, "exit: too many arguments\n");
+		write(2, "exit: too many arguments\n", 26);
 		exit_code = 1;
 	}
 	else
@@ -101,7 +101,7 @@ int	ft_exit(t_exec *exec, t_state *s)
 	}
 	if (exec->cmd_args[1] && ft_isallnum(exec->cmd_args[1]) == 0)
 	{
-		dprintf(2, "exit: %s: numeric argument required\n", exec->cmd_args[1]);
+		ft_error(ERR_NUMERIC_ARG, exec->cmd_args[1], 0);
 		exit_code = 255;
 	}
 	s->exit_status = &exit_code;
@@ -116,18 +116,18 @@ int	ft_cd(t_exec *exec, t_state *s)
 	if (exec->cmd_args[1] == NULL)
 	{
 		if (chdir(ft_get_env(s->env, "HOME")) == -1)
-			dprintf(2, "cd: HOME not set\n");
+			write(2, "cd: HOME not set\n", 16);
 	}
 	else if (ft_strcmp(exec->cmd_args[1], "~") == 0)
 	{
 		if (chdir(ft_get_env(s->env, "HOME")) == -1)
-			dprintf(2, "cd: HOME not set\n");
+			write(2, "cd: HOME not set\n", 16);
 	}
 	else if (ft_strcmp(exec->cmd_args[1], "-") == 0)
 	{
 		
 		if (chdir(ft_get_env(s->env, "OLDPWD")) == -1)
-			dprintf(2, "cd: OLDPWD not set\n");
+			write(2, "cd: OLDPWD not set\n", 19);
 		j = ft_arr_include(s->env, "OLDPWD", ft_env_key_cmp);
 		free(s->env[j]);
 		s->env[j] = ft_strjoin("OLDPWD", "=", s);
@@ -135,7 +135,7 @@ int	ft_cd(t_exec *exec, t_state *s)
 	}
 	else if (chdir(exec->cmd_args[1]) == -1)
 	{
-		dprintf(2, "cd: %s: No such file or directory\n", exec->cmd_args[1]);
+		ft_error(ERR_NO_FILE_OR_DIR, exec->cmd_args[1], 0);
 		return (1);
 	}
 	s->cwd = getcwd(s->cwd, 1024);

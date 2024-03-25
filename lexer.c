@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:51:51 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/22 18:32:10 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 14:28:07 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,7 @@ int ft_merge_args(char **str, t_state *s, t_lexer *l)
 		i++;
 	}
 	if (quote != QUOTE_NONE)
-		return (dprintf(2, "minishell: syntax error\n"), 1);
+		return (write(2, "minishell: syntax error\n", 25), 1);
 	return (SUCCESS);
 }
 
