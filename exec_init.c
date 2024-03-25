@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 15:09:13 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 15:52:08 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,13 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 			if (tmp[i]->type == T_CMD)
 			{
 				exec[++j] = malloc(sizeof(t_exec));
-				if (get_all_cmd(exec[j], s, tmp[i], tmp1[i]))
-					err_amount++;		
+				err_amount = get_all_cmd(exec[j], s, tmp[i], tmp1[i]);
+				if (err_amount)
+					return (err_amount);
 			}
 			tmp[i] = tmp[i]->next;
 		}
 	}
-	if (err_amount)
-		return (ERR_CMD_NOT_FOUND);
 	return (0);
 }
 

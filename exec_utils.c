@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:09:01 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 14:35:30 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 15:49:16 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	ft_get_cmd_path(t_token *start_token, t_state *s, char **cmd_path)
 		if (errno == EACCES)
 			return (ft_error(ERR_PERMISSION_DENIED, start_token->value, 0), 1);
 		if (S_ISDIR(buf.st_mode))
-			return (ft_error(ERR_IS_A_DIRECTORY, start_token->value, 0), 1);
+			return (ft_error(ERR_IS_A_DIRECTORY, start_token->value, 0), ERR_IS_A_DIRECTORY);
 		if (access(start_token->value, F_OK))
 			return (ft_error(ERR_PERMISSION_DENIED, start_token->value, 0), ERR_CMD_NOT_FOUND);
 		if (access(start_token->value, X_OK))

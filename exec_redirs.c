@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 01:02:10 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 15:29:02 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 15:41:14 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	close_redir_fd(t_exec *exec, int fd)
 		close(fd);
 	return (0);
 }
-
+// 
 int	ft_open_check_files(t_exec *exec)
 {
 	static int i = 0;
@@ -126,6 +126,7 @@ int	ft_open_check_files(t_exec *exec)
 			exec->out_fd = open(exec->out_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (exec->out_fd == -1 && j == 0)
 		{
+			printf("error\n");
 			ft_error(ERR_NO_FILE_OR_DIR, exec->out_file, 0);
 			j = 1;
 		}
