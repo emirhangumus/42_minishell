@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:04:11 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 17:55:57 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 20:07:02 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	exec_one_command(t_state *s, t_exec **exec)
 		fd = dup(1);
 		s->status = ft_execute_builtin(s, exec[0]);
 		close_redir_fd(exec[0], fd);
-		return (0);
+		return (s->status);
 	}
 	if (exec[0]->in_fd == -1 || exec[0]->out_fd == -1)
 		return (1);
