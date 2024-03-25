@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 13:20:12 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 13:49:24 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,6 @@ static void	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 	exec->out_file = NULL;
 	while (tokens)
 	{
-		if (ft_is_redirection(tokens) && (exec->type == CMD_BUILTIN && s->cmd_amount == 1))
-		{
-			tokens = tokens->next;
-			continue ;
-		}
 		if (ft_is_redirection(tokens))
 		{
 			if (tokens->type == T_LREDIR || tokens->type == T_LAPPEND)

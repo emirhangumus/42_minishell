@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/25 13:20:23 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 14:25:04 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ int		ft_isfullof(char *str, char c);
 char	*ft_itoa(int n, t_state *s);
 void	ft_write_error(char *cmd, char *error);
 void	ft_error_hub(t_state *s, int err);
+int		ft_is_starts_with_digit(t_exec *exec);
 
 /* SIGNALS */
 void	ft_sigint(int sig);
@@ -193,7 +194,7 @@ void	close_pipes_all(int *pipes, int cmd_amount, int i);
 void	mother_close_pipes_all(int *pipes, int cmd_amount);
 int		ft_init_execs(t_state *s, t_exec **exec);
 void	ft_init_pipes(t_state *s);
-int		ft_dup_redictions(t_exec *exec);
+int		ft_dup_redictions(t_exec *exec, t_state *s);
 int		ft_is_redirection(t_token *token);
 int		close_redir_fd(t_exec *exec, int fd);
 int		close_redir_pipe_fd(t_exec *exec, int *pipes, int cmd_amount, int i);
@@ -201,6 +202,7 @@ void	ft_run_redirects(t_state *s, t_exec **exec, int cmd_amount, int i);
 void	ft_run_commands(t_state *s, t_exec **exec, int cmd_amount, int i);
 void	exec_one_command(t_state *s, t_exec **exec);
 void	ft_init_dupes(t_exec *exec, int *pipes, int cmd_amount, int i);
+int		ft_open_check_files(t_exec *exec);
 
 /* BUILTIN */
 int		ft_is_builtin(char *value);

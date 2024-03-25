@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 01:02:10 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/22 18:21:51 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 13:56:37 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	close_redir_fd(t_exec *exec, int fd)
 	return (0);
 }
 
-int	ft_dup_redictions(t_exec *exec)
+int	ft_open_check_files(t_exec *exec)
 {
 	if (exec->in_file)
 	{
@@ -118,7 +118,6 @@ int	ft_dup_redictions(t_exec *exec)
 			else
 				return (1);
 		}
-		dup2(exec->in_fd, 0);
 	}
 	if (exec->out_file)
 	{
@@ -134,8 +133,24 @@ int	ft_dup_redictions(t_exec *exec)
 			else
 				return (1);
 		}
-		dup2(exec->out_fd, 1);
 	}
+	return (0);
+}
+
+int	ft_dup_redictions(t_exec *exec, t_state *s)
+{
+	if (ft_open_check_files(exec))
+		return (1);
+	if (s->cmd_amount == 1 && exec->in_file)
+	{
+		if (exec->in_file)
+			close(exec->in_fd);
+		return (0);
+	}
+	if (exec->in_file)
+		dup2(exec->in_fd, 0);
+	if (exec->out_file)
+		dup2(exec->out_fd, 1);
 	return (0);
 }
 

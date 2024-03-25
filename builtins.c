@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 02:43:20 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/22 14:54:18 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 13:53:22 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_is_builtin(char *value)
 
 int	ft_execute_builtin(t_state *s, t_exec *exec)
 {
-	if (ft_dup_redictions(exec))
+	if (ft_dup_redictions(exec, s))
 		return (1);
 	if (ft_strcmp(exec->cmd_args[0], "echo") == 0)
 		return (ft_echo(exec));

@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:00:46 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/22 15:33:29 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 14:25:12 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,38 +36,128 @@ char	**ft_add_env(char **env, char *key, char *value, t_state *s)
 	return (new_envp);
 }
 
-int	ft_export(t_exec *exec, t_state *s)
+int	ft_export_is_valid(t_exec *exec)
 {
-	int		i;
-	int		j;
-	char	*key;
-	char	*value;
+	int	i;
+	int	j;
 
 	i = 1;
 	while (exec->cmd_args[i])
 	{
 		j = 0;
 		while (exec->cmd_args[i][j] && exec->cmd_args[i][j] != '=')
-			j++;
-		key = ft_substr(exec->cmd_args[i], 0, j, s);
-		if (exec->cmd_args[i][j] == '=')
-			value = ft_substr(exec->cmd_args[i], j + 1, \
-				ft_strlen(exec->cmd_args[i]) - j - 1, s);
-		else
-			value = NULL;
-		if (ft_arr_include(s->env, key, ft_env_key_cmp) == -1)
-			s->env = ft_add_env(s->env, key, value, s);
-		else
 		{
-			j = ft_arr_include(s->env, key, ft_env_key_cmp);
-			free(s->env[j]);
-			s->env[j] = ft_strjoin(key, "=", s);
-			s->env[j] = ft_strjoin(s->env[j], value, NULL);
+			if (exec->cmd_args[i][j] == '-')
+			{
+				dprintf(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", exec->cmd_args[i]);
+				return (1);
+			}
+			j++;
 		}
+		if (exec->cmd_args[i][j] && !exec->cmd_args[i][j + 1])
+		{
+			dprintf(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", exec->cmd_args[i]);
+			return (1);
+		}
+		i++;
+	}
+	if (ft_is_starts_with_digit(exec))
+		return (1);
+	return (0);
+}
+
+void	ft_export_add_key_value(t_exec *exec, t_state *s, int i, int j)
+{
+	char	*key;
+	char	*value;
+
+	value = NULL;
+	key = ft_substr(exec->cmd_args[i], 0, j, s);
+	if (exec->cmd_args[i][j] == '=')
+		value = ft_substr(exec->cmd_args[i], j + 1, \
+			ft_strlen(exec->cmd_args[i]) - j - 1, s);
+	if (ft_arr_include(s->env, key, ft_env_key_cmp) == -1)
+		s->env = ft_add_env(s->env, key, value, s);
+	else
+	{
+		j = ft_arr_include(s->env, key, ft_env_key_cmp);
+		free(s->env[j]);
+		s->env[j] = ft_strjoin(key, "=", s);
+		s->env[j] = ft_strjoin(s->env[j], value, NULL);
+	}
+}
+
+int	ft_export(t_exec *exec, t_state *s)
+{
+	int		i;
+	int		j;
+
+	if (ft_export_is_valid(exec))
+		return (1);
+	i = 1;
+	while (exec->cmd_args[i])
+	{
+		j = 0;
+		while (exec->cmd_args[i][j] && exec->cmd_args[i][j] != '=')
+			j++;
+		ft_export_add_key_value(exec, s, i, j);
 		i++;
 	}
 	return (0);
 }
+
+// int	ft_export(t_exec *exec, t_state *s)
+// {
+// 	int		i;
+// 	int		j;
+// 	char	*key;
+// 	char	*value;
+
+// 	i = 1;
+// 	while (exec->cmd_args[i])
+// 	{
+// 		j = 0;
+// 		while (exec->cmd_args[i][j] && exec->cmd_args[i][j] != '=')
+// 		{
+// 			if (exec->cmd_args[i][j] == '-')
+// 			{
+// 				dprintf(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", exec->cmd_args[i]);
+// 				return (1);
+// 			}
+// 			j++;
+// 		}
+// 		if (!exec->cmd_args[i][j])
+// 		{
+// 			dprintf(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", exec->cmd_args[i]);
+// 			return (1);
+// 		}
+// 		if (exec->cmd_args[i][j] && !exec->cmd_args[i][j + 1])
+// 		{
+// 			dprintf(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", exec->cmd_args[i]);
+// 			return (1);
+// 		}
+
+// 		i++;
+// 	}
+// 	// value = NULL;
+// // key = ft_substr(exec->cmd_args[i], 0, j, s);
+// // if (exec->cmd_args[i][j] == '=')
+// // 	value = ft_substr(exec->cmd_args[i], j + 1, \
+// // 		ft_strlen(exec->cmd_args[i]) - j - 1, s);
+// // else
+// // 	value = NULL;
+// // if (ft_arr_include(s->env, key, ft_env_key_cmp) == -1)
+// // 	s->env = ft_add_env(s->env, key, value, s);
+// // else
+// // {
+// // 	j = ft_arr_include(s->env, key, ft_env_key_cmp);
+// // 	free(s->env[j]);
+// // 	s->env[j] = ft_strjoin(key, "=", s);
+// // 	s->env[j] = ft_strjoin(s->env[j], value, NULL);
+// // }	
+// 	return (0);
+// }
+
 
 int	ft_echo_is_valid(char *arg)
 {

@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:04:11 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/22 14:53:33 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 13:53:13 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	exec_one_command(t_state *s, t_exec **exec)
 	if (s->forks[0] == 0)
 	{
 		if (exec[0]->in_type || exec[0]->out_type)
-			ft_dup_redictions(exec[0]);
+			ft_dup_redictions(exec[0], s);
 		close_redir_fd(exec[0], 1);
 		execve(exec[0]->cmd_path, exec[0]->cmd_args, s->env);
 	}
@@ -83,7 +83,7 @@ void	ft_run_redirects(t_state *s, t_exec **exec, int cmd_amount, int i)
 			s->status = ft_execute_builtin(s, exec[i]);
 			exit(s->status);
 		}
-		ft_dup_redictions(exec[i]);
+		ft_dup_redictions(exec[i], s);
 		close_redir_pipe_fd(exec[i], s->pipes, cmd_amount, i);
 		execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
 	}
@@ -95,7 +95,7 @@ void	ft_run_redirects(t_state *s, t_exec **exec, int cmd_amount, int i)
 			s->status = ft_execute_builtin(s, exec[i]);
 			exit(s->status);
 		}
-		ft_dup_redictions(exec[i]);
+		ft_dup_redictions(exec[i], s);
 		close_redir_pipe_fd(exec[i], s->pipes, cmd_amount, i);
 		execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
 	}
@@ -107,7 +107,7 @@ void	ft_run_redirects(t_state *s, t_exec **exec, int cmd_amount, int i)
 			s->status = ft_execute_builtin(s, exec[i]);
 			exit(s->status);
 		}
-		ft_dup_redictions(exec[i]);
+		ft_dup_redictions(exec[i], s);
 		close_redir_pipe_fd(exec[i], s->pipes, cmd_amount, i);
 		execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
 	}
