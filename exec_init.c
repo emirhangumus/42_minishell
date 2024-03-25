@@ -6,37 +6,13 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 15:52:08 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 17:41:13 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**ft_get_args(t_state *s, t_token *tokens, char *cmd_name)
-{
-	char	**args;
-	int		i;
-	int		arg_amount;
-
-	i = 1;
-	arg_amount = ft_find_arg_amount(tokens);
-	args = malloc(sizeof(char *) * (arg_amount + 2));
-	ft_add_garbage(s, args);
-	args[0] = ft_strdup(cmd_name, s);
-	args[arg_amount + 1] = NULL;
-	while (tokens)
-	{
-		if (tokens->type == T_ARG && !ft_is_redirection(tokens->prev))
-		{
-			args[i] = ft_strdup(tokens->value, s);
-			i++;
-		}
-		tokens = tokens->next;
-	}
-	return (args);
-}
-
-static void	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
+void	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 {
 	exec->in_type = 0;
 	exec->out_type = 0;
@@ -52,7 +28,6 @@ static void	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 			{
 				exec->in_type = tokens->type;
 				exec->in_file = ft_strdup(tokens->next->value, s);
-				
 			}
 			else if (tokens->type == T_RREDIR || tokens->type == T_RAPPEND)
 			{
@@ -65,36 +40,14 @@ static void	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 	}
 }
 
-static int	get_all_cmd(t_exec *exec, t_state *s, t_token *tmp, t_token *tmp1)
-{
-	int	err;
-
-	err = 0;
-	ft_add_garbage(s, exec);
-	if (!exec)
-		return (1);
-	if (ft_is_builtin(tmp->value))
-		exec->type = CMD_BUILTIN;
-	else
-		exec->type = CMD_PATH;
-	if (exec->type == CMD_PATH)
-		err = ft_get_cmd_path(tmp, s, &exec->cmd_path);
-	if (err && !(exec->type == CMD_BUILTIN))
-		return (err);
-	ft_init_redirections(tmp1, exec, s);
-	exec->cmd_args = ft_get_args(s, tmp1, tmp->value);
-	return (0);
-}
-
 int	ft_init_execs(t_state *s, t_exec **exec)
 {
 	t_token		**tmp;
 	t_token		**tmp1;
 	int			i;
 	int			j;
-	int			err_amount;
+	int			err;
 
-	err_amount = 0;
 	j = -1;
 	i = -1;
 	tmp = s->tokens;
@@ -106,9 +59,9 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 			if (tmp[i]->type == T_CMD)
 			{
 				exec[++j] = malloc(sizeof(t_exec));
-				err_amount = get_all_cmd(exec[j], s, tmp[i], tmp1[i]);
-				if (err_amount)
-					return (err_amount);
+				err = get_all_cmd(exec[j], s, tmp[i], tmp1[i]);
+				if (err)
+					return (err);
 			}
 			tmp[i] = tmp[i]->next;
 		}

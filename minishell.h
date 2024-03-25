@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/25 16:35:21 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 17:40:38 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,9 @@ void	ft_run_commands(t_state *s, t_exec **exec, int cmd_amount, int i);
 int		exec_one_command(t_state *s, t_exec **exec);
 void	ft_init_dupes(t_exec *exec, int *pipes, int cmd_amount, int i);
 int		ft_open_check_files(t_exec *exec);
+int		get_all_cmd(t_exec *exec, t_state *s, t_token *tmp, t_token *tmp1);
+char	**ft_get_args(t_state *s, t_token *tokens, char *cmd_name);
+void	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s);
 
 /* BUILTIN */
 int		ft_is_builtin(char *value);

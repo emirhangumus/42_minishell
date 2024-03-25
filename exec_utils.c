@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:09:01 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 15:49:16 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 17:46:40 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_amount_cmd(t_token **tokens)
 {
-	int	amount;
-	int	i;
+	int		amount;
+	int		i;
 	t_token	*tmp;
 
 	i = 0;
@@ -51,49 +51,6 @@ int	ft_find_arg_amount(t_token *tokens)
 		i++;
 	}
 	return (amount);
-}
-
-int	ft_get_cmd_path(t_token *start_token, t_state *s, char **cmd_path)
-{
-	char	*env;
-	char	**paths;
-	char	*path;
-	int		i;
-
-	i = -1;
-	if (ft_strchr(start_token->value, '/') != NULL)
-	{
-		struct stat buf;
-		stat(start_token->value, &buf);
-		if (errno == EACCES)
-			return (ft_error(ERR_PERMISSION_DENIED, start_token->value, 0), 1);
-		if (S_ISDIR(buf.st_mode))
-			return (ft_error(ERR_IS_A_DIRECTORY, start_token->value, 0), ERR_IS_A_DIRECTORY);
-		if (access(start_token->value, F_OK))
-			return (ft_error(ERR_PERMISSION_DENIED, start_token->value, 0), ERR_CMD_NOT_FOUND);
-		if (access(start_token->value, X_OK))
-			return (ft_error(ERR_PERMISSION_DENIED, start_token->value, 0), ERR_PERMISSION_DENIED);
-		*cmd_path = start_token->value;
-		return (0);
-	}
-	env = ft_get_env(s->env, "PATH");
-	paths = ft_split(env, ':', s);
-	while (paths[++i])
-	{
-		path = ft_strjoin(paths[i], "/", s);
-		path = ft_strjoin(path, start_token->value, s);
-		struct stat buf;
-		stat(path, &buf);
-		if (S_ISDIR(buf.st_mode))
-			return (ft_error(ERR_IS_A_DIRECTORY, path, 0), 1);
-		if (!access(path, F_OK) && !access(path, X_OK))
-		{
-			*cmd_path = path;
-			return (0);
-		}
-	}
-	return (ft_error(ERR_CMD_NOT_FOUND, start_token->value, 0), ERR_CMD_NOT_FOUND);
-	return (1);
 }
 
 void	close_pipes_all(int *pipes, int cmd_amount, int i)

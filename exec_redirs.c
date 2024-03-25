@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 01:02:10 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 16:30:02 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 18:15:38 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ void	ft_init_dupes(t_exec *exec, int *pipes, int cmd_amount, int i)
 			close_pipes_all(pipes, cmd_amount, i);
 		}
 		else if (exec->out_fd)
-		{
-			close_pipes_all(pipes, cmd_amount, i);
-		}
+			mother_close_pipes_all(pipes, cmd_amount);
 	}
 	else if (i == cmd_amount - 1)
 	{
@@ -48,11 +46,13 @@ void	ft_init_dupes(t_exec *exec, int *pipes, int cmd_amount, int i)
 		{
 			dup2(pipes[i * 2 + 1], 1);
 			close_pipes_all(pipes, cmd_amount, i);
+			close(pipes[(i - 1) * 2]);
 		}
 		else if (exec->out_file)
 		{
 			dup2(pipes[(i - 1) * 2], 0);
 			close_pipes_all(pipes, cmd_amount, i);
+			close(pipes[i * 2 + 1]);
 		}
 	}
 }
@@ -62,29 +62,29 @@ int	close_redir_pipe_fd(t_exec *exec, int *pipes, int cmd_amount, int i)
 	if (i == 0)
 	{	
 		if (exec->in_file && exec->out_fd)
-			return (mother_close_pipes_all(pipes, cmd_amount), 1);
+			return (close(exec->in_fd), close(exec->out_fd), 1);
 		else if (exec->in_file)
-			return (close_pipes_all(pipes, cmd_amount, i), 1);
+			return (close(exec->in_fd), close(pipes[i * 2 + 1]), 1);
 		else if (exec->out_fd)
-			return (close_pipes_all(pipes, cmd_amount, i), close(pipes[i * 2 + 1]), 1);
+			return (close(exec->out_fd), 1);
 	}
 	else if (i == cmd_amount - 1)
 	{
 		if (exec->in_file && exec->out_fd)
-			return (close_pipes_all(pipes, cmd_amount, i), close(pipes[(i - 1) * 2]), 1);
+			return (close(exec->in_fd), close(exec->out_fd), 1);
 		else if (exec->in_file)
-			return (close_pipes_all(pipes, cmd_amount, i), close(pipes[(i - 1) * 2]), 1);
+			return (close(exec->in_fd), 1);
 		else if (exec->out_fd)
-			return (close_pipes_all(pipes, cmd_amount, i), close(pipes[(i - 1) * 2]), 1);
+			return (close(exec->out_fd), close(pipes[(i - 1) * 2]), 1);
 	}
 	else
 	{
 		if (exec->in_file && exec->out_fd)
-			return (close_pipes_all(pipes, cmd_amount, i), 1);
+			return (close(exec->in_fd), close(exec->out_fd), 1);
 		else if (exec->in_file)
-			return (close_pipes_all(pipes, cmd_amount, i), close(pipes[(i - 1) * 2]), 1);
+			return (close(exec->in_fd), close(pipes[i * 2 + 1]), 1);
 		else if (exec->out_fd)
-			return (close_pipes_all(pipes, cmd_amount, i), close(pipes[i * 2 + 1]), 1);
+			return (close(exec->out_fd), close(pipes[(i - 1) * 2]), 1);
 	}
 	return (0);
 }
@@ -101,7 +101,7 @@ int	close_redir_fd(t_exec *exec, int fd)
 		close(fd);
 	return (0);
 }
-// 
+
 int	ft_open_check_files(t_exec *exec)
 {
 	static int i = 0;
@@ -137,18 +137,12 @@ int	ft_open_check_files(t_exec *exec)
 
 int	ft_dup_redictions(t_exec *exec, t_state *s)
 {
-	// if (ft_open_check_files(exec))
-	// 	return (1);
 	if (s->cmd_amount == 1 && exec->in_file && exec->type == CMD_BUILTIN)
-	{
-		if (exec->in_file)
-			close(exec->in_fd);
-		return (0);
-	}
+		return (close(exec->in_fd), 0);
 	if (exec->in_file)
 		dup2(exec->in_fd, 0);
 	if (exec->out_file)
-		dup2(exec->out_fd, 1);	
+		dup2(exec->out_fd, 1);
 	return (0);
 }
 

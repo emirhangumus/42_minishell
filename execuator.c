@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 16:34:57 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 18:09:02 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_lets_go(t_state *s, t_exec **exec)
 		while (exec[++i])
 		{
 			if (exec[i]->in_fd == -1 || exec[i]->out_fd == -1)
-				continue ;				
+				continue ;
 			s->forks[i] = fork();
 			if (s->forks[i] == 0)
 				ft_run_pipes(s, exec, s->cmd_amount, i);

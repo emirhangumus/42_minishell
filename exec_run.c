@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:04:11 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 16:35:30 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 17:55:57 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	exec_one_command(t_state *s, t_exec **exec)
 	{
 		if (exec[0]->in_type || exec[0]->out_type)
 			ft_dup_redictions(exec[0], s);
-		close_redir_fd(exec[0], 1);
 		execve(exec[0]->cmd_path, exec[0]->cmd_args, s->env);
 	}
 	waitpid(s->forks[0], (int *)&s->status, 0);
