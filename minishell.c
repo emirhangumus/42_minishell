@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:05 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/19 19:14:08 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/22 15:31:46 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,16 @@ int	ft_init_state(t_state *s)
 	s->env = ft_init_env();
 	s->cmd = NULL;
 	s->tokens = NULL;
-	s->cwd = (char *)malloc(1024);
-	getcwd(s->cwd, 1024);
+	s->cwd = getcwd(NULL, 0);
 	s->status = 0;
+	s->exit_status = NULL;
 	return (0);
 }
 
 int	main(void)
 {
 	t_state	*s;
+	int		exit_status;
 
 	s = (t_state *)malloc(sizeof(t_state));
 	if (!s)
@@ -60,11 +61,10 @@ int	main(void)
 	if (ft_init_state(s))
 		return (free(s), 1);
 	ft_start(s);
-	ft_free_tab(s->env);
 	ft_free_garbage(s);
-	free(s->cwd);
+	exit_status = s->status;
 	free(s);
-	return (SUCCESS);
+	return (exit_status);
 }
 
 // __attribute__((destructor))

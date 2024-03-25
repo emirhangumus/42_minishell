@@ -3,30 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:51:51 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/19 19:16:42 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/22 18:32:10 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_remove_char_by_index(char **str, int index, t_state *s)
+void ft_remove_char_by_index(char **str, int index, t_state *s)
 {
-	char	*new;
-	int		i;
-	int		j;
+	char *new;
+	int i;
+	int j;
 
 	i = 0;
 	j = 0;
 	if (!str || !*str)
-		return ;
+		return;
 	if (index < 0 || index > (int)ft_strlen(*str))
-		return ;
+		return;
 	new = (char *)malloc(ft_strlen(*str));
 	if (!new)
-		return ;
+		return;
 	while ((*str)[i])
 	{
 		if (i != index)
@@ -42,12 +42,12 @@ void	ft_remove_char_by_index(char **str, int index, t_state *s)
 	*str = new;
 }
 
-char	*ft_joinstr_index(char *s1, char *s2, int start_index, t_state *s)
+char *ft_joinstr_index(char *s1, char *s2, int start_index, t_state *s)
 {
-	char	*new;
-	int		i;
-	int		j;
-	int		k;
+	char *new;
+	int i;
+	int j;
+	int k;
 
 	i = 0;
 	j = 0;
@@ -78,14 +78,14 @@ char	*ft_joinstr_index(char *s1, char *s2, int start_index, t_state *s)
 	return (new);
 }
 
-int	ft_isalnum(char c)
+int ft_isalnum(char c)
 {
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_')
 		return (1);
 	return (SUCCESS);
 }
 
-void	ft_remove_key(char **str, int start_index, int end_index, t_state *s)
+void ft_remove_key(char **str, int start_index, int end_index, t_state *s)
 {
 	while (end_index != start_index)
 	{
@@ -94,11 +94,11 @@ void	ft_remove_key(char **str, int start_index, int end_index, t_state *s)
 	}
 }
 
-void	ft_calc_dollars(char *str, t_lexer *l, t_state *s)
+void ft_calc_dollars(char *str, t_lexer *l, t_state *s)
 {
-	int	i;
-	int	count;
-	int	quote;
+	int i;
+	int count;
+	int quote;
 
 	i = 0;
 	count = 0;
@@ -111,11 +111,11 @@ void	ft_calc_dollars(char *str, t_lexer *l, t_state *s)
 	}
 	l->meta = malloc(sizeof(t_lexer_meta));
 	if (!l->meta)
-		return ;
+		return;
 	ft_add_garbage(s, l->meta);
 	l->meta->dollars = malloc(sizeof(int) * count);
 	if (!l->meta->dollars)
-		return ;
+		return;
 	ft_add_garbage(s, l->meta->dollars);
 	i = 0;
 	count = 0;
@@ -137,17 +137,17 @@ void	ft_calc_dollars(char *str, t_lexer *l, t_state *s)
 	}
 }
 
-int	ft_merge_args(char **str, t_state *s, t_lexer *l)
+int ft_merge_args(char **str, t_state *s, t_lexer *l)
 {
-	int		quote;
-	int		i;
-	int		rm1;
-	int		rm2;
-	int		j;
-	char	*key;
-	char	*value;
-	int		dollar_counter;
-	int		len;
+	int quote;
+	int i;
+	int rm1;
+	int rm2;
+	int j;
+	char *key;
+	char *value;
+	int dollar_counter;
+	int len;
 
 	i = 0;
 	j = 0;
@@ -163,13 +163,22 @@ int	ft_merge_args(char **str, t_state *s, t_lexer *l)
 			if (l->meta->dollars[dollar_counter] == 1)
 			{
 				j++;
-				while ((*str)[j] && ft_isalnum((*str)[j]))
-					j++;
-				key = ft_substr(*str, i + 1, j - i - 1, s);
-				value = ft_get_env(s->env, key);
-				ft_remove_key(str, i, j, s);
-				if (!value)
-					value = ft_strdup("", s);
+				if ((*str)[j] == '?')
+				{
+					key = ft_strdup("?", s);
+					value = ft_itoa(s->status, s);
+					ft_remove_key(str, i, j + 1, s);
+				}
+				else
+				{
+					while ((*str)[j] && ft_isalnum((*str)[j]))
+						j++;
+					key = ft_substr(*str, i + 1, j - i - 1, s);
+					value = ft_get_env(s->env, key);
+					ft_remove_key(str, i, j, s);
+					if (!value)
+						value = ft_strdup("", s);
+				}
 				len = ft_strlen(value);
 				*str = ft_joinstr_index(*str, value, i, s);
 				if (len > 0)
@@ -178,7 +187,7 @@ int	ft_merge_args(char **str, t_state *s, t_lexer *l)
 			dollar_counter++;
 		}
 		if (!(*str)[i])
-			break ;
+			break;
 		if (quote == QUOTE_NONE && ((*str)[i] == '\'' || (*str)[i] == '\"'))
 		{
 			rm1 = i;
@@ -200,18 +209,18 @@ int	ft_merge_args(char **str, t_state *s, t_lexer *l)
 		i++;
 	}
 	if (quote != QUOTE_NONE)
-		return (printf("minishell: syntax error\n"), 1);
+		return (dprintf(2, "minishell: syntax error\n"), 1);
 	return (SUCCESS);
 }
 
-char	**ft_split_merge(char **split, t_state *s)
+char **ft_split_merge(char **split, t_state *s)
 {
-	int		i;
-	int		j;
-	int		k;
-	char	**new_split;
-	char	**temp;
-	int		count;
+	int i;
+	int j;
+	int k;
+	char **new_split;
+	char **temp;
+	int count;
 
 	i = 0;
 	j = 0;
@@ -246,7 +255,7 @@ char	**ft_split_merge(char **split, t_state *s)
 	return (new_split);
 }
 
-int	ft_is_redirect(char *str)
+int ft_is_redirect(char *str)
 {
 	if (ft_strncmp(str, "<<", 2) == 0)
 		return (2);
@@ -259,13 +268,13 @@ int	ft_is_redirect(char *str)
 	return (SUCCESS);
 }
 
-char	**ft_split_specials(char *str, t_state *s)
+char **ft_split_specials(char *str, t_state *s)
 {
-	char	**sp;
-	int		i;
-	int		j;
-	int		quote;
-	int		is_redirect;
+	char **sp;
+	int i;
+	int j;
+	int quote;
+	int is_redirect;
 
 	i = 0;
 	j = 0;
@@ -295,26 +304,24 @@ char	**ft_split_specials(char *str, t_state *s)
 	return (ft_split_merge(sp, s));
 }
 
-void	ft_lexer_create(t_lexer *l, t_state *s)
+int ft_lexer_create(t_lexer *l, t_state *s)
 {
-	char	**split;
-	int		i;
-	int		is_redirect;
+	char **split;
+	int i;
+	int is_redirect;
 
 	split = ft_split_specials(l->str, s);
 	if (!split)
-		return ;
+		return (ERR_MALLOC);
 	i = 0;
 	is_redirect = 0;
 	while (split[i])
 	{
 		ft_calc_dollars(split[i], l, s);
 		if (ft_merge_args(&(split[i]), s, l))
-			return ;
+			return (ERR_UNEXPECTED_TOKEN);
 		is_redirect = ft_is_redirect(split[i]);
-		if (i == 0)
-			ft_add_token(s, split[i], T_CMD, l->i);
-		else if (is_redirect > 0)
+		if (is_redirect > 0)
 		{
 			if (is_redirect == 2 && split[i + 1] && split[i][0] == '<')
 				ft_add_token(s, split[i], T_LAPPEND, l->i);
@@ -325,17 +332,22 @@ void	ft_lexer_create(t_lexer *l, t_state *s)
 			else if (is_redirect == 1 && split[i][0] == '>')
 				ft_add_token(s, split[i], T_RREDIR, l->i);
 		}
+		else if (i == 0)
+			ft_add_token(s, split[i], T_CMD, l->i);
 		else
 			ft_add_token(s, split[i], T_ARG, l->i);
 		i++;
 	}
+	return (SUCCESS);
 }
 
-static void	ft_remove_tokens_command(t_token **token, int (*f)(void *))
+static int ft_remove_tokens_command(t_token **token, int (*f)(void *))
 {
-	t_token	*tmp;
-	t_token	*prev;
+	t_token *tmp;
+	t_token *prev;
+	int i;
 
+	i = 0;
 	tmp = *token;
 	prev = NULL;
 	while (tmp)
@@ -350,38 +362,49 @@ static void	ft_remove_tokens_command(t_token **token, int (*f)(void *))
 			free(tmp);
 			tmp = prev;
 		}
+		if (i == 0 && !tmp)
+			return (ERR_EMPTY_COMMAND);
 		prev = tmp;
 		tmp = tmp->next;
+		i++;
 	}
+	return (SUCCESS);
 }
 
-void	ft_remove_tokens(t_token ***token, int (*f)(void *))
+int ft_remove_tokens(t_token ***token, int (*f)(void *))
 {
-	int	i;
-	t_token	**tmp;
+	int i;
+	t_token **tmp;
+	int err;
 
 	i = 0;
+	err = 0;
 	tmp = *token;
 	while (tmp[i])
 	{
-		ft_remove_tokens_command(&tmp[i], f);
+		err = ft_remove_tokens_command(&tmp[i], f);
+		if (err)
+			return (err);
 		i++;
 	}
+	return (SUCCESS);
 }
 
-void	ft_l_free_meta(t_lexer *l)
+void ft_l_free_meta(t_lexer *l)
 {
 	if (l->meta->dollars)
 		free(l->meta->dollars);
 	free(l->meta);
 }
 
-int	ft_lexer(t_state *s)
+int ft_lexer(t_state *s)
 {
-	t_lexer	*l;
-	int		pipes;
-	char	**sp;
+	t_lexer *l;
+	int pipes;
+	char **sp;
+	int err;
 
+	err = 0;
 	l = (t_lexer *)malloc(sizeof(t_lexer));
 	if (!l)
 		return (SUCCESS);
@@ -393,10 +416,14 @@ int	ft_lexer(t_state *s)
 		if (!sp[l->i])
 			return (ERR_UNEXPECTED_TOKEN);
 		l->str = ft_strdup(sp[l->i], s);
-		ft_lexer_create(l, s);
+		err = ft_lexer_create(l, s);
+		if (err)
+			return (err);
 		l->i++;
 	}
-	ft_remove_tokens(&s->tokens, (int (*)(void *))ft_is_empty);
+	err = ft_remove_tokens(&s->tokens, (int (*)(void *))ft_is_empty);
 	free(l);
+	if (err)
+		return (err);
 	return (SUCCESS);
 }

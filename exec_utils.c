@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:09:01 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/20 14:13:40 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/22 18:27:16 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,24 @@
 
 int	ft_amount_cmd(t_token **tokens)
 {
+	int	amount;
 	int	i;
+	t_token	*tmp;
 
 	i = 0;
+	amount = 0;
 	while (tokens[i])
+	{
+		tmp = tokens[i];
+		while (tmp)
+		{
+			if (tmp->type == T_CMD)
+				amount++;
+			tmp = tmp->next;
+		}
 		i++;
-	return (i);
+	}
+	return (amount);
 }
 
 int	ft_find_arg_amount(t_token *tokens)
@@ -41,9 +53,9 @@ int	ft_find_arg_amount(t_token *tokens)
 	return (amount);
 }
 
-char	*ft_get_cmd_path(t_token *start_token, t_state *s)
+int	ft_get_cmd_path(t_token *start_token, t_state *s, char **cmd_path)
 {
-	char	*cmd_path;
+	char	*env;
 	char	**paths;
 	char	*path;
 	int		i;
@@ -51,24 +63,37 @@ char	*ft_get_cmd_path(t_token *start_token, t_state *s)
 	i = -1;
 	if (ft_strchr(start_token->value, '/') != NULL)
 	{
-		if (access(start_token->value, F_OK) == 0)
-		{
-			if (access(start_token->value, X_OK) == 0)
-				return (start_token->value);
-		}
-		else
-			return (NULL);
+		struct stat buf;
+		stat(start_token->value, &buf);
+		if (errno == EACCES)
+			return (ft_error(ERR_PERMISSION_DENIED, start_token->value, 0), 1);
+		if (S_ISDIR(buf.st_mode))
+			return (ft_error(ERR_IS_A_DIRECTORY, start_token->value, 0), 1);
+		if (access(start_token->value, F_OK))
+			return (ft_error(ERR_PERMISSION_DENIED, start_token->value, 0), ERR_CMD_NOT_FOUND);
+		if (access(start_token->value, X_OK))
+			return (ft_error(ERR_PERMISSION_DENIED, start_token->value, 0), ERR_PERMISSION_DENIED);
+		*cmd_path = start_token->value;
+		return (0);
 	}
-	path = ft_get_env(s->env, "PATH");
-	paths = ft_split(path, ':', s);
+	env = ft_get_env(s->env, "PATH");
+	paths = ft_split(env, ':', s);
 	while (paths[++i])
 	{
-		cmd_path = ft_strjoin(paths[i], "/", s);
-		cmd_path = ft_strjoin(cmd_path, start_token->value, s);
-		if (access(cmd_path, F_OK) == 0)
-			return (cmd_path);
+		path = ft_strjoin(paths[i], "/", s);
+		path = ft_strjoin(path, start_token->value, s);
+		struct stat buf;
+		stat(path, &buf);
+		if (S_ISDIR(buf.st_mode))
+			return (ft_error(ERR_IS_A_DIRECTORY, path, 0), 1);
+		if (!access(path, F_OK) && !access(path, X_OK))
+		{
+			*cmd_path = path;
+			return (0);
+		}
 	}
-	return (NULL);
+	return (ft_error(ERR_CMD_NOT_FOUND, start_token->value, 0), ERR_CMD_NOT_FOUND);
+	return (1);
 }
 
 void	close_pipes_all(int *pipes, int cmd_amount, int i)

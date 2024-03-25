@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 01:02:10 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/20 13:30:02 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/22 18:21:51 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,26 @@ void	ft_init_dupes(t_exec *exec, int *pipes, int cmd_amount, int i)
 	}
 	else if (i == cmd_amount - 1)
 	{
-		if (exec->in_file && exec->out_fd)
+		if (exec->in_file && exec->out_file)
 			mother_close_pipes_all(pipes, cmd_amount);
 		else if (exec->in_file)
 			mother_close_pipes_all(pipes, cmd_amount);
-		else if (exec->out_fd)
-			mother_close_pipes_all(pipes, cmd_amount);
+		else if (exec->out_file)
+		{
+			dup2(pipes[(i - 1) * 2], 0);
+			close_pipes_all(pipes, cmd_amount, i);
+		}
 	}
 	else
 	{
-		if (exec->in_file && exec->out_fd)
+		if (exec->in_file && exec->out_file)
 			mother_close_pipes_all(pipes, cmd_amount);
 		else if (exec->in_file)
 		{
 			dup2(pipes[i * 2 + 1], 1);
 			close_pipes_all(pipes, cmd_amount, i);
 		}
-		else if (exec->out_fd)
+		else if (exec->out_file)
 		{
 			dup2(pipes[(i - 1) * 2], 0);
 			close_pipes_all(pipes, cmd_amount, i);
@@ -109,7 +112,7 @@ int	ft_dup_redictions(t_exec *exec)
 			exec->in_fd = open(exec->in_file, O_RDONLY);
 		if (exec->in_fd == -1)
 		{
-			ft_write_error(exec->in_file, "No such file or directory");
+			dprintf(2, "minishell: %s: No such file or directory\n", exec->in_file);
 			if (exec->type == CMD_PATH)
 				exit(1);
 			else
@@ -125,7 +128,7 @@ int	ft_dup_redictions(t_exec *exec)
 			exec->out_fd = open(exec->out_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (exec->out_fd == -1)
 		{
-			ft_write_error(exec->out_file, "No such file or directory");
+			dprintf(2, "minishell: %s: No such file or directory\n", exec->out_file);
 			if (exec->type == CMD_PATH)
 				exit(1);
 			else

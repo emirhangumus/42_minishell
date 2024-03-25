@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:00:37 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/20 10:32:14 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/22 18:13:01 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ int	ft_unset(t_exec *exec, t_state *s)
 		while (exec->cmd_args[i][j] && exec->cmd_args[i][j] != '=')
 			j++;
 		key = ft_substr(exec->cmd_args[i], 0, j, s);
-		new_env = (char **)malloc(sizeof(char *) * ft_arr_len(s->env));
+		if (ft_arr_include(s->env, key, ft_env_key_cmp) == -1)
+			new_env = (char **)malloc(sizeof(char *) * (ft_arr_len(s->env) + 1));
+		else
+			new_env = (char **)malloc(sizeof(char *) * ft_arr_len(s->env));
 		j = 0;
 		k = 0;
 		while (s->env[j])
@@ -59,44 +62,80 @@ int	ft_unset(t_exec *exec, t_state *s)
 	return (0);
 }
 
+int ft_isallnum(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '-')
+		i++;
+	else if (str[i] == '+')
+		i++;
+	while (str[i])
+	{
+		if (ft_isdigit(str[i]) == 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	ft_exit(t_exec *exec, t_state *s)
 {
-	unsigned char	exit_code;
-	int				cmd_args_amount;
+	int	exit_code;
+	int	cmd_args_amount;
 
-	(void)s;
 	cmd_args_amount = ft_arr_len(exec->cmd_args);
+	printf("exit\n");
 	if (cmd_args_amount > 2)
-		return (ft_write_error("exit", "too many arguments"), 1);
-	exit_code = ft_atoi(exec->cmd_args[1]);
-	if (exit_code == 255)
 	{
-		ft_write_error("exit", "numeric argument required");
-		exit(255);
+		dprintf(2, "exit: too many arguments\n");
+		exit_code = 1;
 	}
+	else
+	{
+		if (exec->cmd_args[1])
+			exit_code = ft_atoi(exec->cmd_args[1]);
+		else
+			exit_code = 0;
+	}
+	if (exec->cmd_args[1] && ft_isallnum(exec->cmd_args[1]) == 0)
+	{
+		dprintf(2, "exit: %s: numeric argument required\n", exec->cmd_args[1]);
+		exit_code = 255;
+	}
+	s->exit_status = &exit_code;
 	exit(exit_code);
+	return (0);
 }
 
 int	ft_cd(t_exec *exec, t_state *s)
 {
+	int		j;
+
 	if (exec->cmd_args[1] == NULL)
 	{
 		if (chdir(ft_get_env(s->env, "HOME")) == -1)
-			printf("cd: HOME not set\n");
+			dprintf(2, "cd: HOME not set\n");
 	}
 	else if (ft_strcmp(exec->cmd_args[1], "~") == 0)
 	{
 		if (chdir(ft_get_env(s->env, "HOME")) == -1)
-			printf("cd: HOME not set\n");
+			dprintf(2, "cd: HOME not set\n");
 	}
 	else if (ft_strcmp(exec->cmd_args[1], "-") == 0)
 	{
+		
 		if (chdir(ft_get_env(s->env, "OLDPWD")) == -1)
-			printf("cd: OLDPWD not set\n");
+			dprintf(2, "cd: OLDPWD not set\n");
+		j = ft_arr_include(s->env, "OLDPWD", ft_env_key_cmp);
+		free(s->env[j]);
+		s->env[j] = ft_strjoin("OLDPWD", "=", s);
+		s->env[j] = ft_strjoin(s->env[j], s->cwd, NULL);
 	}
 	else if (chdir(exec->cmd_args[1]) == -1)
 	{
-		printf("cd: %s: No such file or directory\n", exec->cmd_args[1]);
+		dprintf(2, "cd: %s: No such file or directory\n", exec->cmd_args[1]);
 		return (1);
 	}
 	s->cwd = getcwd(s->cwd, 1024);

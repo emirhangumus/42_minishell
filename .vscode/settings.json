@@ -22,11 +22,12 @@
 		"readline.h": "c",
 		"history.h": "c",
 		"sstream": "c",
-		"ostream": "c"
+		"ostream": "c",
+		"cstdlib": "c",
+		"errno.h": "c"
 	},
 	"editor.fontSize": 12,
     "files.exclude": {
         "**/**.o": true,
     }
-
 }
