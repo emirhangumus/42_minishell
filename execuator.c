@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 18:09:02 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 20:44:22 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,17 @@ void	ft_lets_go(t_state *s, t_exec **exec)
 		i = s->cmd_amount - 1;
 		while (i >= 0)
 		{
-			waitpid(s->forks[i], (int *)&s->status, 0);
+			if (i == s->cmd_amount - 1)
+				waitpid(s->forks[i], (int *)&s->status, 0);
+			waitpid(s->forks[i], NULL, 0);
 			i--;
 		}
 	}
 	else
 		s->status = exec_one_command(s, exec);
 }
+
+
 
 int	ft_execuator(t_state *s)
 {
