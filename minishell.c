@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:05 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/22 15:31:46 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 13:16:44 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	ft_init_state(t_state *s)
 	s->tokens = NULL;
 	s->cwd = getcwd(NULL, 0);
 	s->status = 0;
+	s->cmd_amount = 0;
 	s->exit_status = NULL;
 	return (0);
 }

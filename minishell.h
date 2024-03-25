@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/22 17:10:07 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 13:20:23 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ typedef struct s_state
 	char			*cwd;
 	char			**env;
 	char			status;
+	int			cmd_amount;
 	int				fd;
 	int				*pipes;
 	int				*forks;
@@ -191,7 +192,7 @@ int		ft_get_cmd_path(t_token *start_token, t_state *s, char **cmd_path);
 void	close_pipes_all(int *pipes, int cmd_amount, int i);
 void	mother_close_pipes_all(int *pipes, int cmd_amount);
 int		ft_init_execs(t_state *s, t_exec **exec);
-void	ft_init_pipes(t_state *s, int cmd_amount);
+void	ft_init_pipes(t_state *s);
 int		ft_dup_redictions(t_exec *exec);
 int		ft_is_redirection(t_token *token);
 int		close_redir_fd(t_exec *exec, int fd);

@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/22 18:25:14 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 13:20:12 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ static void	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 	exec->out_file = NULL;
 	while (tokens)
 	{
+		if (ft_is_redirection(tokens) && (exec->type == CMD_BUILTIN && s->cmd_amount == 1))
+		{
+			tokens = tokens->next;
+			continue ;
+		}
 		if (ft_is_redirection(tokens))
 		{
 			if (tokens->type == T_LREDIR || tokens->type == T_LAPPEND)
@@ -115,14 +120,14 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 	return (0);
 }
 
-void	ft_init_pipes(t_state *s, int cmd_amount)
+void	ft_init_pipes(t_state *s)
 {
 	int	i;
 
 	i = 0;
-	s->pipes = malloc(sizeof(int) * (cmd_amount * 2));
-	s->forks = malloc(sizeof(int) * (cmd_amount));
-	while (i < cmd_amount)
+	s->pipes = malloc(sizeof(int) * (s->cmd_amount * 2));
+	s->forks = malloc(sizeof(int) * (s->cmd_amount));
+	while (i < s->cmd_amount)
 	{
 		if (pipe(s->pipes + i * 2) < 0)
 		{
