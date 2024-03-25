@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/25 14:52:41 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 15:56:05 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@
 
 # define ERR_CMD_NOT_FOUND 127
 # define ERR_IS_A_DIRECTORY 126
-# define ERR_PERMISSION_DENIED 125
+# define ERR_PERMISSION_DENIED 126
 # define ERR_NUMERIC_ARG 255
 # define ERR_PIPE_INIT 124
 # define ERR_NOT_VALID_IDENTIFIER 123
 # define ERR_NO_FILE_OR_DIR 1
-# define ERR_EMPTY_COMMAND 31
+# define ERR_EMPTY_COMMAND 127
 # define ERR_UNEXPECTED_TOKEN 2
 # define ERR_MALLOC 3
 # define SUCCESS 0
