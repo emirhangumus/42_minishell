@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/25 17:40:38 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 22:22:07 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ typedef struct s_exec
 	char	*out_file;
 	char	*in_file;
 	int		in_type;
+	int		err_outs[2];
+	int		should_run;
 	int		in_fd;
 	int		out_fd;
 	int		type;

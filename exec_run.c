@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:04:11 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 20:23:18 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/25 22:23:22 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	exec_one_command(t_state *s, t_exec **exec)
 {
 	int	fd;
 
+	if (exec[0]->should_run)
+		return (1);
 	if (exec[0]->type == CMD_BUILTIN)
 	{
 		fd = dup(1);
