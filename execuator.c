@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/26 13:25:22 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 14:01:19 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	ft_execuator(t_state *s)
 	ft_add_garbage(s, exec);
 	exec[s->cmd_amount] = NULL;
 	s->status = ft_init_execs(s, exec);
-	if (s->status && s->cmd_amount == 1)
+	if ((s->status && s->cmd_amount == 1) || (exec[s->cmd_amount - 1]->should_run && exec[s->cmd_amount - 1]->type == CMD_BUILTIN))
 		return (s->status);
 	// ft_print_execs(exec);
 	ft_init_pipes(s);

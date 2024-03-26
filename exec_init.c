@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/26 13:32:48 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 14:11:21 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 				exec->out_type = tokens->type;
 				exec->out_file = ft_strdup(tokens->next->value, s);
 			}
-			i = ft_open_check_files(exec);
+			i = ft_open_check_files(exec, i);
 		}
 		tokens = tokens->next;
 	}

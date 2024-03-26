@@ -1,11 +1,1 @@
-Test  55: ❌ cat minishell.h | grep ");"$ 
-Test  56: ❌ export GHOST=123 | env | grep GHOST 
-Test  58: ❌ grep hi "<infile" <         ./test_files/infile 
-
-
-
-
-Test  99: ❌ echo hi | echo bye >./test_files/invalid_permission 
-Test 101: ❌ echo hi | echo bye >./test_files/invalid_permission >./outfiles/outfile01 
-Test 128: ❌ echo hi | echo bye >>./test_files/invalid_permission 
-Test 129: ❌ echo hi | echo >>./outfiles/outfile01 bye >./test_files/invalid_permission 
+136
