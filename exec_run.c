@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:04:11 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 22:23:22 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 13:33:35 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,9 @@ void	ft_run_commands(t_state *s, t_exec **exec, int cmd_amount, int i)
 
 void	ft_run_redirects(t_state *s, t_exec **exec, int cmd_amount, int i)
 {
+
+	if (exec[i]->should_run)
+		ft_run_commands(s, exec, cmd_amount, i);
 	if (i == 0)
 	{
 		ft_init_dupes(exec[i], s->pipes, cmd_amount, i);

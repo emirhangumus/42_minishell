@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 01:02:10 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/26 10:05:29 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 12:29:29 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	ft_open_check_files(t_exec *exec)
 			exec->err_outs = 1;
 		return (ERR_NO_FILE_OR_DIR);
 		}
-		if (access(exec->in_file, R_OK) == -1)
+		if (!access(exec->in_file, F_OK) && access(exec->in_file, R_OK) == -1)
 		{
 			exec->should_run = 1;
 			ft_error(ERR_PERMISSION_DENIED, exec->in_file, 0);
@@ -133,17 +133,17 @@ int	ft_open_check_files(t_exec *exec)
 			exec->out_fd = open(exec->out_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (exec->out_fd == -1 && exec->err_outs == 0)
 		{
+			if (!access(exec->out_file, F_OK) && access(exec->out_file, W_OK) == -1)
+			{
+				exec->should_run = 1;
+				ft_error(ERR_PERMISSION_DENIED, exec->out_file, 0);
+				exec->err_outs = 1;
+				return (1);
+			}
 			exec->should_run = 1;
 			ft_error(ERR_NO_FILE_OR_DIR, exec->out_file, 0);
 			exec->err_outs = 1;
-		return (ERR_NO_FILE_OR_DIR);
-		}
-		if (access(exec->out_file, R_OK) == -1)
-		{
-			exec->should_run = 1;
-			ft_error(ERR_PERMISSION_DENIED, exec->out_file, 0);
-			exec->err_outs = 1;
-			return (126);
+			return (ERR_NO_FILE_OR_DIR);
 		}
 	}
 	return (0);

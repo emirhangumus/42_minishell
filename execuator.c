@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 20:44:22 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 13:25:22 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_run_pipes(t_state *s, t_exec **exec, int cmd_amount, int i)
 {
+
 	if (!exec[i]->in_type && !exec[i]->out_type)
 		ft_run_commands(s, exec, cmd_amount, i);
 	else
@@ -54,7 +55,6 @@ void	ft_lets_go(t_state *s, t_exec **exec)
 int	ft_execuator(t_state *s)
 {
 	t_exec	**exec;
-	int		err_no;
 
 	s->cmd_amount = ft_amount_cmd(s->tokens);
 	if (s->cmd_amount == 0)
@@ -62,12 +62,9 @@ int	ft_execuator(t_state *s)
 	exec = malloc(sizeof(t_exec *) * (s->cmd_amount + 1));
 	ft_add_garbage(s, exec);
 	exec[s->cmd_amount] = NULL;
-	err_no = ft_init_execs(s, exec);
-	if (err_no)
-	{
-		s->status = err_no;
-		return (err_no);
-	}
+	s->status = ft_init_execs(s, exec);
+	if (s->status && s->cmd_amount == 1)
+		return (s->status);
 	// ft_print_execs(exec);
 	ft_init_pipes(s);
 	ft_lets_go(s, exec);

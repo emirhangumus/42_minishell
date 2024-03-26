@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:37:15 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/26 10:11:14 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 13:31:13 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,8 @@ int	get_all_cmd(t_exec *exec, t_state *s, t_token *tmp, t_token *tmp1)
 	if (err && !(exec->type == CMD_BUILTIN))
 		return (err);
 	err = ft_init_redirections(tmp1, exec, s);
+	exec->cmd_args = ft_get_args(s, tmp1, tmp->value);
 	if (err)
 		return (err);
-	exec->cmd_args = ft_get_args(s, tmp1, tmp->value);
 	return (0);
 }

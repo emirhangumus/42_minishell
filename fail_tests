@@ -1,13 +1,11 @@
 Test  55: ❌ cat minishell.h | grep ");"$ 
 Test  56: ❌ export GHOST=123 | env | grep GHOST 
 Test  58: ❌ grep hi "<infile" <         ./test_files/infile 
-Test  77: ❌ cat <missing | cat 
-Test  78: ❌ cat <missing | echo oi 
-Test  79: ❌ cat <missing | cat <"./test_files/infile" 
-Test  96: ❌ echo hi >./outfiles/outfile01 >./test_files/invalid_permission | echo bye 
-Test  97: ❌ echo hi >./test_files/invalid_permission | echo bye 
-Test 100: ❌ echo hi | >./outfiles/outfile01 echo bye >./test_files/invalid_permission 
-cat: ./mini_outfiles/*: No such file or directory
+
+
+
+
+Test  99: ❌ echo hi | echo bye >./test_files/invalid_permission 
 Test 101: ❌ echo hi | echo bye >./test_files/invalid_permission >./outfiles/outfile01 
-Test 126: ❌ echo hi >>./test_files/invalid_permission | echo bye 
-Test 131: ❌ cat <minishell.h|ls
+Test 128: ❌ echo hi | echo bye >>./test_files/invalid_permission 
+Test 129: ❌ echo hi | echo >>./outfiles/outfile01 bye >./test_files/invalid_permission 

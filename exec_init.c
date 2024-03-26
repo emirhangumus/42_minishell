@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/26 09:59:27 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 13:32:48 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 	exec->out_file = NULL;
 	while (tokens)
 	{
-		if (ft_is_redirection(tokens))
+		if (ft_is_redirection(tokens) && tokens->next)
 		{
 			if (tokens->type == T_LREDIR || tokens->type == T_LAPPEND)
 			{
@@ -52,6 +52,7 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 	int			j;
 	int			err;
 
+	err = 0;
 	j = -1;
 	i = -1;
 	tmp = s->tokens;
@@ -64,13 +65,11 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 			{
 				exec[++j] = malloc(sizeof(t_exec));
 				err = get_all_cmd(exec[j], s, tmp[i], tmp1[i]);
-				if (err)
-					return (err);
 			}
 			tmp[i] = tmp[i]->next;
 		}
 	}
-	return (0);
+	return (err);
 }
 
 void	ft_init_pipes(t_state *s)
