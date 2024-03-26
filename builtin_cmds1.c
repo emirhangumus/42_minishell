@@ -6,35 +6,11 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:00:46 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 14:54:40 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 15:11:08 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	**ft_add_env(char **env, char *key, char *value, t_state *s)
-{
-	int		i;
-	char	*new_env;
-	char	**new_envp;
-
-	i = 0;
-	while (env[i])
-		i++;
-	new_env = ft_strjoin(key, "=", s);
-	new_env = ft_strjoin(new_env, value, NULL);
-	new_envp = (char **)malloc(sizeof(char *) * (i + 2));
-	i = 0;
-	while (env[i])
-	{
-		new_envp[i] = ft_strdup(env[i], NULL);
-		i++;
-	}
-	new_envp[i] = new_env;
-	new_envp[i + 1] = NULL;
-	ft_free_tab(env);
-	return (new_envp);
-}
 
 int	ft_export_is_valid(t_exec *exec)
 {
@@ -48,17 +24,13 @@ int	ft_export_is_valid(t_exec *exec)
 		while (exec->cmd_args[i][j] && exec->cmd_args[i][j] != '=')
 		{
 			if (exec->cmd_args[i][j] == '-')
-			{
-				ft_error(ERR_NOT_VALID_IDENTIFIER, exec->cmd_args[i], 0);
-				return (1);
-			}
+				return (ft_error(ERR_NOT_VALID_IDENTIFIER, \
+					exec->cmd_args[i], 0), 1);
 			j++;
 		}
 		if (exec->cmd_args[i][j] && !exec->cmd_args[i][j + 1])
-		{
-			ft_error(ERR_NOT_VALID_IDENTIFIER, exec->cmd_args[i], 0);
-			return (1);
-		}
+			return (ft_error(ERR_NOT_VALID_IDENTIFIER, \
+				exec->cmd_args[i], 0), 1);
 		i++;
 	}
 	if (ft_is_starts_with_digit(exec))
@@ -105,59 +77,6 @@ int	ft_export(t_exec *exec, t_state *s)
 	}
 	return (0);
 }
-
-// int	ft_export(t_exec *exec, t_state *s)
-// {
-// 	int		i;
-// 	int		j;
-// 	char	*key;
-// 	char	*value;
-
-// 	i = 1;
-// 	while (exec->cmd_args[i])
-// 	{
-// 		j = 0;
-// 		while (exec->cmd_args[i][j] && exec->cmd_args[i][j] != '=')
-// 		{
-// 			if (exec->cmd_args[i][j] == '-')
-// 			{
-// 				dprintf(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", exec->cmd_args[i]);
-// 				return (1);
-// 			}
-// 			j++;
-// 		}
-// 		if (!exec->cmd_args[i][j])
-// 		{
-// 			dprintf(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", exec->cmd_args[i]);
-// 			return (1);
-// 		}
-// 		if (exec->cmd_args[i][j] && !exec->cmd_args[i][j + 1])
-// 		{
-// 			dprintf(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n", exec->cmd_args[i]);
-// 			return (1);
-// 		}
-
-// 		i++;
-// 	}
-// 	// value = NULL;
-// // key = ft_substr(exec->cmd_args[i], 0, j, s);
-// // if (exec->cmd_args[i][j] == '=')
-// // 	value = ft_substr(exec->cmd_args[i], j + 1, \
-// // 		ft_strlen(exec->cmd_args[i]) - j - 1, s);
-// // else
-// // 	value = NULL;
-// // if (ft_arr_include(s->env, key, ft_env_key_cmp) == -1)
-// // 	s->env = ft_add_env(s->env, key, value, s);
-// // else
-// // {
-// // 	j = ft_arr_include(s->env, key, ft_env_key_cmp);
-// // 	free(s->env[j]);
-// // 	s->env[j] = ft_strjoin(key, "=", s);
-// // 	s->env[j] = ft_strjoin(s->env[j], value, NULL);
-// // }	
-// 	return (0);
-// }
-
 
 int	ft_echo_is_valid(char *arg)
 {

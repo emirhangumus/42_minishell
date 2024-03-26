@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 01:02:10 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/26 14:11:56 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 14:59:26 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ int	close_redir_fd(t_exec *exec, int fd)
 		close(fd);
 	return (0);
 }
+
+
 
 int	ft_open_check_files(t_exec *exec, int status)
 {

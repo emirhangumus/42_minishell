@@ -6,13 +6,13 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 04:18:40 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/04 04:18:41 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 15:14:01 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char    **ft_arr_dup(char **arr)
+char	**ft_arr_dup(char **arr)
 {
 	char	**dup;
 	int		i;

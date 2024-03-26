@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/26 14:11:21 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 14:53:50 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,8 @@
 int	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 {
 	int		i;
-	
+
 	i = 0;
-	exec->in_type = 0;
-	exec->out_type = 0;
-	exec->in_fd = 0;
-	exec->out_fd = 0;
-	exec->in_file = NULL;
-	exec->out_file = NULL;
 	while (tokens)
 	{
 		if (ft_is_redirection(tokens) && tokens->next)
@@ -42,6 +36,16 @@ int	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 		tokens = tokens->next;
 	}
 	return (i);
+}
+
+void	ft_fill_execs(t_exec *exec)
+{
+	exec->in_type = 0;
+	exec->out_type = 0;
+	exec->in_fd = 0;
+	exec->out_fd = 0;
+	exec->in_file = NULL;
+	exec->out_file = NULL;
 }
 
 int	ft_init_execs(t_state *s, t_exec **exec)
@@ -64,6 +68,7 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 			if (tmp[i]->type == T_CMD)
 			{
 				exec[++j] = malloc(sizeof(t_exec));
+				ft_fill_execs(exec[j]);
 				err = get_all_cmd(exec[j], s, tmp[i], tmp1[i]);
 			}
 			tmp[i] = tmp[i]->next;

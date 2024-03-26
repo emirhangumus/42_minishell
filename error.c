@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/26 15:20:34 by burkaya           #+#    #+#             */
+/*   Updated: 2024/03/26 15:25:06 by burkaya          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	ft_err_arg(char *str, char *arg)
@@ -9,15 +21,15 @@ void	ft_err_arg(char *str, char *arg)
 	write(2, "\n", 1);
 }
 
-void    ft_error(int err, char *str, int throw_exit)
+void	ft_error_part1(int err, char *str)
 {
-    if (err == ERR_CMD_NOT_FOUND)
-    {
-        if (str)
+	if (err == ERR_CMD_NOT_FOUND)
+	{
+		if (str)
 			ft_err_arg("command not found", str);
-        else
-            write(2, "minishell: command not found\n", 27);
-    }
+		else
+			write(2, "minishell: command not found\n", 27);
+	}
 	else if (err == ERR_IS_A_DIRECTORY)
 	{
 		if (str)
@@ -32,18 +44,21 @@ void    ft_error(int err, char *str, int throw_exit)
 		else
 			write(2, "minishell: permission denied\n", 30);
 	}
-    else if (err == ERR_UNEXPECTED_TOKEN)
-    {
-        if (str)
+}
+
+void	ft_error_part2(int err, char *str)
+{
+	if (err == ERR_UNEXPECTED_TOKEN)
+	{
+		if (str)
 			ft_err_arg("syntax error near unexpected token", str);
-        else
-            write(2, "minishell: syntax error near unexpected token\n", 47);
-    }
+		else
+			write(2, "minishell: syntax error near unexpected token\n", 47);
+	}
 	else if (err == ERR_EMPTY_COMMAND)
 	{
 		if (str)
 			ft_err_arg("command not found", str);
-
 		else
 			write(2, "minishell: command not found\n", 27);
 	}
@@ -54,7 +69,11 @@ void    ft_error(int err, char *str, int throw_exit)
 		else
 			write(2, "minishell: numeric argument required\n", 37);
 	}
-	else if (err == ERR_PIPE_INIT)
+}
+
+void	ft_error_part3(int err, char *str)
+{
+	if (err == ERR_PIPE_INIT)
 	{
 		if (str)
 			ft_err_arg("pipe init error", str);
@@ -75,15 +94,22 @@ void    ft_error(int err, char *str, int throw_exit)
 		else
 			write(2, "minishell: No such file or directory\n", 37);
 	}
-	else if (err == ERR_NOT_VALID_IDENTIFIER)
+}
+
+void	ft_error(int err, char *str, int throw_exit)
+{
+	ft_error_part1(err, str);
+	ft_error_part2(err, str);
+	ft_error_part3(err, str);
+	if (err == ERR_NOT_VALID_IDENTIFIER)
 	{
 		if (str)
 			ft_err_arg("not a valid identifier", str);
 		else
 			write(2, "minishell: not a valid identifier\n", 35);
 	}
-    if (throw_exit)
-        exit(1);
+	else if (throw_exit)
+		exit(1);
 }
 
 //export: `1a': not a valid identifier

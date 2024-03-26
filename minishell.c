@@ -6,13 +6,13 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:05 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/25 13:16:44 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 15:26:14 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int g_sig = -1;
+int	g_sig = -1;
 
 char	**ft_init_env(void)
 {

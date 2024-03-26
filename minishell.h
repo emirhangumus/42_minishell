@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/26 14:11:41 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 15:12:52 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,9 +161,10 @@ int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
 int		ft_isfullof(char *str, char c);
 char	*ft_itoa(int n, t_state *s);
-void	ft_write_error(char *cmd, char *error);
 void	ft_error_hub(t_state *s, int err);
 int		ft_is_starts_with_digit(t_exec *exec);
+int		ft_isallnum(char *str);
+char	**ft_add_env(char **env, char *key, char *value, t_state *s);
 
 /* SIGNALS */
 void	ft_sigint(int sig);

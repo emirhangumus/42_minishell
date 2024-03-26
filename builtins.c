@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 02:43:20 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/26 13:37:54 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 15:03:03 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 int	ft_is_builtin(char *value)
 {
-	// ft_strncmp kullanmadığımız için
-	// fazladan echoo gibi bir komutu da builtin olarak algılayabilir
 	if (ft_strcmp(value, "echo") == 0)
 		return (1);
 	if (ft_strcmp(value, "cd") == 0)

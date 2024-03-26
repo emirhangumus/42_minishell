@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:42:03 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/26 12:08:46 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 15:27:14 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ char	*ft_get_prompt_text(t_state *s)
 
 void	ft_init_tokens(t_state *s)
 {
-	int pipes;
-	
+	int	pipes;
+
 	pipes = ft_count_pipes(s->cmd);
 	s->tokens = (t_token **)malloc(sizeof(t_token *) * (pipes + 2));
 	if (!s->tokens)
@@ -43,7 +43,7 @@ void	ft_init_tokens(t_state *s)
 void	ft_start(t_state *s)
 {
 	int		err;
-	
+
 	ft_signals();
 	while (1)
 	{

@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:29:10 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/19 22:38:56 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 15:19:39 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_print_tokens(t_token **token)
 	t_token	**tmp;
 	t_token	*next;
 	int		i;
-	
+
 	if (!token || !*token)
 		return ;
 	tmp = token;
@@ -34,9 +34,9 @@ void	ft_print_tokens(t_token **token)
 	}
 }
 
-void ft_print_tab(char **tab)
+void	ft_print_tab(char **tab)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (tab[i])
@@ -48,8 +48,8 @@ void ft_print_tab(char **tab)
 
 void	ft_print_execs(t_exec **exec)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (exec[i])
@@ -72,7 +72,7 @@ void	ft_print_execs(t_exec **exec)
 
 void	ft_print_exec(t_exec *exec)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	printf("exec->cmd_path: %s\n", exec->cmd_path);
