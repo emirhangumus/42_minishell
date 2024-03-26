@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/26 14:51:06 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 15:51:45 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,24 @@ void	ft_lets_go(t_state *s, t_exec **exec)
 		s->status = exec_one_command(s, exec);
 }
 
+int	ft_check_cmd_types(t_exec **exec, int cmd_amount)
+{
+	int	i;
+	int	control;
+
+	control = 0;
+	i = 0;
+	while (exec[i])
+	{
+		if (!exec[i]->cmd_path && exec[i]->type != CMD_BUILTIN)
+			control++;
+		i++;
+	}
+	if (control == cmd_amount)
+		return (1);
+	return (0);
+}
+
 int	ft_execuator(t_state *s)
 {
 	t_exec	**exec;
@@ -65,6 +83,11 @@ int	ft_execuator(t_state *s)
 		&& exec[s->cmd_amount - 1]->type == CMD_BUILTIN))
 		return (s->status);
 	// ft_print_execs(exec);
+	if (ft_check_cmd_types(exec, s->cmd_amount))
+	{
+		s->status = ERR_CMD_NOT_FOUND;
+		return (s->status);
+	}
 	ft_init_pipes(s);
 	ft_lets_go(s, exec);
 	return (0);
