@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:51:51 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/25 15:55:16 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 22:31:58 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,12 @@ void ft_calc_dollars(char *str, t_lexer *l, t_state *s)
 		if (str[i] == '$')
 		{
 			if (quote == QUOTE_NONE || quote == QUOTE_TWO)
-				l->meta->dollars[count] = 1;
+			{
+				if (ft_isalnum(str[i + 1]) || str[i + 1] == '?')
+					l->meta->dollars[count] = 1;
+				else
+					l->meta->dollars[count] = 0;
+			}
 			else
 				l->meta->dollars[count] = 0;
 			count++;
@@ -255,17 +260,46 @@ char **ft_split_merge(char **split, t_state *s)
 	return (new_split);
 }
 
-int ft_is_redirect(char *str)
+int ft_is_redirect(char *str, char *original)
 {
-	if (ft_strncmp(str, "<<", 2) == 0)
-		return (2);
-	if (ft_strncmp(str, ">>", 2) == 0)
-		return (2);
-	if (ft_strncmp(str, ">", 1) == 0)
-		return (1);
-	if (ft_strncmp(str, "<", 1) == 0)
-		return (1);
-	return (SUCCESS);
+	int	quote;
+	int	i;
+
+	i = 0;
+	quote = QUOTE_NONE;
+	if (original)
+	{
+		while (original[i])
+		{
+			if (quote == QUOTE_NONE && (original[i] == '\'' || original[i] == '\"'))
+				quote = original[i];
+			else if (quote == original[i])
+				quote = QUOTE_NONE;
+			
+			if (quote == QUOTE_NONE && ft_strncmp(original + i, "<<", 2) == 0)
+				return (2);
+			if (quote == QUOTE_NONE && ft_strncmp(original + i, ">>", 2) == 0)
+				return (2);
+			if (quote == QUOTE_NONE && ft_strncmp(original + i, ">", 1) == 0)
+				return (1);
+			if (quote == QUOTE_NONE && ft_strncmp(original + i, "<", 1) == 0)
+				return (1);
+			i++;
+		}
+		return (SUCCESS);
+	}
+	else
+	{
+		if (ft_strncmp(str, "<<", 2) == 0)
+			return (2);
+		if (ft_strncmp(str, ">>", 2) == 0)
+			return (2);
+		if (ft_strncmp(str, ">", 1) == 0)
+			return (1);
+		if (ft_strncmp(str, "<", 1) == 0)
+			return (1);
+		return (SUCCESS);
+	}
 }
 
 char **ft_split_specials(char *str, t_state *s)
@@ -290,7 +324,7 @@ char **ft_split_specials(char *str, t_state *s)
 				quote = sp[i][j];
 			else if (quote == sp[i][j])
 				quote = QUOTE_NONE;
-			is_redirect = ft_is_redirect(sp[i] + j);
+			is_redirect = ft_is_redirect(sp[i] + j, NULL);
 			if (quote == QUOTE_NONE && is_redirect > 0)
 			{
 				ft_extend_str_by_index(&(sp[i]), j, ' ', s);
@@ -306,9 +340,10 @@ char **ft_split_specials(char *str, t_state *s)
 
 int ft_lexer_create(t_lexer *l, t_state *s)
 {
-	char **split;
-	int i;
-	int is_redirect;
+	char	**split;
+	int		i;
+	int		is_redirect;
+	char	*original;
 
 	split = ft_split_specials(l->str, s);
 	if (!split)
@@ -317,10 +352,11 @@ int ft_lexer_create(t_lexer *l, t_state *s)
 	is_redirect = 0;
 	while (split[i])
 	{
+		original = ft_strdup(split[i], s);
 		ft_calc_dollars(split[i], l, s);
 		if (ft_merge_args(&(split[i]), s, l))
 			return (ERR_UNEXPECTED_TOKEN);
-		is_redirect = ft_is_redirect(split[i]);
+		is_redirect = ft_is_redirect(split[i], original);
 		if (is_redirect > 0)
 		{
 			if (is_redirect == 2 && split[i + 1] && split[i][0] == '<')
