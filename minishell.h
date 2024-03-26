@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/25 22:22:07 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 09:59:41 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@
 
 # define ERR_CMD_NOT_FOUND 127
 # define ERR_IS_A_DIRECTORY 126
-# define ERR_PERMISSION_DENIED 126
+# define ERR_PERMISSION_DENIED 1261
 # define ERR_NUMERIC_ARG 255
 # define ERR_PIPE_INIT 124
 # define ERR_NOT_VALID_IDENTIFIER 123
@@ -114,7 +114,7 @@ typedef struct s_exec
 	char	*out_file;
 	char	*in_file;
 	int		in_type;
-	int		err_outs[2];
+	int		err_outs;
 	int		should_run;
 	int		in_fd;
 	int		out_fd;
@@ -210,7 +210,7 @@ void	ft_init_dupes(t_exec *exec, int *pipes, int cmd_amount, int i);
 int		ft_open_check_files(t_exec *exec);
 int		get_all_cmd(t_exec *exec, t_state *s, t_token *tmp, t_token *tmp1);
 char	**ft_get_args(t_state *s, t_token *tokens, char *cmd_name);
-void	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s);
+int		ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s);
 
 /* BUILTIN */
 int		ft_is_builtin(char *value);

@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 01:02:10 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 22:22:50 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 10:05:29 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,33 +104,47 @@ int	close_redir_fd(t_exec *exec, int fd)
 
 int	ft_open_check_files(t_exec *exec)
 {
-	if (exec->in_file)
+	if (exec->in_file && exec->err_outs == 0)
 	{
 		if (exec->in_type == T_LREDIR)
 			exec->in_fd = open(exec->in_file, O_RDONLY);
 		else if (exec->in_type == T_LAPPEND)
 			exec->in_fd = open(exec->in_file, O_RDONLY);
-		if (exec->in_fd == -1 && exec->err_outs[0] == 0)
+		if (exec->in_fd == -1 && exec->err_outs == 0)
 		{
 			exec->should_run = 1;
 			ft_error(ERR_NO_FILE_OR_DIR, exec->in_file, 0);
-			exec->err_outs[0] = 1;
+			exec->err_outs = 1;
+		return (ERR_NO_FILE_OR_DIR);
 		}
-		return (1);
+		if (access(exec->in_file, R_OK) == -1)
+		{
+			exec->should_run = 1;
+			ft_error(ERR_PERMISSION_DENIED, exec->in_file, 0);
+			exec->err_outs = 1;
+			return (126);
+		}
 	}
-	if (exec->out_file)
+	if (exec->out_file && exec->err_outs == 0)
 	{
 		if (exec->out_type == T_RREDIR)
 			exec->out_fd = open(exec->out_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else if (exec->out_type == T_RAPPEND)
 			exec->out_fd = open(exec->out_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (exec->out_fd == -1 && exec->err_outs[1] == 0)
+		if (exec->out_fd == -1 && exec->err_outs == 0)
 		{
 			exec->should_run = 1;
 			ft_error(ERR_NO_FILE_OR_DIR, exec->out_file, 0);
-			exec->err_outs[1] = 1;
+			exec->err_outs = 1;
+		return (ERR_NO_FILE_OR_DIR);
 		}
-		return (1);
+		if (access(exec->out_file, R_OK) == -1)
+		{
+			exec->should_run = 1;
+			ft_error(ERR_PERMISSION_DENIED, exec->out_file, 0);
+			exec->err_outs = 1;
+			return (126);
+		}
 	}
 	return (0);
 }

@@ -28,7 +28,7 @@ void    ft_error(int err, char *str, int throw_exit)
 	else if (err == ERR_PERMISSION_DENIED)
 	{
 		if (str)
-			ft_err_arg("permission denied", str);
+			ft_err_arg("Permission denied", str);
 		else
 			write(2, "minishell: permission denied\n", 30);
 	}

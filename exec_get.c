@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:37:15 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 22:22:26 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 10:11:14 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_find_absoulute_path(t_token *start_token, char **cmd_path)
 			ERR_CMD_NOT_FOUND);
 	if (access(start_token->value, X_OK))
 		return (ft_error(ERR_PERMISSION_DENIED, start_token->value, 0), \
-			ERR_PERMISSION_DENIED);
+			126);
 	*cmd_path = start_token->value;
 	return (0);
 }
@@ -97,8 +97,7 @@ int	get_all_cmd(t_exec *exec, t_state *s, t_token *tmp, t_token *tmp1)
 	int	err;
 
 	exec->should_run = 0;
-	exec->err_outs[0] = 0;
-	exec->err_outs[1] = 0;
+	exec->err_outs = 0;
 	err = 0;
 	ft_add_garbage(s, exec);
 	if (!exec)
@@ -111,7 +110,9 @@ int	get_all_cmd(t_exec *exec, t_state *s, t_token *tmp, t_token *tmp1)
 		err = ft_get_cmd_path(tmp, s, &exec->cmd_path);
 	if (err && !(exec->type == CMD_BUILTIN))
 		return (err);
-	ft_init_redirections(tmp1, exec, s);
+	err = ft_init_redirections(tmp1, exec, s);
+	if (err)
+		return (err);
 	exec->cmd_args = ft_get_args(s, tmp1, tmp->value);
 	return (0);
 }

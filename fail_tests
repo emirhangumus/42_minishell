@@ -1,0 +1,42 @@
+Test  58: ❌ grep hi "<infile" <         ./test_files/infile #exit code
+Test  88: ❌ ls >"./outfiles/outfile01" >./test_files/invalid_permission >"./outfiles/outfile02" #permission denied
+Test  89: ❌ ls >./test_files/invalid_permission >"./outfiles/outfile01" >./test_files/invalid_permission #permission denied
+cat: ./bash_outfiles/*: No such file or directory
+Test  98: ❌ echo hi >./test_files/invalid_permission >./outfiles/outfile01 | echo bye #permission denied
+cat: ./bash_outfiles/*: No such file or directory 
+Test  99: ❌ echo hi | echo bye >./test_files/invalid_permission #permission denied
+Test 100: ❌ echo hi | >./outfiles/outfile01 echo bye >./test_files/invalid_permission #permission denied
+cat: ./mini_outfiles/*: No such file or directory
+Test 101: ❌ echo hi | echo bye >./test_files/invalid_permission >./outfiles/outfile01 #permission denied
+cat: ./bash_outfiles/*: No such file or directory
+Test 104: ❌ cat <missing >./outfiles/outfile01 #niye anlasilmiyor
+cat: ./bash_outfiles/*: No such file or directory
+Test 116: ❌ ls >>./test_files/invalid_permission >>./outfiles/outfile01 #permission denied
+cat: ./bash_outfiles/*: No such file or directory
+Test 118: ❌ ls >./outfiles/outfile01 >>./test_files/invalid_permission >>./outfiles/outfile02  #permission denied
+Test 119: ❌ ls <missing >>./test_files/invalid_permission >>./outfiles/outfile02 #permission denied
+cat: ./bash_outfiles/*: No such file or directory
+Test 120: ❌ ls >>./test_files/invalid_permission >>./outfiles/outfile02 <missing #permission denied
+cat: ./bash_outfiles/*: No such file or directory
+Test 127: ❌ echo hi >>./test_files/invalid_permission >./outfiles/outfile01 | echo bye #permission denied
+cat: ./bash_outfiles/*: No such file or directory
+Test 128: ❌ echo hi | echo bye >>./test_files/invalid_permission #permission denied
+Test 129: ❌ echo hi | echo >>./outfiles/outfile01 bye >./test_files/invalid_permission #permission denied
+Test 130: ❌ cat <minishell.h>./outfiles/outfile #niye anlasilmiyor
+cat: ./bash_outfiles/*: No such file or directory
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Test  55: ❌ cat minishell.h | grep ");"$ 
+# Test  56: ❌ export GHOST=123 | env | grep GHOST 

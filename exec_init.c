@@ -6,14 +6,17 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 17:41:13 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/26 09:59:27 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
+int	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 {
+	int		i;
+	
+	i = 0;
 	exec->in_type = 0;
 	exec->out_type = 0;
 	exec->in_fd = 0;
@@ -34,10 +37,11 @@ void	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 				exec->out_type = tokens->type;
 				exec->out_file = ft_strdup(tokens->next->value, s);
 			}
-			ft_open_check_files(exec);
+			i = ft_open_check_files(exec);
 		}
 		tokens = tokens->next;
 	}
+	return (i);
 }
 
 int	ft_init_execs(t_state *s, t_exec **exec)
