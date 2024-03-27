@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/26 22:04:34 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/27 03:06:44 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@
 # define ERR_NUMERIC_ARG 255
 # define ERR_PIPE_INIT 124
 # define ERR_NOT_VALID_IDENTIFIER 123
-# define ERR_NO_FILE_OR_DIR 1
+# define ERR_NO_FILE_OR_DIR 1 // https://www.cyberciti.biz/faq/linux-bash-exit-status-set-exit-statusin-bash/
 # define ERR_EMPTY_COMMAND 1271
 # define ERR_UNEXPECTED_TOKEN 2
 # define ERR_MALLOC 3

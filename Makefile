@@ -49,7 +49,7 @@ push: fclean
 	git commit -m "$(m)"
 	git push
 
-test:
+test: re
 	cd minishell_tester && ./tester
 
 .PHONY: all clean fclean re push

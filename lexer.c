@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:51:51 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/26 22:31:58 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/27 02:43:27 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -398,8 +398,13 @@ static int ft_remove_tokens_command(t_token **token, int (*f)(void *))
 			free(tmp);
 			tmp = prev;
 		}
-		if (i == 0 && !tmp)
-			return (ERR_EMPTY_COMMAND);
+		if (!tmp)
+		{
+			if (i == 0 && *token)
+				(*token)->type = T_CMD;
+			tmp = *token;
+			continue ;
+		}
 		prev = tmp;
 		tmp = tmp->next;
 		i++;
