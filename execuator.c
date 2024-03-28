@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/26 16:26:23 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/28 15:25:42 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_run_pipes(t_state *s, t_exec **exec, int cmd_amount, int i)
 		mother_close_pipes_all(s->pipes, cmd_amount);
 		exit(127);
 	}
-	if (!exec[i]->in_type && !exec[i]->out_type)
+	else if (!exec[i]->in_type && !exec[i]->out_type)
 		ft_run_commands(s, exec, cmd_amount, i);
 	else
 		ft_run_redirects(s, exec, cmd_amount, i);
@@ -97,3 +97,9 @@ int	ft_execuator(t_state *s)
 	ft_lets_go(s, exec);
 	return (0);
 }
+
+/*
+git fetch origin
+git checkout 2-linux-heredoc
+*/
+

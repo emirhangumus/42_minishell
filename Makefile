@@ -8,12 +8,12 @@ OBJ = $(SRC:.c=.o)
 READLINE = -L./lib/readline/lib -I./lib/readline/include/readline -lreadline 
 DIR	= $(shell echo $(PWD))
 RM = rm -rf
-RL = ./lib/readline/lib/libreadline.a
+RL = -L/usr/local/lib -I/usr/local/include -lreadline
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(RL)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(READLINE)
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(RL)
 
 $(RL):
 	@echo "Downloading readline"
@@ -22,22 +22,17 @@ $(RL):
 	@$(RM) readline-8.2-rc1.tar.gz
 	@cd readline-8.2-rc1 && ./configure --prefix=$(DIR)/lib/readline && make && make install
 	@$(RM) readline-8.2-rc1
-	@ echo "Readline installed"
+	@  echo "Readline installed"
 
 RLclean:
 	@$(RM) lib/readline
 	@echo "Readline removed"
 
-clean:
-	$(RM) $(OBJ)
-
 run: all
 	./$(NAME)
 
-val: all
-	#give it with output file
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes  --log-file=valgrind-out.txt ./$(NAME)
-
+clean:
+	$(RM) $(OBJ)
 
 fclean: clean
 	$(RM) $(NAME)
@@ -48,8 +43,5 @@ push: fclean
 	git add .
 	git commit -m "$(m)"
 	git push
-
-test: re
-	cd minishell_tester && ./tester
 
 .PHONY: all clean fclean re push
