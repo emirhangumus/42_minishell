@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:37:15 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/26 14:06:36 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/27 14:15:52 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ int	ft_find_rela_path(char **paths, t_token *token, t_state *s, char **cmd_path)
 {
 	char		*path;
 	int			i;
-	char		*env;
 	struct stat	buf;
 
-	env = ft_get_env(s->env, "PATH");
 	i = -1;
 	while (paths[++i])
 	{
@@ -61,11 +59,9 @@ int	ft_get_cmd_path(t_token *start_token, t_state *s, char **cmd_path)
 {
 	char	*env;
 	char	**paths;
-	int		i;
 
 	env = ft_get_env(s->env, "PATH");
 	paths = ft_split(env, ':', s);
-	i = -1;
 	if (ft_strchr(start_token->value, '/') != NULL)
 		return (ft_find_absoulute_path(start_token, cmd_path));
 	return (ft_find_rela_path(paths, start_token, s, cmd_path));

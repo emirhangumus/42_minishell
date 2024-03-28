@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/27 03:06:44 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/28 13:39:31 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,10 @@
 # define ERR_UNEXPECTED_TOKEN 2
 # define ERR_MALLOC 3
 # define SUCCESS 0
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 250
+# endif
 
 typedef struct s_token
 {
@@ -166,6 +170,13 @@ void	ft_error_hub(t_state *s, int err);
 int		ft_is_starts_with_digit(t_exec *exec);
 int		ft_isallnum(char *str);
 char	**ft_add_env(char **env, char *key, char *value, t_state *s);
+char	*get_next_line(int fd);
+char	*ft_read_to_left_str(int fd, char *left_str);
+char	*ft_strchr_gnl(char *s, int c);
+char	*ft_strjoin_gnl(char *left_str, char *buff);
+size_t	ft_strlen_gnl(char *s);
+char	*ft_get_line(char *left_str);
+char	*ft_new_left_str(char *left_str);
 
 /* SIGNALS */
 void	ft_sigint(int sig);
