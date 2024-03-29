@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:51:51 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/27 02:43:27 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/30 00:06:06 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -438,6 +438,23 @@ void ft_l_free_meta(t_lexer *l)
 	free(l->meta);
 }
 
+void ft_redirect_arrange(t_token **tokens)
+{
+	t_token	**tmp1;
+	t_token *tmp2;
+	int		i;
+
+	i = 0;
+	tmp1 = tokens;
+	while (tmp1[i])
+	{
+		tmp2 = tmp1[i];
+		if (tmp2->prev == NULL && ft_is_redirect(tmp2->value, NULL) && tmp2->next && tmp2->next->next)
+			tmp2->next->next->type = T_CMD;
+		i++;	
+	}
+}
+
 int ft_lexer(t_state *s)
 {
 	t_lexer *l;
@@ -466,5 +483,6 @@ int ft_lexer(t_state *s)
 	free(l);
 	if (err)
 		return (err);
+	ft_redirect_arrange(s->tokens);
 	return (SUCCESS);
 }

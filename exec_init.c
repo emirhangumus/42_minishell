@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/26 14:53:50 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 00:38:19 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 	int		i;
 
 	i = 0;
+
 	while (tokens)
 	{
 		if (ft_is_redirection(tokens) && tokens->next)
@@ -51,28 +52,29 @@ void	ft_fill_execs(t_exec *exec)
 int	ft_init_execs(t_state *s, t_exec **exec)
 {
 	t_token		**tmp;
-	t_token		**tmp1;
+	t_token		*next;
 	int			i;
 	int			j;
 	int			err;
 
 	err = 0;
 	j = -1;
-	i = -1;
+	i = 0;
 	tmp = s->tokens;
-	tmp1 = s->tokens;
-	while (tmp[++i])
+	while (tmp[i])
 	{
-		while (tmp[i])
+		next = tmp[i];
+		while (next)
 		{
-			if (tmp[i]->type == T_CMD)
+			if (next->type == T_CMD)
 			{
 				exec[++j] = malloc(sizeof(t_exec));
 				ft_fill_execs(exec[j]);
-				err = get_all_cmd(exec[j], s, tmp[i], tmp1[i]);
+				err = get_all_cmd(exec[j], s, next, tmp[i]);
 			}
-			tmp[i] = tmp[i]->next;
+			next = next->next;
 		}
+		i++;
 	}
 	return (err);
 }
