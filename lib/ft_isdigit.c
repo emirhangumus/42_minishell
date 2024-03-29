@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:31:35 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/26 15:12:41 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 02:21:42 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,11 @@ int	ft_isallnum(char *str)
 		i++;
 	}
 	return (1);
+}
+
+int ft_is_valid_env_key_char(char c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_' || (c >= '0' && c <= '9'))
+		return (1);
+	return (SUCCESS);
 }

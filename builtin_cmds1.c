@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:00:46 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/26 15:11:08 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 02:20:06 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,15 @@ int	ft_export_is_valid(t_exec *exec)
 			if (exec->cmd_args[i][j] == '-')
 				return (ft_error(ERR_NOT_VALID_IDENTIFIER, \
 					exec->cmd_args[i], 0), 1);
+			// if (ft_is_valid_env_key_char(exec->cmd_args[i][j]) == 0
+			// 	return (ft_error(ERR_NOT_VALID_IDENTIFIER, \
+			// 		exec->cmd_args[i], 0), 1);
 			j++;
 		}
 		if (exec->cmd_args[i][j] && !exec->cmd_args[i][j + 1])
 			return (ft_error(ERR_NOT_VALID_IDENTIFIER, \
 				exec->cmd_args[i], 0), 1);
+		
 		i++;
 	}
 	if (ft_is_starts_with_digit(exec))

@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/30 02:06:04 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 02:43:56 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,11 +129,12 @@ typedef struct s_exec
 
 typedef struct s_state
 {
+	char			*exec_name;
 	char			*cmd;
 	char			*cwd;
 	char			**env;
 	int				status;
-	int			cmd_amount;
+	int				cmd_amount;
 	int				fd;
 	int				*pipes;
 	int				*forks;
@@ -180,6 +181,8 @@ char	*ft_get_line(char *left_str);
 char	*ft_new_left_str(char *left_str);
 void	ft_arr_add_by_index(char ***arr, char *str, int index, t_state *s);
 void	ft_arr_remove_by_index(char ***arr, int index, t_state *s);
+int		ft_is_valid_env_key_char(char c);
+char	*ft_strrchr(const char *s, int c);
 
 /* SIGNALS */
 void	ft_sigint(int sig);

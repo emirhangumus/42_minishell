@@ -7,12 +7,9 @@ export => will be addded.
 echo bonjour > > out => opens and writes in out. bash -> bash: syntax error near unexpected token `>'. #lexera yazar
 echo >>> test => open file name with '>'. bash -> bash: syntax error near unexpected token `>'. #lexera yazar
 unset PATH - exec a command => seg fault. (could be because of ubuntu)
->, <, >>, <<, => does nothing. bash -> bash: syntax error near unexpected token `newline' #lexera yazar
->>>>>>>, > > > >, >>|<<,  #lexera yazar
 export HOL}A=bonjour => works bash -> bash: export: `HOL}A=bonjour': not a valid identifier
 HOL.A, HOL}A, HO*LA, HO#LA, +HOLA
 cd Makefile => wrong error output
 cd --
-cat >> #lexera yazar
 
 export a=at - c$a Makefile => This works my man just be proud of yourself!

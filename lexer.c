@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:51:51 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/30 02:06:08 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 02:39:34 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,6 @@ char *ft_joinstr_index(char *s1, char *s2, int start_index, t_state *s)
 	return (new);
 }
 
-int ft_isalnum(char c)
-{
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_')
-		return (1);
-	return (SUCCESS);
-}
-
 void ft_remove_key(char **str, int start_index, int end_index, t_state *s)
 {
 	while (end_index != start_index)
@@ -129,7 +122,7 @@ void ft_calc_dollars(char *str, t_lexer *l, t_state *s)
 		{
 			if (quote == QUOTE_NONE || quote == QUOTE_TWO)
 			{
-				if (ft_isalnum(str[i + 1]) || str[i + 1] == '?')
+				if (ft_is_valid_env_key_char(str[i + 1]) || str[i + 1] == '?')
 					l->meta->dollars[count] = 1;
 				else
 					l->meta->dollars[count] = 0;
@@ -205,13 +198,29 @@ int ft_merge_args(int index, t_state *s, t_lexer *l, char ***split)
 				}
 				else
 				{
-					while ((*str)[j] && ft_isalnum((*str)[j]))
-						j++;
-					key = ft_substr(*str, i + 1, j - i - 1, s);
-					value = ft_get_env(s->env, key);
-					ft_remove_key(str, i, j, s);
-					if (!value)
-						value = ft_strdup("", s);
+					if (ft_isdigit((*str)[j]))
+					{
+						if ((*str)[j] == '0')
+						{
+							ft_remove_key(str, i, j + 1, s);
+							value = s->exec_name;
+						}
+						else
+						{
+							ft_remove_key(str, i, j + 1, s);
+							continue ;
+						}
+					}
+					else 
+					{	
+						while ((*str)[j] && (ft_is_valid_env_key_char((*str)[j])))
+							j++;
+						key = ft_substr(*str, i + 1, j - i - 1, s);
+						value = ft_get_env(s->env, key);
+						ft_remove_key(str, i, j, s);
+						if (!value)
+							value = ft_strdup("", s);
+					}
 				}
 				len = ft_strlen(value);
 				temp = ft_strdup(*str, s);
