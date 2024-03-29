@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/28 15:25:42 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/29 22:31:52 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,11 @@ void	ft_lets_go(t_state *s, t_exec **exec)
 		while (i >= 0)
 		{
 			if (i == s->cmd_amount - 1)
-				waitpid(s->forks[i], (int *)&s->status, 0);
+			{
+				waitpid(s->forks[i], &s->status, 0);
+				if (WIFEXITED(s->status))
+					s->status = WEXITSTATUS(s->status);
+			}
 			waitpid(s->forks[i], NULL, 0);
 			i--;
 		}
@@ -97,9 +101,3 @@ int	ft_execuator(t_state *s)
 	ft_lets_go(s, exec);
 	return (0);
 }
-
-/*
-git fetch origin
-git checkout 2-linux-heredoc
-*/
-

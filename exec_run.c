@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:04:11 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/28 15:09:31 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/29 22:38:18 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ int	exec_one_command(t_state *s, t_exec **exec)
 		execve(exec[0]->cmd_path, exec[0]->cmd_args, s->env);
 	}
 	waitpid(s->forks[0], (int *)&s->status, 0);
-	return (0);
+	if (WIFEXITED(s->status))
+		s->status = WEXITSTATUS(s->status);
+	return (s->status);
 }
 
 void	ft_run_commands(t_state *s, t_exec **exec, int cmd_amount, int i)
@@ -75,7 +77,6 @@ void	ft_run_commands(t_state *s, t_exec **exec, int cmd_amount, int i)
 		execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
 	}
 }
-//ft_dup_redictions
 void	ft_run_redirects(t_state *s, t_exec **exec, int cmd_amount, int i)
 {
 	if (exec[i]->should_run)

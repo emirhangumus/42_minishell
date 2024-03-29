@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/28 13:39:31 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/29 22:27:55 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ typedef struct s_state
 	char			*cmd;
 	char			*cwd;
 	char			**env;
-	char			status;
+	int				status;
 	int			cmd_amount;
 	int				fd;
 	int				*pipes;

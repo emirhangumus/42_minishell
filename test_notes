@@ -1,27 +1,21 @@
 cd ~/Desktop => dont work
 cd - => seg
 mkdir a - mkdir a/b - cd a/b - rm -r ../../a - cd .. => inf loop. bash -> cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory.
-echo ~ => wrong output. bash -> /home/burak
 env Weirddd => wrong output. bash -> No such file or directory.
-export ls="ls -l" => wrong output (bu çalisiyodu be). bash -> execs ls -l.
+export ls="ls -l" => wrong output (bu çalisiyodu be). bash -> execs ls -l. #lexera yazar
 export => will be addded.
-$SHLVL => this env value needs to incremetn once pew new shell session
-.. => acts weird because of ubuntu i guess
 > test | echo blabla => should create file test.
-export var=" truc" => it contains space in begining. bash -> doesnt
-export var="truc " => it contains space in begining. bash -> doesnt
-echo bonjour > > out => opens and writes in out. bash -> bash: syntax error near unexpected token `>'.
-echo bonjour > $test => opens the file with value of the env. bash -> bash: $test: ambiguous redirect (i have never seen this bbefore amk).
-echo >>> test => open file name with '>'. bash -> bash: syntax error near unexpected token `>'.
+export var=" truc" => it contains space in begining. bash -> doesnt #lexera yazar
+export var="truc " => it contains space in begining. bash -> doesnt #lexera yazar
+echo bonjour > > out => opens and writes in out. bash -> bash: syntax error near unexpected token `>'. #lexera yazar
+echo >>> test => open file name with '>'. bash -> bash: syntax error near unexpected token `>'. #lexera yazar
 unset PATH - exec a command => seg fault. (could be because of ubuntu)
->, <, >>, <<, => does nothing. bash -> bash: syntax error near unexpected token `newline'
->>>>>>>, > > > >, >>|<<, 
+>, <, >>, <<, => does nothing. bash -> bash: syntax error near unexpected token `newline' #lexera yazar
+>>>>>>>, > > > >, >>|<<,  #lexera yazar
 export HOL}A=bonjour => works bash -> bash: export: `HOL}A=bonjour': not a valid identifier
 HOL.A, HOL}A, HO*LA, HO#LA, +HOLA
-pwd -p ????
 cd Makefile => wrong error output
 cd --
-whereis ls | cat -e | cat -e > /tmp/bonjour => gonna look
-cat >>
+cat >> #lexera yazar
 
 export a=at - c$a Makefile => This works my man just be proud of yourself!
