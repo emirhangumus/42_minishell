@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:37:15 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 00:21:40 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 00:45:46 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,9 @@ int	ft_get_cmd_path(t_token *start_token, t_state *s, char **cmd_path)
 	char	**paths;
 
 	env = ft_get_env(s->env, "PATH");
+	if (!env)
+		return (ft_error(ERR_CMD_NOT_FOUND, start_token->value, 0), \
+			ERR_CMD_NOT_FOUND);
 	paths = ft_split(env, ':', s);
 	if (ft_strchr(start_token->value, '/') != NULL)
 		return (ft_find_absoulute_path(start_token, cmd_path));

@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:42:03 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/30 00:09:55 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 02:01:33 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	ft_start(t_state *s)
 				continue ;
 			}
 			ft_init_prev_tokens(s->tokens);
-			// ft_print_tokens(s->tokens);
 			if (s->tokens != NULL && ft_execuator(s))
 			{
 				// ft_error(s->status, NULL, 0);

@@ -2,11 +2,8 @@ cd ~/Desktop => dont work
 cd - => seg
 mkdir a - mkdir a/b - cd a/b - rm -r ../../a - cd .. => inf loop. bash -> cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory.
 env Weirddd => wrong output. bash -> No such file or directory.
-export ls="ls -l" => wrong output (bu çalisiyodu be). bash -> execs ls -l. #lexera yazar
 export => will be addded.
 > test | echo blabla => should create file test.
-export var=" truc" => it contains space in begining. bash -> doesnt #lexera yazar
-export var="truc " => it contains space in begining. bash -> doesnt #lexera yazar
 echo bonjour > > out => opens and writes in out. bash -> bash: syntax error near unexpected token `>'. #lexera yazar
 echo >>> test => open file name with '>'. bash -> bash: syntax error near unexpected token `>'. #lexera yazar
 unset PATH - exec a command => seg fault. (could be because of ubuntu)

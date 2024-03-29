@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:51:51 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/30 00:06:06 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 02:06:08 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,33 @@ void ft_calc_dollars(char *str, t_lexer *l, t_state *s)
 	}
 }
 
-int ft_merge_args(char **str, t_state *s, t_lexer *l)
+int	ft_add_envs_as_arg_or_cmd(int index, t_lexer *l, t_state *s, char ***split)
+{
+	(void)l;
+	(void)s;
+	(void)split;
+
+	char **str;
+	int	i;
+	int	j;
+	char **split2;
+
+	i = 0;
+	j = 0;
+	str = &((*split)[index]);
+	split2 = ft_quote_split(*str, " ", s);
+	if (split2 != NULL)
+		ft_arr_remove_by_index(split, index, s);
+	while (split2[i])
+	{
+		ft_arr_add_by_index(split, split2[i], index, s);
+		index++;
+		i++;
+	}
+	return (SUCCESS);
+}
+
+int ft_merge_args(int index, t_state *s, t_lexer *l, char ***split)
 {
 	int quote;
 	int i;
@@ -153,7 +179,10 @@ int ft_merge_args(char **str, t_state *s, t_lexer *l)
 	char *value;
 	int dollar_counter;
 	int len;
+	char *temp;
+	char **str;
 
+	str = &((*split)[index]);
 	i = 0;
 	j = 0;
 	dollar_counter = 0;
@@ -185,7 +214,10 @@ int ft_merge_args(char **str, t_state *s, t_lexer *l)
 						value = ft_strdup("", s);
 				}
 				len = ft_strlen(value);
+				temp = ft_strdup(*str, s);
 				*str = ft_joinstr_index(*str, value, i, s);
+				if (ft_strchr(ft_substr(*str, i, len, s), ' '))
+					ft_add_envs_as_arg_or_cmd(index, l, s, split);
 				if (len > 0)
 					i += len - 1;
 			}
@@ -354,14 +386,14 @@ int ft_lexer_create(t_lexer *l, t_state *s)
 	{
 		original = ft_strdup(split[i], s);
 		ft_calc_dollars(split[i], l, s);
-		if (ft_merge_args(&(split[i]), s, l))
+		if (ft_merge_args(i, s, l, &split))
 			return (ERR_UNEXPECTED_TOKEN);
 		is_redirect = ft_is_redirect(split[i], original);
 		if (is_redirect > 0)
 		{
-			if (is_redirect == 2 && split[i + 1] && split[i][0] == '<')
+			if (is_redirect == 2 && split[i][0] == '<')
 				ft_add_token(s, split[i], T_LAPPEND, l->i);
-			else if (is_redirect == 2 && split[i + 1] && split[i][0] == '>')
+			else if (is_redirect == 2 && split[i][0] == '>')
 				ft_add_token(s, split[i], T_RAPPEND, l->i);
 			else if (is_redirect == 1 && split[i][0] == '<')
 				ft_add_token(s, split[i], T_LREDIR, l->i);
@@ -455,6 +487,49 @@ void ft_redirect_arrange(t_token **tokens)
 	}
 }
 
+int	ft_v_invalid_redirect(t_token *tokens)
+{
+	t_token	*tmp;
+	int		i;
+	int		err;
+
+	i = 0;
+	err = 0;
+	tmp = tokens;
+	while (tmp)
+	{
+		if (tmp->type == T_LREDIR && (!tmp->next || tmp->next->type != T_ARG))
+			err = ERR_UNCOMPLETED_REDIRECT;
+		if (tmp->type == T_RREDIR && (!tmp->next || tmp->next->type != T_ARG))
+			err = ERR_UNCOMPLETED_REDIRECT;
+		if (tmp->type == T_LAPPEND && (!tmp->next || tmp->next->type != T_ARG))
+			err = ERR_UNCOMPLETED_REDIRECT;
+		if (tmp->type == T_RAPPEND && (!tmp->next || tmp->next->type != T_ARG))
+			err = ERR_UNCOMPLETED_REDIRECT;
+		tmp = tmp->next;
+	}
+	return (err);
+}
+
+int	ft_lexer_validate(t_state *s)
+{
+	t_token	**tmp;
+	int		i;
+	int		err;
+
+	i = 0;
+	err = 0;
+	tmp = s->tokens;
+	while (tmp[i])
+	{
+		err = ft_v_invalid_redirect(tmp[i]);
+		if (err)
+			return (err);
+		i++;
+	}
+	return (err);
+}
+
 int ft_lexer(t_state *s)
 {
 	t_lexer *l;
@@ -484,5 +559,8 @@ int ft_lexer(t_state *s)
 	if (err)
 		return (err);
 	ft_redirect_arrange(s->tokens);
+	err = ft_lexer_validate(s);
+	if (err)
+		return (err);
 	return (SUCCESS);
 }

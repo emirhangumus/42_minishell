@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 15:20:34 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/26 22:49:07 by egumus           ###   ########.fr       */
+/*   Updated: 2024/03/30 02:07:18 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,13 @@ void	ft_error(int err, char *str, int throw_exit)
 			ft_err_arg("not a valid identifier", str);
 		else
 			write(2, "minishell: not a valid identifier\n", 35);
+	}
+	else if (err == ERR_UNCOMPLETED_REDIRECT)
+	{
+		if (str)
+			ft_err_arg("syntax error near unexpected token `newline'", str);
+		else
+			write(2, "minishell: syntax error near unexpected token `newline'\n", 56);
 	}
 	else if (throw_exit)
 		exit(1);

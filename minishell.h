@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/29 22:27:55 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 02:06:04 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@
 # define ERR_EMPTY_COMMAND 1271
 # define ERR_UNEXPECTED_TOKEN 2
 # define ERR_MALLOC 3
+# define ERR_UNCOMPLETED_REDIRECT 4
 # define SUCCESS 0
 
 # ifndef BUFFER_SIZE
@@ -177,6 +178,8 @@ char	*ft_strjoin_gnl(char *left_str, char *buff);
 size_t	ft_strlen_gnl(char *s);
 char	*ft_get_line(char *left_str);
 char	*ft_new_left_str(char *left_str);
+void	ft_arr_add_by_index(char ***arr, char *str, int index, t_state *s);
+void	ft_arr_remove_by_index(char ***arr, int index, t_state *s);
 
 /* SIGNALS */
 void	ft_sigint(int sig);
