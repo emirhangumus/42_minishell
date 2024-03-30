@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 15:20:34 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 02:07:18 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 09:10:47 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,11 @@ void	ft_error(int err, char *str, int throw_exit)
 			ft_err_arg("syntax error near unexpected token `newline'", str);
 		else
 			write(2, "minishell: syntax error near unexpected token `newline'\n", 56);
+	}
+	else if (err == ERR_NOT_A_DIRECTORY)
+	{
+		if (str)
+			ft_err_arg("not a directory", str);
 	}
 	else if (throw_exit)
 		exit(1);

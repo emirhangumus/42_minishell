@@ -6,35 +6,37 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:04:11 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 08:40:09 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 09:30:03 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-//	if (exec[0]->in_fd == -1 || exec[0]->out_fd == -1)
+//	if (exec[0]->in_fd == -1 || exec[0]->out_fd == -1) err
 
 int	exec_one_command(t_state *s, t_exec **exec)
 {
-	int	fd;
-	if (exec[0]->should_run)
+	int	fd1;
+	int	fd2;
+	if (exec[0]->should_run && !exec[0]->is_here_doc)
 		return (1);
 	if ((exec[0]->in_fd == -1 || exec[0]->out_fd == -1) && !exec[0]->is_here_doc)
 		return (1);
-	if (exec[0]->type == CMD_BUILTIN)
-	{
-		fd = dup(1);
-		s->status = ft_execute_builtin(s, exec[0]);
-		close_redir_fd(exec[0], fd);
-		return (s->status);
-	}
 	if (exec[0]->is_here_doc)
 		ft_heredoc(exec[0]);
+	if (exec[0]->type == CMD_BUILTIN)
+	{
+		fd1 = dup(1);
+		fd2 = dup(0);
+		s->status = ft_execute_builtin(s, exec[0]);
+		close_redir_fd(exec[0], fd1, fd2);
+		return (s->status);
+	}
 	s->forks[0] = fork();
 	if (s->forks[0] == 0)
 	{
 		if (exec[0]->in_type || exec[0]->out_type)
 			ft_dup_redictions(exec[0], s);
-		if (exec[0]->err_outs)
+		if (exec[0]->should_run)
 			exit(1);
 		if (execve(exec[0]->cmd_path, exec[0]->cmd_args, s->env) == -1)
 			exit(1);

@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 08:37:15 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 09:28:15 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,9 @@ void	ft_lets_go(t_state *s, t_exec **exec)
 		}
 	}
 	else
+	{
 		s->status = exec_one_command(s, exec);
+	}
 }
 
 int	ft_check_cmd_types(t_exec **exec, int cmd_amount)
@@ -149,5 +151,6 @@ int	ft_execuator(t_state *s)
 	}
 	ft_init_pipes(s);
 	ft_lets_go(s, exec);
+	
 	return (0);
 }

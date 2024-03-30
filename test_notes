@@ -1,2 +1,0 @@
-cd Makefile => wrong error output
-cat << eof < file

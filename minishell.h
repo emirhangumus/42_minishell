@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/30 08:38:40 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 09:30:25 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@
 # define ERR_NUMERIC_ARG 255
 # define ERR_PIPE_INIT 124
 # define ERR_NOT_VALID_IDENTIFIER 123
+# define ERR_NOT_A_DIRECTORY 122
 # define ERR_NO_FILE_OR_DIR 1 // https://www.cyberciti.biz/faq/linux-bash-exit-status-set-exit-statusin-bash/
 # define ERR_EMPTY_COMMAND 1271
 # define ERR_UNEXPECTED_TOKEN 2
@@ -116,7 +117,6 @@ typedef struct s_exec
 	char	*out_file;
 	char	*in_file;
 	int		in_type;
-	int		err_outs;
 	int		should_run;
 	char	*is_here_doc;
 	int		in_fd;
@@ -210,7 +210,7 @@ int		ft_init_execs(t_state *s, t_exec **exec);
 void	ft_init_pipes(t_state *s);
 int		ft_dup_redictions(t_exec *exec, t_state *s);
 int		ft_is_redirection(t_token *token);
-int		close_redir_fd(t_exec *exec, int fd);
+int		close_redir_fd(t_exec *exec, int fd1, int fd2);
 int		close_redir_pipe_fd(t_exec *exec, int *pipes, int cmd_amount, int i);
 void	ft_run_redirects(t_state *s, t_exec **exec, int cmd_amount, int i);
 void	ft_run_commands(t_state *s, t_exec **exec, int cmd_amount, int i);

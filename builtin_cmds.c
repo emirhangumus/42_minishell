@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:00:37 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 07:11:07 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 09:10:20 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,12 @@ int	ft_exit(t_exec *exec, t_state *s)
 
 int	ft_cd(t_exec *exec, t_state *s)
 {
+	struct stat	buf;
 	int		j;
 
+	stat(exec->cmd_args[1], &buf);
+	if (!S_ISDIR(buf.st_mode))
+		return (ft_error(ERR_NOT_A_DIRECTORY, exec->cmd_args[1], 0), 1);
 	if (exec->cmd_args[1] == NULL)
 	{
 		if (chdir(ft_get_env(s->env, "HOME")) == -1)

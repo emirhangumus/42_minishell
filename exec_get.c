@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:37:15 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 05:53:54 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 08:55:12 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,16 +96,12 @@ int	get_all_cmd(t_exec *exec, t_state *s, t_token *tmp, t_token *tmp1)
 {
 	int	err;
 
-	exec->should_run = 0;
-	exec->err_outs = 0;
 	err = 0;
-	ft_add_garbage(s, exec);
 	if (!exec)
 		return (1);
+	ft_add_garbage(s, exec);
 	if (ft_is_builtin(tmp->value))
 		exec->type = CMD_BUILTIN;
-	else
-		exec->type = CMD_PATH;
 	if (exec->type == CMD_PATH)
 		err = ft_get_cmd_path(tmp, s, &exec->cmd_path);
 	if (err && !(exec->type == CMD_BUILTIN))

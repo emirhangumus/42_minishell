@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 08:42:52 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 09:04:47 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,15 @@ int	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 void	ft_fill_execs(t_exec *exec)
 {
 	exec->is_here_doc = 0;
+	exec->should_run = 0;
 	exec->in_type = 0;
 	exec->out_type = 0;
 	exec->in_fd = 0;
 	exec->out_fd = 0;
 	exec->in_file = NULL;
 	exec->out_file = NULL;
+	exec->type = CMD_PATH;
 }
-
-
 
 int	ft_init_execs(t_state *s, t_exec **exec)
 {
@@ -81,8 +81,6 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 		next = tmp[i];
 		while (next)
 		{
-			// if (ft_check_cmd_exist(next))
-			// 	break ;
 			if (next->type == T_CMD)
 			{
 				exec[++j] = malloc(sizeof(t_exec));
