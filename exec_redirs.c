@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 01:02:10 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 06:57:43 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 08:23:57 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,13 +117,16 @@ int	ft_open_check_files(t_exec *exec, int status)
 			if (!access(exec->in_file, F_OK) && access(exec->in_file, R_OK) == -1)
 			{
 				exec->should_run = 1;
-				ft_error(ERR_PERMISSION_DENIED, exec->in_file, 0);
+				if (!exec->is_here_doc)
+					ft_error(ERR_PERMISSION_DENIED, exec->in_file, 0);
 				exec->err_outs = 1;
 				return (126);
 			}
+			exec->err_outs = 1;
+			if (exec->is_here_doc)
+				return (0);
 			exec->should_run = 1;
 			ft_error(ERR_NO_FILE_OR_DIR, exec->in_file, 0);
-			exec->err_outs = 1;
 			return (ERR_NO_FILE_OR_DIR);
 		}
 	}
@@ -159,7 +162,7 @@ void	ft_heredoc(t_exec *exec)
 	if (pipe(pipe_fd) == -1)
 		return ;
 	buff = readline("> ");
-	while (buff && ft_strcmp(exec->in_file, buff))
+	while (buff && ft_strcmp(exec->is_here_doc, buff))
 	{
 		write(pipe_fd[1], buff, ft_strlen(buff));
 		write(pipe_fd[1], "\n", 1);
@@ -167,6 +170,8 @@ void	ft_heredoc(t_exec *exec)
 		buff = readline("> ");
 	}
 	free(buff);
+	if (exec->err_outs)
+		ft_error(ERR_NO_FILE_OR_DIR, exec->in_file, 0);
 	close(pipe_fd[1]);
 	if (exec->type != CMD_BUILTIN)
 		exec->in_fd = pipe_fd[0];
@@ -176,13 +181,10 @@ int	ft_dup_redictions(t_exec *exec, t_state *s)
 {
 	if (s->cmd_amount == 1 && exec->in_file && exec->type == CMD_BUILTIN && exec->in_type != T_LAPPEND)
 		return (close(exec->in_fd), 0);
-	if (exec->in_file && exec->in_type == T_LREDIR)
+	if (exec->in_file && exec->in_type == T_LREDIR && !exec->is_here_doc)
 		dup2(exec->in_fd, 0);
-	else if (exec->in_file && exec->in_type == T_LAPPEND)
-	{
-		ft_heredoc(exec);
+	else if (exec->in_file && exec->is_here_doc)
 		dup2(exec->in_fd, 0);
-	}
 	if (exec->out_file)
 		dup2(exec->out_fd, 1);
 	return (0);

@@ -6,17 +6,19 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:04:11 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 03:31:47 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 08:35:01 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+//	if (exec[0]->in_fd == -1 || exec[0]->out_fd == -1)
 
 int	exec_one_command(t_state *s, t_exec **exec)
 {
 	int	fd;
-
 	if (exec[0]->should_run)
+		return (1);
+	if ((exec[0]->in_fd == -1 || exec[0]->out_fd == -1) && !exec[0]->is_here_doc)
 		return (1);
 	if (exec[0]->type == CMD_BUILTIN)
 	{
@@ -25,13 +27,15 @@ int	exec_one_command(t_state *s, t_exec **exec)
 		close_redir_fd(exec[0], fd);
 		return (s->status);
 	}
-	if (exec[0]->in_fd == -1 || exec[0]->out_fd == -1)
-		return (1);
 	s->forks[0] = fork();
 	if (s->forks[0] == 0)
 	{
+		// if (exec[0]->is_here_doc)
+		// 	ft_heredoc(exec[0]);
 		if (exec[0]->in_type || exec[0]->out_type)
 			ft_dup_redictions(exec[0], s);
+		if (exec[0]->err_outs)
+			exit(1);
 		if (execve(exec[0]->cmd_path, exec[0]->cmd_args, s->env) == -1)
 			exit(1);
 	}

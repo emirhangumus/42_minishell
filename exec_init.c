@@ -6,18 +6,29 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 07:02:15 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 07:56:45 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_is_here_doc(t_token *token)
+{
+	while (token)
+	{
+		if (token->type == T_LAPPEND)
+			return (token->next->value);
+		token = token->next;
+	}
+	return (NULL);
+}
 
 int	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 {
 	int		i;
 
 	i = 0;
-	// ft_is_here_doc(tokens, s);
+	exec->is_here_doc = ft_is_here_doc(tokens);
 	while (tokens)
 	{
 		if (ft_is_redirection(tokens) && tokens->next)
@@ -41,6 +52,7 @@ int	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 
 void	ft_fill_execs(t_exec *exec)
 {
+	exec->is_here_doc = 0;
 	exec->in_type = 0;
 	exec->out_type = 0;
 	exec->in_fd = 0;

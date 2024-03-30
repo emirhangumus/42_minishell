@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/30 07:01:13 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 08:30:53 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ typedef struct s_exec
 	int		in_type;
 	int		err_outs;
 	int		should_run;
-	int		is_here_doc;
+	char	*is_here_doc;
 	int		in_fd;
 	int		out_fd;
 	int		type;
@@ -228,6 +228,7 @@ int		ft_open_check_files(t_exec *exec, int status);
 int		get_all_cmd(t_exec *exec, t_state *s, t_token *tmp, t_token *tmp1);
 char	**ft_get_args(t_state *s, t_token *tokens, char *cmd_name);
 int		ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s);
+void	ft_heredoc(t_exec *exec);
 
 /* BUILTIN */
 int		ft_is_builtin(char *value);

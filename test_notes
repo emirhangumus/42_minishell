@@ -1,2 +1,2 @@
 cd Makefile => wrong error output
-cat < file << eof
+cat << eof < file
