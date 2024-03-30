@@ -6,27 +6,27 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:51:51 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/30 04:11:22 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 11:18:30 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_remove_char_by_index(char **str, int index, t_state *s)
+void	ft_remove_char_by_index(char **str, int index, t_state *s)
 {
-	char *new;
-	int i;
-	int j;
+	char	*new;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
 	if (!str || !*str)
-		return;
+		return ;
 	if (index < 0 || index > (int)ft_strlen(*str))
-		return;
+		return ;
 	new = (char *)malloc(ft_strlen(*str));
 	if (!new)
-		return;
+		return ;
 	while ((*str)[i])
 	{
 		if (i != index)
@@ -42,12 +42,12 @@ void ft_remove_char_by_index(char **str, int index, t_state *s)
 	*str = new;
 }
 
-char *ft_joinstr_index(char *s1, char *s2, int start_index, t_state *s)
+char	*ft_joinstr_index(char *s1, char *s2, int start_index, t_state *s)
 {
-	char *new;
-	int i;
-	int j;
-	int k;
+	char	*new;
+	int		i;
+	int		j;
+	int		k;
 
 	i = 0;
 	j = 0;
@@ -78,7 +78,7 @@ char *ft_joinstr_index(char *s1, char *s2, int start_index, t_state *s)
 	return (new);
 }
 
-void ft_remove_key(char **str, int start_index, int end_index, t_state *s)
+void	ft_remove_key(char **str, int start_index, int end_index, t_state *s)
 {
 	while (end_index != start_index)
 	{
@@ -87,11 +87,11 @@ void ft_remove_key(char **str, int start_index, int end_index, t_state *s)
 	}
 }
 
-void ft_calc_dollars(char *str, t_lexer *l, t_state *s)
+void	ft_calc_dollars(char *str, t_lexer *l, t_state *s)
 {
-	int i;
-	int count;
-	int quote;
+	int	i;
+	int	count;
+	int	quote;
 
 	i = 0;
 	count = 0;
@@ -104,11 +104,11 @@ void ft_calc_dollars(char *str, t_lexer *l, t_state *s)
 	}
 	l->meta = malloc(sizeof(t_lexer_meta));
 	if (!l->meta)
-		return;
+		return ;
 	ft_add_garbage(s, l->meta);
 	l->meta->dollars = malloc(sizeof(int) * count);
 	if (!l->meta->dollars)
-		return;
+		return ;
 	ft_add_garbage(s, l->meta->dollars);
 	i = 0;
 	count = 0;
@@ -135,16 +135,12 @@ void ft_calc_dollars(char *str, t_lexer *l, t_state *s)
 	}
 }
 
-int	ft_add_envs_as_arg_or_cmd(int index, t_lexer *l, t_state *s, char ***split)
+int	ft_add_envs_as_arg_or_cmd(int index, t_state *s, char ***split)
 {
-	(void)l;
-	(void)s;
-	(void)split;
-
-	char **str;
-	int	i;
-	int	j;
-	char **split2;
+	char	**str;
+	int		i;
+	int		j;
+	char	**split2;
 
 	i = 0;
 	j = 0;
@@ -161,19 +157,19 @@ int	ft_add_envs_as_arg_or_cmd(int index, t_lexer *l, t_state *s, char ***split)
 	return (SUCCESS);
 }
 
-int ft_merge_args(int index, t_state *s, t_lexer *l, char ***split)
+int	ft_merge_args(int index, t_state *s, t_lexer *l, char ***split)
 {
-	int quote;
-	int i;
-	int rm1;
-	int rm2;
-	int j;
-	char *key;
-	char *value;
-	int dollar_counter;
-	int len;
-	char *temp;
-	char **str;
+	int		quote;
+	int		i;
+	int		rm1;
+	int		rm2;
+	int		j;
+	char	*key;
+	char	*value;
+	int		dollar_counter;
+	int		len;
+	char	*temp;
+	char	**str;
 
 	str = &((*split)[index]);
 	i = 0;
@@ -211,9 +207,10 @@ int ft_merge_args(int index, t_state *s, t_lexer *l, char ***split)
 							continue ;
 						}
 					}
-					else 
-					{	
-						while ((*str)[j] && (ft_is_valid_env_key_char((*str)[j])))
+					else
+					{
+						while ((*str)[j]
+							&& (ft_is_valid_env_key_char((*str)[j])))
 							j++;
 						key = ft_substr(*str, i + 1, j - i - 1, s);
 						value = ft_get_env(s->env, key);
@@ -226,14 +223,14 @@ int ft_merge_args(int index, t_state *s, t_lexer *l, char ***split)
 				temp = ft_strdup(*str, s);
 				*str = ft_joinstr_index(*str, value, i, s);
 				if (ft_strchr(ft_substr(*str, i, len, s), ' '))
-					ft_add_envs_as_arg_or_cmd(index, l, s, split);
+					ft_add_envs_as_arg_or_cmd(index, s, split);
 				if (len > 0)
 					i += len - 1;
 			}
 			dollar_counter++;
 		}
 		if (!(*str)[i])
-			break;
+			break ;
 		if (quote == QUOTE_NONE && ((*str)[i] == '\'' || (*str)[i] == '\"'))
 		{
 			rm1 = i;
@@ -259,14 +256,14 @@ int ft_merge_args(int index, t_state *s, t_lexer *l, char ***split)
 	return (SUCCESS);
 }
 
-char **ft_split_merge(char **split, t_state *s)
+char	**ft_split_merge(char **split, t_state *s)
 {
-	int i;
-	int j;
-	int k;
-	char **new_split;
-	char **temp;
-	int count;
+	int		i;
+	int		j;
+	int		k;
+	char	**new_split;
+	char	**temp;
+	int		count;
 
 	i = 0;
 	j = 0;
@@ -301,7 +298,7 @@ char **ft_split_merge(char **split, t_state *s)
 	return (new_split);
 }
 
-int ft_is_redirect(char *str, char *original)
+int	ft_is_redirect(char *str, char *original)
 {
 	int	quote;
 	int	i;
@@ -312,11 +309,11 @@ int ft_is_redirect(char *str, char *original)
 	{
 		while (original[i])
 		{
-			if (quote == QUOTE_NONE && (original[i] == '\'' || original[i] == '\"'))
+			if (quote == QUOTE_NONE && (original[i] == '\''
+					|| original[i] == '\"'))
 				quote = original[i];
 			else if (quote == original[i])
 				quote = QUOTE_NONE;
-			
 			if (quote == QUOTE_NONE && ft_strncmp(original + i, "<<", 2) == 0)
 				return (2);
 			if (quote == QUOTE_NONE && ft_strncmp(original + i, ">>", 2) == 0)
@@ -343,13 +340,13 @@ int ft_is_redirect(char *str, char *original)
 	}
 }
 
-char **ft_split_specials(char *str, t_state *s)
+char	**ft_split_specials(char *str, t_state *s)
 {
-	char **sp;
-	int i;
-	int j;
-	int quote;
-	int is_redirect;
+	char	**sp;
+	int		i;
+	int		j;
+	int		quote;
+	int		is_redirect;
 
 	i = 0;
 	j = 0;
@@ -379,7 +376,7 @@ char **ft_split_specials(char *str, t_state *s)
 	return (ft_split_merge(sp, s));
 }
 
-int ft_lexer_create(t_lexer *l, t_state *s)
+int	ft_lexer_create(t_lexer *l, t_state *s)
 {
 	char	**split;
 	int		i;
@@ -418,11 +415,11 @@ int ft_lexer_create(t_lexer *l, t_state *s)
 	return (SUCCESS);
 }
 
-static int ft_remove_tokens_command(t_token **token, int (*f)(void *))
+static int	ft_remove_tokens_command(t_token **token, int (*f)(void *))
 {
-	t_token *tmp;
-	t_token *prev;
-	int i;
+	t_token	*tmp;
+	t_token	*prev;
+	int		i;
 
 	i = 0;
 	tmp = *token;
@@ -453,11 +450,11 @@ static int ft_remove_tokens_command(t_token **token, int (*f)(void *))
 	return (SUCCESS);
 }
 
-int ft_remove_tokens(t_token ***token, int (*f)(void *))
+int	ft_remove_tokens(t_token ***token, int (*f)(void *))
 {
-	int i;
-	t_token **tmp;
-	int err;
+	int		i;
+	t_token	**tmp;
+	int		err;
 
 	i = 0;
 	err = 0;
@@ -472,10 +469,10 @@ int ft_remove_tokens(t_token ***token, int (*f)(void *))
 	return (SUCCESS);
 }
 
-void ft_redirect_arrange(t_token **tokens)
+void	ft_redirect_arrange(t_token **tokens)
 {
 	t_token	**tmp1;
-	t_token *tmp2;
+	t_token	*tmp2;
 	int		i;
 
 	i = 0;
@@ -483,9 +480,10 @@ void ft_redirect_arrange(t_token **tokens)
 	while (tmp1[i])
 	{
 		tmp2 = tmp1[i];
-		if (tmp2->prev == NULL && ft_is_redirect(tmp2->value, NULL) && tmp2->next && tmp2->next->next)
+		if (tmp2->prev == NULL && ft_is_redirect(tmp2->value, NULL)
+			&& tmp2->next && tmp2->next->next)
 			tmp2->next->next->type = T_CMD;
-		i++;	
+		i++;
 	}
 }
 
@@ -563,12 +561,12 @@ int	ft_check_invalid_pipes(char *cmd)
 	return (err);
 }
 
-int ft_lexer(t_state *s)
+int	ft_lexer(t_state *s)
 {
-	t_lexer *l;
-	int pipes;
-	char **sp;
-	int err;
+	t_lexer	*l;
+	int		pipes;
+	char	**sp;
+	int		err;
 
 	err = 0;
 	l = (t_lexer *)malloc(sizeof(t_lexer));
@@ -583,7 +581,6 @@ int ft_lexer(t_state *s)
 	pipes = ft_count_pipes(s->cmd);
 	l->i = 0;
 	sp = ft_quote_split(s->cmd, "|", s);
-	// exit(0);
 	while (l->i <= pipes)
 	{
 		if (!sp[l->i])
