@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/30 02:43:56 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 06:18:04 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,6 @@
 # define ERR_MALLOC 3
 # define ERR_UNCOMPLETED_REDIRECT 4
 # define SUCCESS 0
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 250
-# endif
 
 typedef struct s_token
 {
@@ -183,6 +179,7 @@ void	ft_arr_add_by_index(char ***arr, char *str, int index, t_state *s);
 void	ft_arr_remove_by_index(char ***arr, int index, t_state *s);
 int		ft_is_valid_env_key_char(char c);
 char	*ft_strrchr(const char *s, int c);
+int		ft_isalnum(int c);
 
 /* SIGNALS */
 void	ft_sigint(int sig);

@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 00:38:19 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 06:31:18 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	ft_fill_execs(t_exec *exec)
 	exec->out_file = NULL;
 }
 
+
+
 int	ft_init_execs(t_state *s, t_exec **exec)
 {
 	t_token		**tmp;
@@ -59,13 +61,15 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 
 	err = 0;
 	j = -1;
-	i = 0;
+	i = -1;
 	tmp = s->tokens;
-	while (tmp[i])
+	while (tmp[++i])
 	{
 		next = tmp[i];
 		while (next)
 		{
+			// if (ft_check_cmd_exist(next))
+			// 	break ;
 			if (next->type == T_CMD)
 			{
 				exec[++j] = malloc(sizeof(t_exec));
@@ -74,7 +78,6 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 			}
 			next = next->next;
 		}
-		i++;
 	}
 	return (err);
 }

@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:37:15 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 00:45:46 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 05:53:54 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	ft_find_absoulute_path(t_token *start_token, char **cmd_path)
 			126);
 	*cmd_path = start_token->value;
 	return (0);
+	
 }
 
 int	ft_find_rela_path(char **paths, t_token *token, t_state *s, char **cmd_path)

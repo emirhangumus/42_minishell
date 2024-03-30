@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:00:46 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 02:20:06 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 06:13:19 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	ft_export_is_valid(t_exec *exec)
 			if (exec->cmd_args[i][j] == '-')
 				return (ft_error(ERR_NOT_VALID_IDENTIFIER, \
 					exec->cmd_args[i], 0), 1);
-			// if (ft_is_valid_env_key_char(exec->cmd_args[i][j]) == 0
-			// 	return (ft_error(ERR_NOT_VALID_IDENTIFIER, \
-			// 		exec->cmd_args[i], 0), 1);
+			if (!ft_isalnum(exec->cmd_args[i][j]))
+				return (ft_error(ERR_NOT_VALID_IDENTIFIER, \
+					exec->cmd_args[i], 0), 1);
 			j++;
 		}
 		if (exec->cmd_args[i][j] && !exec->cmd_args[i][j + 1])
@@ -63,11 +63,25 @@ void	ft_export_add_key_value(t_exec *exec, t_state *s, int i, int j)
 	}
 }
 
+void	ft_print_exp(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		printf("declare -x %s\n", env[i]);
+		i++;
+	}
+}
+
 int	ft_export(t_exec *exec, t_state *s)
 {
 	int		i;
 	int		j;
 
+	if (!exec->cmd_args[1])
+		return (ft_print_exp(s->env), 0);
 	if (ft_export_is_valid(exec))
 		return (1);
 	i = 1;

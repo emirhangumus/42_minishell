@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:05 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/30 04:16:06 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 06:43:43 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	ft_init_state(t_state *s, int ac, char **av)
 		write(2, "minishell: too many arguments\n", 30);
 		return (1);
 	}
+	s->pipes = NULL;
+	s->forks = NULL;
 	s->garbage = NULL;
 	s->cmd = NULL;
 	s->tokens = NULL;
