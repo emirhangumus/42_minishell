@@ -6,13 +6,13 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:37:15 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 08:55:12 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 14:36:54 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_find_absoulute_path(t_token *start_token, char **cmd_path)
+static int	ft_find_absoulute_path(t_token *start_token, char **cmd_path)
 {
 	struct stat	buf;
 
@@ -30,10 +30,9 @@ int	ft_find_absoulute_path(t_token *start_token, char **cmd_path)
 			126);
 	*cmd_path = start_token->value;
 	return (0);
-	
 }
 
-int	ft_find_rela_path(char **paths, t_token *token, t_state *s, char **cmd_path)
+static int	ft_find_rela_path(char **paths, t_token *token, t_state *s, char **cmd_path)
 {
 	char		*path;
 	int			i;
@@ -56,7 +55,7 @@ int	ft_find_rela_path(char **paths, t_token *token, t_state *s, char **cmd_path)
 	return (ft_error(ERR_CMD_NOT_FOUND, token->value, 0), ERR_CMD_NOT_FOUND);
 }
 
-int	ft_get_cmd_path(t_token *start_token, t_state *s, char **cmd_path)
+static int	ft_get_cmd_path(t_token *start_token, t_state *s, char **cmd_path)
 {
 	char	*env;
 	char	**paths;
@@ -71,7 +70,7 @@ int	ft_get_cmd_path(t_token *start_token, t_state *s, char **cmd_path)
 	return (ft_find_rela_path(paths, start_token, s, cmd_path));
 }
 
-char	**ft_get_args(t_state *s, t_token *tokens, char *cmd_name)
+static char	**ft_get_args(t_state *s, t_token *tokens, char *cmd_name)
 {
 	char	**args;
 	int		i;

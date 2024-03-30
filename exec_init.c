@@ -6,13 +6,13 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 09:04:47 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 14:35:06 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_is_here_doc(t_token *token)
+static char	*ft_is_here_doc(t_token *token)
 {
 	while (token)
 	{
@@ -51,7 +51,7 @@ int	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 	return (i);
 }
 
-void	ft_fill_execs(t_exec *exec)
+static void	ft_fill_execs(t_exec *exec)
 {
 	exec->is_here_doc = 0;
 	exec->should_run = 0;

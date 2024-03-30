@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:09:01 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/25 17:46:40 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 14:21:24 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,14 @@ void	close_pipes_all(int *pipes, int cmd_amount, int i)
 	}
 }
 
-void	mother_close_pipes_all(int *pipes, int cmd_amount)
+void	mother_close_pipes_all(t_state *s)
 {
 	int	j;
 
 	j = 0;
-	while (j < cmd_amount * 2)
+	while (j < s->cmd_amount * 2)
 	{
-		close(pipes[j]);
+		close(s->pipes[j]);
 		j++;
 	}
 }

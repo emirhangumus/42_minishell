@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:31:35 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/30 06:13:07 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 14:41:02 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,10 @@ int	ft_isallnum(char *str)
 	return (1);
 }
 
-int ft_is_valid_env_key_char(char c)
+int	ft_is_valid_env_key_char(char c)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_' || (c >= '0' && c <= '9'))
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+		|| c == '_' || (c >= '0' && c <= '9'))
 		return (1);
 	return (SUCCESS);
 }
@@ -67,4 +68,3 @@ int	ft_isalnum(int c)
 		return (1);
 	return (SUCCESS);
 }
-

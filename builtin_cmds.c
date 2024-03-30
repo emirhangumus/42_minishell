@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:00:37 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 09:10:20 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 14:43:26 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	ft_exit(t_exec *exec, t_state *s)
 int	ft_cd(t_exec *exec, t_state *s)
 {
 	struct stat	buf;
-	int		j;
+	int			j;
 
 	stat(exec->cmd_args[1], &buf);
 	if (!S_ISDIR(buf.st_mode))
@@ -122,7 +122,7 @@ int	ft_cd(t_exec *exec, t_state *s)
 	}
 	else if (chdir(exec->cmd_args[1]) == -1)
 		return (ft_error(ERR_NO_FILE_OR_DIR, exec->cmd_args[1], 0), 1);
-	exec->cmd_args[1] = ft_strdup(ft_strjoin("OLDPWD=",s->cwd, s), s);
+	exec->cmd_args[1] = ft_strdup(ft_strjoin("OLDPWD=", s->cwd, s), s);
 	s->cwd = getcwd(NULL, 0);
 	ft_export(exec, s);
 	return (0);
