@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:04:11 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 08:35:01 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 08:40:09 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ int	exec_one_command(t_state *s, t_exec **exec)
 		close_redir_fd(exec[0], fd);
 		return (s->status);
 	}
+	if (exec[0]->is_here_doc)
+		ft_heredoc(exec[0]);
 	s->forks[0] = fork();
 	if (s->forks[0] == 0)
 	{
-		// if (exec[0]->is_here_doc)
-		// 	ft_heredoc(exec[0]);
 		if (exec[0]->in_type || exec[0]->out_type)
 			ft_dup_redictions(exec[0], s);
 		if (exec[0]->err_outs)
