@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 09:28:15 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 10:54:20 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,19 @@ void	ft_run_pipes(t_state *s, t_exec **exec, int cmd_amount, int i)
 void	ft_lets_go(t_state *s, t_exec **exec)
 {
 	int	i;
-
+	int	j;
+	
+	j = -1;
+	while (++j < s->cmd_amount)
+	{
+		if (exec[j]->is_here_doc)
+			ft_heredoc(exec[j]);
+	}	
 	i = -1;
 	if (s->cmd_amount > 1)
 	{
 		while (exec[++i])
 		{
-			if (exec[i]->is_here_doc)
-				ft_heredoc(exec[i]);
 			if (exec[i]->in_fd == -1 || exec[i]->out_fd == -1)
 				continue ;
 			s->forks[i] = fork();
@@ -57,9 +62,7 @@ void	ft_lets_go(t_state *s, t_exec **exec)
 		}
 	}
 	else
-	{
 		s->status = exec_one_command(s, exec);
-	}
 }
 
 int	ft_check_cmd_types(t_exec **exec, int cmd_amount)
@@ -79,12 +82,6 @@ int	ft_check_cmd_types(t_exec **exec, int cmd_amount)
 		return (1);
 	return (0);
 }
-
-/*
-T_LREDIR = <
-T_RREDIR = >
-T_RAPPEND = >>
-*/
 
 void	ft_check_redir_exist(t_token *tokens)
 {

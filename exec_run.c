@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:04:11 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 09:30:03 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 10:54:32 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	exec_one_command(t_state *s, t_exec **exec)
 		return (1);
 	if ((exec[0]->in_fd == -1 || exec[0]->out_fd == -1) && !exec[0]->is_here_doc)
 		return (1);
-	if (exec[0]->is_here_doc)
-		ft_heredoc(exec[0]);
 	if (exec[0]->type == CMD_BUILTIN)
 	{
 		fd1 = dup(1);
@@ -36,8 +34,8 @@ int	exec_one_command(t_state *s, t_exec **exec)
 	{
 		if (exec[0]->in_type || exec[0]->out_type)
 			ft_dup_redictions(exec[0], s);
-		if (exec[0]->should_run)
-			exit(1);
+		if (exec[0]->should_run && exec[0]->is_here_doc)
+			ft_error(ERR_NO_FILE_OR_DIR, exec[0]->cmd_args[0], 1);
 		if (execve(exec[0]->cmd_path, exec[0]->cmd_args, s->env) == -1)
 			exit(1);
 	}
@@ -86,42 +84,17 @@ void	ft_run_commands(t_state *s, t_exec **exec, int cmd_amount, int i)
 }
 void	ft_run_redirects(t_state *s, t_exec **exec, int cmd_amount, int i)
 {
-	if (exec[i]->should_run)
+	if (exec[i]->should_run && !exec[i]->is_here_doc)
 		ft_run_commands(s, exec, cmd_amount, i);
-	if (i == 0)
+	ft_dup_redictions(exec[i], s);
+	ft_init_dupes(exec[i], s->pipes, cmd_amount, i);
+	if (exec[i]->type == CMD_BUILTIN)
 	{
-		ft_dup_redictions(exec[i], s);
-		ft_init_dupes(exec[i], s->pipes, cmd_amount, i);
-		if (exec[i]->type == CMD_BUILTIN)
-		{
-			s->status = ft_execute_builtin(s, exec[i]);
-			exit(s->status);
-		}
-		close_redir_pipe_fd(exec[i], s->pipes, cmd_amount, i);
-		execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
+		s->status = ft_execute_builtin(s, exec[i]);
+		exit(s->status);
 	}
-	else if (i == cmd_amount - 1)
-	{
-		ft_dup_redictions(exec[i], s);
-		ft_init_dupes(exec[i], s->pipes, cmd_amount, i);
-		if (exec[i]->type == CMD_BUILTIN)
-		{
-			s->status = ft_execute_builtin(s, exec[i]);
-			exit(s->status);
-		}
-		close_redir_pipe_fd(exec[i], s->pipes, cmd_amount, i);
-		execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
-	}
-	else
-	{
-		ft_dup_redictions(exec[i], s);
-		ft_init_dupes(exec[i], s->pipes, cmd_amount, i);
-		if (exec[i]->type == CMD_BUILTIN)
-		{
-			s->status = ft_execute_builtin(s, exec[i]);
-			exit(s->status);
-		}
-		close_redir_pipe_fd(exec[i], s->pipes, cmd_amount, i);
-		execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
-	}
+	close_redir_pipe_fd(exec[i], s->pipes, cmd_amount, i);
+	if (exec[i]->should_run && exec[i]->is_here_doc)
+		ft_error(ERR_NO_FILE_OR_DIR, exec[i]->in_file, 1);
+	execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
 }
