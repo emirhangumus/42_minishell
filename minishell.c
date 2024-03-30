@@ -6,13 +6,13 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:05 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/30 02:48:44 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 04:16:06 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**ft_init_env(void)
+char	**ft_init_env(t_state *s)
 {
 	extern char	**environ;
 	char		**env;
@@ -27,12 +27,13 @@ char	**ft_init_env(void)
 	i = 0;
 	while (environ[i])
 	{
-		env[i] = ft_strdup(environ[i], NULL);
+		env[i] = ft_strdup(environ[i], s);
 		if (!env[i])
 			return (NULL);
 		i++;
 	}
 	env[i] = NULL;
+	ft_add_garbage(s, env);
 	return (env);
 }
 
@@ -44,13 +45,13 @@ int	ft_init_state(t_state *s, int ac, char **av)
 		return (1);
 	}
 	s->garbage = NULL;
-	s->env = ft_init_env();
 	s->cmd = NULL;
 	s->tokens = NULL;
 	s->cwd = getcwd(NULL, 0);
 	s->status = 0;
 	s->cmd_amount = 0;
 	s->exit_status = NULL;
+	s->env = ft_init_env(s);
 	s->exec_name = ft_strdup(ft_strrchr(av[0], '/') + 1, s);
 	return (0);
 }

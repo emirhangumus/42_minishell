@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:51:51 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/30 02:39:34 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 04:11:22 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -472,13 +472,6 @@ int ft_remove_tokens(t_token ***token, int (*f)(void *))
 	return (SUCCESS);
 }
 
-void ft_l_free_meta(t_lexer *l)
-{
-	if (l->meta->dollars)
-		free(l->meta->dollars);
-	free(l->meta);
-}
-
 void ft_redirect_arrange(t_token **tokens)
 {
 	t_token	**tmp1;
@@ -539,6 +532,37 @@ int	ft_lexer_validate(t_state *s)
 	return (err);
 }
 
+int	ft_check_invalid_pipes(char *cmd)
+{
+	int	i;
+	int	quote;
+	int	err;
+
+	i = 0;
+	quote = QUOTE_NONE;
+	err = 0;
+	while (cmd[i])
+	{
+		if (quote == QUOTE_NONE && (cmd[i] == '\'' || cmd[i] == '\"'))
+			quote = cmd[i];
+		else if (quote == cmd[i])
+			quote = QUOTE_NONE;
+		if (quote == QUOTE_NONE && cmd[i] == '|')
+		{
+			if (i == 0)
+				err = ERR_UNEXPECTED_TOKEN;
+			else if (cmd[i + 1] == '\0')
+				err = ERR_UNEXPECTED_TOKEN;
+			else if (cmd[i + 1] == '|')
+				err = ERR_UNEXPECTED_TOKEN;
+		}
+		if (err)
+			return (err);
+		i++;
+	}
+	return (err);
+}
+
 int ft_lexer(t_state *s)
 {
 	t_lexer *l;
@@ -550,9 +574,16 @@ int ft_lexer(t_state *s)
 	l = (t_lexer *)malloc(sizeof(t_lexer));
 	if (!l)
 		return (SUCCESS);
+	err = ft_check_invalid_pipes(s->cmd);
+	if (err)
+	{
+		free(l);
+		return (err);
+	}
 	pipes = ft_count_pipes(s->cmd);
 	l->i = 0;
 	sp = ft_quote_split(s->cmd, "|", s);
+	// exit(0);
 	while (l->i <= pipes)
 	{
 		if (!sp[l->i])
@@ -560,7 +591,10 @@ int ft_lexer(t_state *s)
 		l->str = ft_strdup(sp[l->i], s);
 		err = ft_lexer_create(l, s);
 		if (err)
+		{
+			free(l);
 			return (err);
+		}
 		l->i++;
 	}
 	err = ft_remove_tokens(&s->tokens, (int (*)(void *))ft_is_empty);

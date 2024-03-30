@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:00:37 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/29 21:50:19 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 03:22:36 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int	ft_unset(t_exec *exec, t_state *s)
 			j++;
 		}
 		new_env[k] = NULL;
+		if (s)
+			ft_add_garbage(s, new_env);
 		s->env = new_env;
 		i++;
 	}

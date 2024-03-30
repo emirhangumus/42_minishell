@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:42:03 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/30 02:01:33 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 04:13:05 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,25 @@ void	ft_start(t_state *s)
 			if (err)
 			{
 				ft_free_tokens(s->tokens);
+				free(s->tokens);
 				s->tokens = NULL;
 				ft_error(err, NULL, 0);
 				continue ;
 			}
 			ft_init_prev_tokens(s->tokens);
-			if (s->tokens != NULL && ft_execuator(s))
-			{
-				// ft_error(s->status, NULL, 0);
-			}
+			ft_execuator(s);
 			ft_free_tokens(s->tokens);
+			free(s->tokens);
+			free(s->pipes);
+			free(s->forks);
+			s->pipes = NULL;
+			s->forks = NULL;
 			s->tokens = NULL;
 		}
 	}
 }
+
+// while do
+// leaks minishell
+// sleep 1
+// done
