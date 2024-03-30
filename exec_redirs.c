@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 01:02:10 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 00:39:42 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 06:57:43 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,9 @@ int	close_redir_fd(t_exec *exec, int fd)
 
 int	ft_open_check_files(t_exec *exec, int status)
 {
-	if (exec->in_file && exec->err_outs == 0)
+	if (exec->in_file)
 	{
-		if (exec->in_type == T_LREDIR)
+		if (exec->in_type == T_LREDIR && exec->err_outs == 0)
 			exec->in_fd = open(exec->in_file, O_RDONLY);
 		else if (exec->in_type == T_LAPPEND)
 			return (status);			

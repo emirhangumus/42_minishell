@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 06:50:32 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 06:53:30 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ int	ft_check_cmd_exist(t_token **token)
 
 	j = 0;
 	i = 0;
-
 	while (token[j])
 	{
 		tmp1 = token[j];
@@ -117,10 +116,7 @@ int	ft_check_cmd_exist(t_token **token)
 			tmp1 = tmp1->next;
 		}
 		if (i == 0)
-		{
-			
 			ft_check_redir_exist(token[j]);
-		}
 		j++;
 		i = 0;
 	}

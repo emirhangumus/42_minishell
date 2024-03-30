@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 06:31:18 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/03/30 07:02:15 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 	int		i;
 
 	i = 0;
-
+	// ft_is_here_doc(tokens, s);
 	while (tokens)
 	{
 		if (ft_is_redirection(tokens) && tokens->next)
