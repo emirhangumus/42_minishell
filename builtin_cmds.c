@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cmds.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:00:37 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 14:43:26 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 00:55:40 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ int	ft_unset(t_exec *exec, t_state *s)
 {
 	int		i;
 	int		j;
-	int		k;
-	char	**new_env;
+	int		index;
 	char	*key;
 
 	i = 1;
@@ -40,25 +39,9 @@ int	ft_unset(t_exec *exec, t_state *s)
 		while (exec->cmd_args[i][j] && exec->cmd_args[i][j] != '=')
 			j++;
 		key = ft_substr(exec->cmd_args[i], 0, j, s);
-		if (ft_arr_include(s->env, key, ft_env_key_cmp) == -1)
-			new_env = (char **)malloc(sizeof(char *) * (ft_arr_len(s->env) + 1));
-		else
-			new_env = (char **)malloc(sizeof(char *) * ft_arr_len(s->env));
-		j = 0;
-		k = 0;
-		while (s->env[j])
-		{
-			if (ft_strncmp(s->env[j], key, ft_strlen(key)) != 0)
-			{
-				new_env[k] = ft_strdup(s->env[j], s);
-				k++;
-			}
-			j++;
-		}
-		new_env[k] = NULL;
-		if (s)
-			ft_add_garbage(s, new_env);
-		s->env = new_env;
+		index = ft_arr_include(s->env, key, ft_env_key_cmp);
+		if (index != -1)
+			ft_arr_remove_by_index(&s->env, index, s);
 		i++;
 	}
 	return (0);

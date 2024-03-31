@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:16:40 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 00:21:16 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/01 01:15:25 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static void ft_joinstr_index_creation(char *s1, char *s2, int start_index, char 
 		i++;
 		k++;
 	}
+	new[i] = '\0';
 }
 
 char	*ft_joinstr_index(char *s1, char *s2, int start_index, t_state *s)
@@ -52,7 +53,6 @@ char	*ft_joinstr_index(char *s1, char *s2, int start_index, t_state *s)
 	if (!new)
 		return (NULL);
 	ft_joinstr_index_creation(s1, s2, start_index, new);
-	new[i] = '\0';
 	ft_add_garbage(s, new);
 	return (new);
 }

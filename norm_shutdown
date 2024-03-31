@@ -1,0 +1,10 @@
+builtin_cmds.c: Error!
+builtin_cmds1.c: Error!
+env_check.c: Error!
+exec_get.c: Error!
+execuator.c: Error!
+lexer.c: Error!
+lexer_invalid.c: Error!
+lexer_is_redirect.c: Error!
+lexer_merge_args.c: Error!
+start.c: Error!

@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 00:13:25 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/01 00:45:04 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,6 @@ void	ft_free_tab(char **tab);
 int		ft_is_empty(char *s);
 char	**ft_arr_dup(char **arr);
 int		ft_arr_len(char **arr);
-void	ft_arr_push(char ***arr, char *str);
 int		ft_arr_include(char **arr, char *str, \
 	int (*cmp)(const char *, const char *));
 int		ft_atoi(const char *str);

@@ -6,13 +6,14 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:38:46 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/31 23:02:23 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/01 00:29:28 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_remove_tokens_command_helper(t_token ***token, t_token **tmp, t_token **prev, int (*f)(void *))
+static void	ft_remove_tokens_command_helper(t_token ***token, t_token **tmp, \
+	t_token **prev, int (*f)(void *))
 {
 	if (f((*tmp)->value))
 	{
