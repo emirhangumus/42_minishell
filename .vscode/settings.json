@@ -24,7 +24,10 @@
 		"sstream": "c",
 		"ostream": "c",
 		"cstdlib": "c",
-		"errno.h": "c"
+		"errno.h": "c",
+		"stdlib.h": "c",
+		"atomic": "c",
+		"locale": "c"
 	},
 	"editor.fontSize": 12,
     "files.exclude": {

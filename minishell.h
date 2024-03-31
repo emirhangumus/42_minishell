@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/30 14:36:31 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 00:13:25 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,14 @@ typedef struct s_lexer
 	int				i;
 	int				quote;
 	int				**forced_arg_range;
+	char			*original;
+	int				k;
+	int				m;
+	int				current_pipe_index;
+	int				rm1;
+	int				rm2;
+	char			*key;
+	char			*value;
 }	t_lexer;
 
 typedef struct s_exec
@@ -173,10 +181,12 @@ void	ft_arr_remove_by_index(char ***arr, int index, t_state *s);
 int		ft_is_valid_env_key_char(char c);
 char	*ft_strrchr(const char *s, int c);
 int		ft_isalnum(int c);
+char	*ft_joinstr_index(char *s1, char *s2, int start_index, t_state *s);
+void	ft_remove_char_by_index(char **str, int index, t_state *s);
+void	ft_remove_key(char **str, int start_index, int end_index, t_state *s);
+char	**ft_split_merge(char **split, t_state *s);
 
 /* SIGNALS */
-void	ft_sigint(int sig);
-void	ft_sigquit(int sig);
 void	ft_signals(void);
 
 /* ENV CHECK */
@@ -187,14 +197,19 @@ void	ft_add_garbage(t_state *s, void *ptr);
 void	ft_free_garbage(t_state *s);
 void	ft_addarr_garbage(t_state *s, void **ptr);
 
-/* NEW LEXER HELPERS */
-void	ft_remove_char_by_index(char **str, int index, t_state *s);
-char	*ft_joinstr_index(char *s1, char *s2, int start_index, t_state *s);
-
 /* LEXER */
 int		ft_lexer(t_state *s);
+int		ft_merge_args(int index, t_state *s, t_lexer *l, char ***split);
 int		ft_count_pipes(char *cmd);
 void	ft_remove_char_by_index(char **str, int index, t_state *s);
+void	ft_calc_dollars(char *str, t_lexer *l, t_state *s);
+int		ft_add_envs_as_arg_or_cmd(int index, t_state *s, char ***split);
+int		ft_is_redirect(char *str, char *original);
+int		ft_remove_tokens(t_token ***token, int (*f)(void *));
+void	ft_redirect_arrange(t_token **tokens);
+int		ft_lexer_validate(t_state *s);
+int		ft_check_invalid_pipes(char *cmd, int start_index);
+char	**ft_split_specials(char *str, t_state *s);
 
 /* SHELL */
 void	ft_start(t_state *s);
@@ -251,7 +266,6 @@ void	ft_error(int err, char *str, int throw_exit);
 /* DEBUG */
 void	ft_print_tokens(t_token **token);
 void	ft_print_tab(char **tab);
-void	ft_signals(void);
 void	ft_print_execs(t_exec **exec);
 void	ft_print_exec(t_exec *exec);
 
