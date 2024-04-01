@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 02:59:25 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/01 04:44:33 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@
 # define CMD_BUILTIN 20
 # define CMD_INPUT 21
 # define CMD_OUTPUT 22
+# define CMD_HEREDOC 23
 
 # define COLOR_RED "\x1b[31m"
 # define COLOR_GREEN "\x1b[32m"
@@ -116,6 +117,9 @@ typedef struct s_exec
 {
 	char	*cmd_path;
 	char	**cmd_args;
+	char	**heredocs;
+	int		count_heredocs;
+	int		here_doc_idx;
 	int		out_type;
 	char	*out_file;
 	char	*in_file;
@@ -239,7 +243,7 @@ void	ft_run_redirects(t_state *s, t_exec **exec, int i);
 void	ft_run_commands(t_state *s, t_exec **exec, int i);
 int		exec_one_command(t_state *s, t_exec **exec);
 void	ft_init_dupes(t_state *s, t_exec *exec, int i);
-int		ft_open_check_files(t_exec *exec, int status);
+int		ft_open_check_files(t_exec *exec, int status, t_state *s);
 int		get_all_cmd(t_exec *exec, t_state *s, t_token *tmp, t_token *tmp1);
 int		ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s);
 void	ft_heredoc(t_exec *exec);

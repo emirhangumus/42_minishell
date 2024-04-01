@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 01:02:10 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 14:12:26 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 05:23:25 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,25 @@ void	ft_heredoc(t_exec *exec)
 {
 	int		pipe_fd[2];
 	char	*buff;
+	int		i;
 
+	buff = "init_value";
+	i = 0;
 	if (pipe(pipe_fd) == -1)
 		return ;
-	buff = readline("> ");
-	while (buff && ft_strcmp(exec->is_here_doc, buff))
+	while (buff)
 	{
+		buff = readline("> ");
+		if (!ft_strcmp(exec->heredocs[i], buff))
+		{
+			if (i == exec->count_heredocs - 1)
+				break ;
+			i++;
+			continue ;
+		}
 		write(pipe_fd[1], buff, ft_strlen(buff));
 		write(pipe_fd[1], "\n", 1);
 		free(buff);
-		buff = readline("> ");
 	}
 	free(buff);
 	close(pipe_fd[1]);

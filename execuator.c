@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execuator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/01 01:21:27 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/01 05:03:53 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,14 @@ int	ft_execuator(t_state *s)
 
 	ft_check_cmd_exist(s->tokens);
 	s->cmd_amount = ft_amount_cmd(s->tokens);
+	// printf("cmd_amount: %d\n", s->cmd_amount);
 	if (s->cmd_amount == 0)
 		return (0);
 	exec = malloc(sizeof(t_exec *) * (s->cmd_amount + 1));
 	ft_add_garbage(s, exec);
 	exec[s->cmd_amount] = NULL;
 	s->status = ft_init_execs(s, exec);
+	// ft_print_execs(exec);
 	if ((s->status && s->cmd_amount == 1) \
 		|| (exec[s->cmd_amount - 1]->should_run \
 		&& exec[s->cmd_amount - 1]->type == CMD_BUILTIN))

@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:52:04 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 14:35:48 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 04:54:43 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 static void	ft_run_pipes(t_state *s, t_exec **exec, int i)
 {
+	if (exec[i]->type == CMD_HEREDOC)
+	{
+		mother_close_pipes_all(s);
+		exit(0);
+	}
 	if (!exec[i]->cmd_path && exec[i]->type != CMD_BUILTIN)
 	{
 		mother_close_pipes_all(s);
@@ -64,6 +69,7 @@ static void	ft_init_here_docs(t_state *s, t_exec **exec)
 	j = -1;
 	while (++j < s->cmd_amount)
 	{
+		printf("exec[%d]->is_here_doc: %s\n", j, exec[j]->is_here_doc);
 		if (exec[j]->is_here_doc)
 			ft_heredoc(exec[j]);
 	}
