@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_get.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:37:15 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 14:36:54 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 01:21:34 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ static int	ft_find_absoulute_path(t_token *start_token, char **cmd_path)
 	return (0);
 }
 
-static int	ft_find_rela_path(char **paths, t_token *token, t_state *s, char **cmd_path)
+static int	ft_find_rela_path(char **paths, t_token *token, \
+	t_state *s, char **cmd_path)
 {
 	char		*path;
 	int			i;

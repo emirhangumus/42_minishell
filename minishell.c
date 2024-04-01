@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:05 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 01:05:52 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/01 02:32:08 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	main(int ac, char **av)
 	ft_start(s);
 	ft_free_garbage(s);
 	exit_status = s->status;
+	free(s->cwd);
 	free(s);
 	return (exit_status);
 }

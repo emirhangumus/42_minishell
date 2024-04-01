@@ -27,7 +27,8 @@
 		"errno.h": "c",
 		"stdlib.h": "c",
 		"atomic": "c",
-		"locale": "c"
+		"locale": "c",
+		"string": "c"
 	},
 	"editor.fontSize": 12,
     "files.exclude": {

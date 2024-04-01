@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:51:51 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/31 23:46:41 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/01 01:21:52 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	ft_lexer_create_token(t_state *s, t_lexer *l, char **split, int i)
 {
 	int		is_redirect;
-	
+
 	is_redirect = ft_is_redirect(split[i], l->original);
 	if (is_redirect > 0)
 	{

@@ -6,13 +6,14 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:16:40 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 01:15:25 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/01 02:21:22 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void ft_joinstr_index_creation(char *s1, char *s2, int start_index, char *new)
+static void	ft_joinstr_index_creation(char *s1, char *s2, \
+	int start_index, char *new)
 {
 	int	i;
 	int	j;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_add_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 15:10:54 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/26 15:11:11 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 02:33:10 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,5 @@ char	**ft_add_env(char **env, char *key, char *value, t_state *s)
 	}
 	new_envp[i] = new_env;
 	new_envp[i + 1] = NULL;
-	ft_free_tab(env);
 	return (new_envp);
 }

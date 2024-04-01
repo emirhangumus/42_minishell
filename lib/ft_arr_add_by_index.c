@@ -3,48 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   ft_arr_add_by_index.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 01:11:42 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 14:40:31 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 03:03:23 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+static int	ft_arr_add_by_index_helper1(t_arr_add_by_index *aabi, \
+	char *str, int index)
+{
+	if (aabi->i == index)
+	{
+		aabi->new_arr[aabi->j] = ft_strdup(str, NULL);
+		if (aabi->new_arr[(aabi->j)++] == NULL)
+			return (1);
+	}
+	return (0);
+}
+
+static int	ft_arr_add_by_index_helper2(t_arr_add_by_index *aabi, char ***arr)
+{
+	if ((*arr)[aabi->i] != NULL)
+	{
+		aabi->new_arr[aabi->j] = ft_strdup((*arr)[aabi->i], NULL);
+		if (aabi->new_arr[(aabi->j)++] == NULL)
+			return (1);
+	}
+	return (0);
+}
+
 void	ft_arr_add_by_index(char ***arr, char *str, int index, t_state *s)
 {
-	int		len;
-	char	**new_arr;
-	int		i;
-	int		j;
+	t_arr_add_by_index	*aabi;
 
-	len = ft_arr_len(*arr);
-	new_arr = malloc(sizeof(char *) * (len + 2));
-	if (new_arr == NULL)
+	aabi = malloc(sizeof(t_arr_add_by_index));
+	if (aabi == NULL)
 		return ;
-	i = 0;
-	j = 0;
-	while (i <= len)
+	aabi->len = ft_arr_len(*arr);
+	aabi->new_arr = malloc(sizeof(char *) * (aabi->len + 2));
+	if (aabi->new_arr == NULL)
+		return ;
+	aabi->i = -1;
+	aabi->j = 0;
+	while (++(aabi->i) <= aabi->len)
 	{
-		if (i == index)
-		{
-			new_arr[j] = ft_strdup(str, s);
-			if (new_arr[j] == NULL)
-				return ;
-			j++;
-		}
-		if ((*arr)[i] != NULL)
-		{
-			new_arr[j] = ft_strdup((*arr)[i], s);
-			if (new_arr[j] == NULL)
-				return ;
-			j++;
-		}
-		i++;
+		if (ft_arr_add_by_index_helper1(aabi, str, index))
+			return ;
+		if (ft_arr_add_by_index_helper2(aabi, arr))
+			return ;
 	}
-	new_arr[j] = NULL;
-	if (s)
-		ft_add_garbage(s, new_arr);
-	*arr = new_arr;
+	aabi->new_arr[aabi->j] = NULL;
+	*arr = ft_arr_dup(aabi->new_arr, s);
+	ft_free_tab(aabi->new_arr);
+	free(aabi);
 }

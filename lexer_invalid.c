@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:43:09 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/31 22:53:44 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/01 01:24:38 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,31 +55,31 @@ int	ft_lexer_validate(t_state *s)
 	return (err);
 }
 
-int	ft_check_invalid_pipes(char *cmd, int start_index)
+int	ft_check_invalid_pipes(char *cmd, int si)
 {
 	int	quote;
 	int	err;
 
 	quote = QUOTE_NONE;
 	err = 0;
-	while (cmd[start_index])
+	while (cmd[si])
 	{
-		if (quote == QUOTE_NONE && (cmd[start_index] == '\'' || cmd[start_index] == '\"'))
-			quote = cmd[start_index];
-		else if (quote == cmd[start_index])
+		if (quote == QUOTE_NONE && (cmd[si] == '\'' || cmd[si] == '\"'))
+			quote = cmd[si];
+		else if (quote == cmd[si])
 			quote = QUOTE_NONE;
-		if (quote == QUOTE_NONE && cmd[start_index] == '|')
+		if (quote == QUOTE_NONE && cmd[si] == '|')
 		{
-			if (start_index == 0)
+			if (si == 0)
 				err = ERR_UNEXPECTED_TOKEN;
-			else if (cmd[start_index + 1] == '\0')
+			else if (cmd[si + 1] == '\0')
 				err = ERR_UNEXPECTED_TOKEN;
-			else if (cmd[start_index + 1] == '|')
+			else if (cmd[si + 1] == '|')
 				err = ERR_UNEXPECTED_TOKEN;
 		}
 		if (err)
 			return (err);
-		start_index++;
+		si++;
 	}
 	return (err);
 }

@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 23:46:32 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 01:14:48 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/01 01:26:12 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	ft_merge_args_envs_normal(t_state *s, t_lexer *l, char **str)
 		l->value = ft_strdup("", s);
 }
 
-static int ft_merge_args_env_decision(t_state *s, t_lexer *l, char **str)
+static int	ft_merge_args_env_decision(t_state *s, t_lexer *l, char **str)
 {
 	if ((*str)[l->m] == '?')
 	{
@@ -52,10 +52,10 @@ static int ft_merge_args_env_decision(t_state *s, t_lexer *l, char **str)
 
 static int	ft_merge_args_env(t_state *s, t_lexer *l, char ***split, char **str)
 {
-	int	len;
-	char *temp;
-	int	dollar_counter;
-	
+	int		len;
+	char	*temp;
+	int		dollar_counter;
+
 	dollar_counter = 0;
 	if ((*str)[l->k] == '$')
 	{
@@ -77,7 +77,8 @@ static int	ft_merge_args_env(t_state *s, t_lexer *l, char ***split, char **str)
 	return (0);
 }
 
-static void ft_merge_args_remove_quotes(t_state *s, t_lexer *l, char **str, int *quote)
+static void	ft_merge_args_remove_quotes(t_state *s, \
+	t_lexer *l, char **str, int *quote)
 {
 	if (*quote == QUOTE_NONE && ((*str)[l->k] == '\'' || (*str)[l->k] == '\"'))
 	{

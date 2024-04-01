@@ -6,13 +6,13 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:35:58 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/31 22:54:11 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/01 01:25:10 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int ft_is_redirect_helper(char *original)
+static int	ft_is_redirect_helper(char *original)
 {
 	int	quote;
 	int	i;

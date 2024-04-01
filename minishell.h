@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 00:45:04 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/01 02:59:25 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,6 @@
 # define QUOTE_NONE 0
 # define QUOTE_ONE 39
 # define QUOTE_TWO 34
-
-# define ENV_RECHECK -1
-# define ENV_NO_MORE -2
-# define ENV_SINGLE_VALUE -3
-# define ENV_ERROR -4
 
 # define CMD_PATH 19
 # define CMD_BUILTIN 20
@@ -149,6 +144,23 @@ typedef struct s_state
 	t_garbage		*last_garbage;
 }	t_state;
 
+typedef struct s_quote_split
+{
+	int		seen_quote_type;
+	int		i;
+	int		j;
+	int		k;
+	char	*s;
+	char	*c;
+}	t_quote_split;
+
+typedef struct s_arr_add_by_index
+{
+	int		len;
+	char	**new_arr;
+	int		i;
+	int		j;
+}	t_arr_add_by_index;
 
 /* LIB */
 size_t	ft_strlen(const char *s);
@@ -164,7 +176,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_trim_quotes(char const *str, t_state *s, int n);
 void	ft_free_tab(char **tab);
 int		ft_is_empty(char *s);
-char	**ft_arr_dup(char **arr);
+char	**ft_arr_dup(char **arr, t_state *s);
 int		ft_arr_len(char **arr);
 int		ft_arr_include(char **arr, char *str, \
 	int (*cmp)(const char *, const char *));
@@ -184,12 +196,10 @@ char	*ft_joinstr_index(char *s1, char *s2, int start_index, t_state *s);
 void	ft_remove_char_by_index(char **str, int index, t_state *s);
 void	ft_remove_key(char **str, int start_index, int end_index, t_state *s);
 char	**ft_split_merge(char **split, t_state *s);
+char	**ft_free_prevs(char **arr, int i);
 
 /* SIGNALS */
 void	ft_signals(void);
-
-/* ENV CHECK */
-void	ft_env_check(t_token *tmp, t_state *s);
 
 /* GARBAGE */
 void	ft_add_garbage(t_state *s, void *ptr);
@@ -207,7 +217,7 @@ int		ft_is_redirect(char *str, char *original);
 int		ft_remove_tokens(t_token ***token, int (*f)(void *));
 void	ft_redirect_arrange(t_token **tokens);
 int		ft_lexer_validate(t_state *s);
-int		ft_check_invalid_pipes(char *cmd, int start_index);
+int		ft_check_invalid_pipes(char *cmd, int si);
 char	**ft_split_specials(char *str, t_state *s);
 
 /* SHELL */
