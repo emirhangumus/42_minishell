@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:43:09 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 01:24:38 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/01 05:30:53 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ static int	ft_v_invalid_redirect(t_token *tokens)
 	tmp = tokens;
 	while (tmp)
 	{
-		if (tmp->type == T_LREDIR && (!tmp->next || tmp->next->type != T_ARG))
-			err = ERR_UNCOMPLETED_REDIRECT;
-		if (tmp->type == T_RREDIR && (!tmp->next || tmp->next->type != T_ARG))
-			err = ERR_UNCOMPLETED_REDIRECT;
-		if (tmp->type == T_LAPPEND && (!tmp->next || tmp->next->type != T_ARG))
-			err = ERR_UNCOMPLETED_REDIRECT;
-		if (tmp->type == T_RAPPEND && (!tmp->next || tmp->next->type != T_ARG))
-			err = ERR_UNCOMPLETED_REDIRECT;
+		// if (tmp->type == T_LREDIR && (!tmp->next || tmp->next->type != T_ARG))
+		// 	err = ERR_UNCOMPLETED_REDIRECT;
+		// if (tmp->type == T_RREDIR && (!tmp->next || tmp->next->type != T_ARG))
+		// 	err = ERR_UNCOMPLETED_REDIRECT;
+		// if (tmp->type == T_LAPPEND && (!tmp->next || tmp->next->type != T_ARG))
+		// 	err = ERR_UNCOMPLETED_REDIRECT;
+		// if (tmp->type == T_RAPPEND && (!tmp->next || tmp->next->type != T_ARG))
+		// 	err = ERR_UNCOMPLETED_REDIRECT;
 		tmp = tmp->next;
 	}
 	return (err);
