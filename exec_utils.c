@@ -3,50 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:09:01 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/01 07:08:59 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 10:21:41 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_amound_cmd_helper(t_token **tokens, int *i, int *prev_amount)
+{
+	t_token	*tmp;
+
+	tmp = tokens[*i];
+	while (tmp)
+	{
+		if (tmp->type == T_CMD)
+			return (2);
+		tmp = tmp->next;
+	}
+	tmp = tokens[*i];
+	if (*prev_amount == 0)
+	{
+		while (tmp)
+		{
+			if (ft_is_redirection(tmp))
+				return (1);
+			tmp = tmp->next;
+		}
+	}
+	return (0);
+}
 
 int	ft_amount_cmd(t_token **tokens)
 {
 	int		prev_amount;
 	int		amount;
 	int		i;
-	t_token	*tmp;
+	int		ret;
 
 	i = 0;
 	amount = 0;
 	while (tokens[i])
 	{
 		prev_amount = 0;
-		tmp = tokens[i];
-		while (tmp)
-		{
-			if (tmp->type == T_CMD)
-			{
-				prev_amount++;
-				break ;	
-			}
-			tmp = tmp->next;
-		}
-		tmp = tokens[i];
-		if (prev_amount == 0)
-		{
-			while (tmp)
-			{
-				if (ft_is_redirection(tmp))
-				{
-					amount++;
-					break ;
-				}
-				tmp = tmp->next;
-			}
-		}
+		ret = ft_amound_cmd_helper(tokens, &i, &prev_amount);
+		if (ret == 2)
+			prev_amount++;
+		else if (ret == 1)
+			amount++;
 		amount += prev_amount;
 		i++;
 	}

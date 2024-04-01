@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:23:57 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 07:18:08 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 10:27:03 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,15 @@ void	ft_redirect_arrange(t_token **tokens)
 	int		i;
 	int		redirect;
 
-	i = 0;
+	i = -1;
 	tmp1 = tokens;
-	while (tmp1[i])
+	while (tmp1[++i])
 	{
 		tmp2 = tmp1[i];
 		while (tmp2)
 		{
-			if (ft_is_redirect(tmp2->value, NULL) && tmp2->prev == NULL && tmp2->next && tmp2->next->next)
+			if (ft_is_redirect(tmp2->value, NULL)
+				&& tmp2->prev == NULL && tmp2->next && tmp2->next->next)
 			{
 				redirect = ft_is_redirect(tmp2->next->next->value, NULL);
 				if (!redirect)
@@ -59,15 +60,8 @@ void	ft_redirect_arrange(t_token **tokens)
 			}
 			tmp2 = tmp2->next;
 		}
-		i++;
 	}
 }
-
-/**
- * << asd0 cat << asd1 cat << asd1
- * << asd0 << asd1 cat << asd1
- * << asd0 cat << asd1 << asd2
-*/
 
 static void	ft_split_specials_helper(char **sp, int *i, t_state *s)
 {

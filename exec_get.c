@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_get.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:37:15 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/01 07:02:04 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 10:06:08 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ int	get_all_cmd(t_exec *exec, t_state *s, t_token *tmp, t_token *tmp1)
 		err = ft_get_cmd_path(tmp, s, &exec->cmd_path);
 	if (err && !(exec->type == CMD_BUILTIN))
 		return (err);
+	exec->is_here_doc = ft_is_here_doc(tmp1);
+	exec->count_heredocs = ft_count_heredocs(tmp1);
 	err = ft_init_redirections(tmp1, exec, s);
 	exec->cmd_args = ft_get_args(s, tmp1, tmp->value);
 	if (err)

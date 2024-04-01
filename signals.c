@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 16:34:36 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 09:51:12 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/01 10:25:05 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,8 @@ void	ctrl_c(int sig)
 		printf("\n");
 }
 
-
 void	ft_signals(void)
 {
-
 	signal(SIGINT, ctrl_c);
 	signal(SIGQUIT, coix);
 }

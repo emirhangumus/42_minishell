@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_invalid.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:43:09 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 07:27:07 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 10:25:59 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@ static int	ft_v_invalid_redirect(t_token *tokens)
 	{
 		if (ft_is_redirect(tmp->value, NULL) && ft_is_redirection(tmp))
 		{
-			if (tmp->prev && ft_is_redirect(tmp->prev->value, NULL) && ft_is_redirection(tmp->prev))
+			if (tmp->prev && ft_is_redirect(tmp->prev->value, NULL)
+				&& ft_is_redirection(tmp->prev))
 				return (ERR_UNEXPECTED_TOKEN);
-			if (tmp->next && ft_is_redirect(tmp->next->value, NULL) && ft_is_redirection(tmp->next))
+			if (tmp->next && ft_is_redirect(tmp->next->value, NULL)
+				&& ft_is_redirection(tmp->next))
 				return (ERR_UNEXPECTED_TOKEN);
 		}
 		tmp = tmp->next;

@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 09:19:31 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/01 10:26:13 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # include <fcntl.h>
 # include <sys/ioctl.h>
 # include <sys/stat.h>
-#include <termios.h>
 //ernoh
 # include <errno.h>
 
@@ -65,7 +64,7 @@
 # define ERR_PIPE_INIT 124
 # define ERR_NOT_VALID_IDENTIFIER 123
 # define ERR_NOT_A_DIRECTORY 122
-# define ERR_NO_FILE_OR_DIR 1 // https://www.cyberciti.biz/faq/linux-bash-exit-status-set-exit-statusin-bash/
+# define ERR_NO_FILE_OR_DIR 1
 # define ERR_EMPTY_COMMAND 1271
 # define ERR_UNEXPECTED_TOKEN 2
 # define ERR_MALLOC 3
@@ -252,7 +251,10 @@ int		get_all_cmd(t_exec *exec, t_state *s, t_token *tmp, t_token *tmp1);
 int		ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s);
 void	ft_heredoc(t_exec *exec);
 void	ft_exec_hub(t_state *s, t_exec **exec);
-int		ft_is_without_cmd_redirect(t_token *tokens, int cmd_amount, int j);
+int		isredwocmd(t_token *tokens, int cmd_amount, int j);
+char	*ft_is_here_doc(t_token *token);
+int		ft_count_heredocs(t_token *token);
+int		isredwocmd(t_token *tokens, int cmd_amount, int j);
 
 /* BUILTIN */
 int		ft_is_builtin(char *value);
@@ -272,7 +274,7 @@ int		ft_env_key_cmp(const char *s1, const char *s2);
 
 /* TOKENS */
 void	ft_add_token(t_state *s, char *token, int type, int index);
-t_token *ft_create_token(char *value, int type);
+t_token	*ft_create_token(char *value, int type);
 t_token	*ft_get_last_token(t_token *token);
 int		ft_remove_tokens(t_token ***token, int (*f)(void *));
 void	ft_free_tokens(t_token **token);

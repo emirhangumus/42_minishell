@@ -3,47 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   exec_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/01 07:34:20 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 10:23:06 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*ft_is_here_doc(t_token *token)
-{
-	while (token)
-	{
-		if (token->type == T_LAPPEND)
-			return (token->next->value);
-		token = token->next;
-	}
-	return (NULL);
-}
-
-int	ft_count_heredocs(t_token *token)
-{
-	int	count;
-
-	count = 0;
-	while (token)
-	{
-		if (token->type == T_LAPPEND)
-			count++;
-		token = token->next;
-	}
-	return (count);
-}
 
 int	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 {
 	int		i;
 
 	i = 0;
-	exec->is_here_doc = ft_is_here_doc(tokens);
-	exec->count_heredocs = ft_count_heredocs(tokens);
 	exec->heredocs = malloc(sizeof(char *) * (exec->count_heredocs + 1));
 	exec->heredocs[exec->count_heredocs] = NULL;
 	while (tokens)
@@ -77,41 +50,11 @@ static void	ft_fill_execs(t_exec *exec, int j, t_token *next, t_state *s)
 	exec->out_fd = 0;
 	exec->count_heredocs = 0;
 	exec->here_doc_idx = 0;
-	exec->is_without_cmd = ft_is_without_cmd_redirect(next, s->cmd_amount, j);
+	exec->is_without_cmd = isredwocmd(next, s->cmd_amount, j);
 	exec->in_file = NULL;
 	exec->out_file = NULL;
 	exec->type = CMD_PATH;
 	exec->heredocs = NULL;
-}
-
-int	ft_is_without_cmd_redirect(t_token *tokens, int cmd_amount, int j)
-{
-	int	i;
-	t_token	*tmp;
-	i = 0;
-	tmp = tokens;
-
-	if (j >= cmd_amount)
-		return (0);
-	while (tmp)
-	{
-		if (tmp->type == T_CMD)
-			i++;
-		if (i != 0)
-			return (0);
-		tmp = tmp->next;
-	}
-	if (i == 0)
-	{
-		tmp = tokens;
-		while (tmp)
-		{
-			if (ft_is_redirection(tmp))
-				return (1);
-			tmp = tmp->next;
-		}
-	}
-	return (0);
 }
 
 int	ft_init_execs(t_state *s, t_exec **exec)
@@ -131,7 +74,7 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 		next = tmp[i];
 		while (next)
 		{
-			if (next->type == T_CMD || ft_is_without_cmd_redirect(tmp[i], s->cmd_amount, j + 1))
+			if (next->type == T_CMD || isredwocmd(tmp[i], s->cmd_amount, j + 1))
 			{
 				exec[++j] = malloc(sizeof(t_exec));
 				ft_fill_execs(exec[j], j, tmp[i], s);

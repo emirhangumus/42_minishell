@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:51:51 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 06:40:10 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 10:25:36 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int	ft_lexer(t_state *s)
 	free(l);
 	if (err)
 		return (err);
-	// ft_init_prev_tokens(s->tokens);
 	ft_redirect_arrange(s->tokens);
 	err = ft_lexer_validate(s);
 	if (err)
