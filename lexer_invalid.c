@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:43:09 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 06:15:05 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/01 07:13:10 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static int	ft_v_invalid_redirect(t_token *tokens)
 	tmp = tokens;
 	while (tmp)
 	{
-		// redirections cant be next to eact other
 		if (ft_is_redirect(tmp->value, NULL))
 		{
 			if (tmp->prev && ft_is_redirect(tmp->prev->value, NULL))
