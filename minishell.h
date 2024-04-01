@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 06:30:43 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 09:09:21 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,5 +285,7 @@ void	ft_print_tokens(t_token **token);
 void	ft_print_tab(char **tab);
 void	ft_print_execs(t_exec **exec);
 void	ft_print_exec(t_exec *exec);
+
+void	rl_replace_line(const char *text, int clear_undo);
 
 #endif
