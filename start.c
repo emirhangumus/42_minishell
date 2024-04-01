@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:42:03 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 01:42:11 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/01 05:29:33 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static int	ft_start_run(t_state *s)
 			ft_error(err, NULL, 0);
 			return (err);
 		}
+		ft_print_tokens(s->tokens);
 		ft_init_prev_tokens(s->tokens);
 		ft_execuator(s);
 		ft_start_run_free(s);

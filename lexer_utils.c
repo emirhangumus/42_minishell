@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:23:57 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 04:57:38 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/01 05:36:00 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,34 @@ void	ft_redirect_arrange(t_token **tokens)
 	t_token	**tmp1;
 	t_token	*tmp2;
 	int		i;
+	int		redirect;
 
 	i = 0;
 	tmp1 = tokens;
 	while (tmp1[i])
 	{
 		tmp2 = tmp1[i];
-		if (tmp2->prev == NULL && ft_is_redirect(tmp2->value, NULL)
-			&& tmp2->next && tmp2->next->next
-			&& ft_is_redirect(tmp2->next->next->value, NULL))
-			tmp2->next->next->type = T_CMD;
+		while (tmp2)
+		{
+			if (tmp2->next && tmp2->next->next)
+			{
+				redirect = ft_is_redirect(tmp2->next->next->value, NULL);
+				if (!redirect)
+				{
+					tmp2->next->next->type = T_CMD;
+					return ;
+				}
+			}
+			tmp2 = tmp2->next;
+		}
 		i++;
 	}
 }
+
+/**
+ * << asd0 cat << asd1 << asd1
+ * << asd0 cat << asd1 << asd2
+*/
 
 static void	ft_split_specials_helper(char **sp, int *i, t_state *s)
 {
