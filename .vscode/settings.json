@@ -28,7 +28,8 @@
 		"stdlib.h": "c",
 		"atomic": "c",
 		"locale": "c",
-		"string": "c"
+		"string": "c",
+		"ioctl.h": "c"
 	},
 	"editor.fontSize": 12,
     "files.exclude": {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 10:26:13 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/01 11:34:57 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,11 @@
 # include <signal.h>
 # include <stdarg.h>
 # include <fcntl.h>
-# include <sys/ioctl.h>
 # include <sys/stat.h>
-//ernoh
 # include <errno.h>
 
 // linux
 # include <sys/wait.h>
-
-# define SYS_EXIT 42
 
 # define T_CMD 1
 # define T_ARG 2
@@ -45,16 +41,11 @@
 
 # define CMD_PATH 19
 # define CMD_BUILTIN 20
-# define CMD_INPUT 21
-# define CMD_OUTPUT 22
-# define CMD_WITHOUT_CMD 23
+# define CMD_WITHOUT_CMD 21
 
 # define COLOR_RED "\x1b[31m"
 # define COLOR_GREEN "\x1b[32m"
-# define COLOR_YELLOW "\x1b[33m"
 # define COLOR_BLUE "\x1b[34m"
-# define COLOR_MAGENTA "\x1b[35m"
-# define COLOR_CYAN "\x1b[36m"
 # define COLOR_RESET "\x1b[0m"
 
 # define ERR_CMD_NOT_FOUND 127
