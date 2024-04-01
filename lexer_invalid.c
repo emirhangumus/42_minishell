@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:43:09 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 06:38:40 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 07:27:07 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,12 @@ static int	ft_v_invalid_redirect(t_token *tokens)
 	tmp = tokens;
 	while (tmp)
 	{
-		// redirections cant be next to eact other
-		if (ft_is_redirect(tmp->value, NULL))
+		if (ft_is_redirect(tmp->value, NULL) && ft_is_redirection(tmp))
 		{
-			if (tmp->prev && ft_is_redirect(tmp->prev->value, NULL))
-			{
-				printf("this: %s\n", tmp->value);
-				printf("prev: %s\n", tmp->prev->value);
+			if (tmp->prev && ft_is_redirect(tmp->prev->value, NULL) && ft_is_redirection(tmp->prev))
 				return (ERR_UNEXPECTED_TOKEN);
-			}
-			if (tmp->next && ft_is_redirect(tmp->next->value, NULL))
-			{
-				printf("next: %s\n", tmp->next->value);
+			if (tmp->next && ft_is_redirect(tmp->next->value, NULL) && ft_is_redirection(tmp->next))
 				return (ERR_UNEXPECTED_TOKEN);
-			}
 		}
 		tmp = tmp->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/01 07:11:22 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 07:34:20 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,7 @@ int	ft_is_without_cmd_redirect(t_token *tokens, int cmd_amount, int j)
 	i = 0;
 	tmp = tokens;
 
-	printf("cmd_amount: %d\n", cmd_amount);
-	printf("j: %d\n", j);
-	if (j >= cmd_amount - 1)
+	if (j >= cmd_amount)
 		return (0);
 	while (tmp)
 	{
@@ -133,10 +131,8 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 		next = tmp[i];
 		while (next)
 		{
-			if (next->type == T_CMD || ft_is_without_cmd_redirect(tmp[i], s->cmd_amount, j))
+			if (next->type == T_CMD || ft_is_without_cmd_redirect(tmp[i], s->cmd_amount, j + 1))
 			{
-				printf("aaa: %d", ft_is_without_cmd_redirect(tmp[i], s->cmd_amount, j));
-				printf("next->value: %s\n", next->value);
 				exec[++j] = malloc(sizeof(t_exec));
 				ft_fill_execs(exec[j], j, tmp[i], s);
 				err = get_all_cmd(exec[j], s, next, tmp[i]);
