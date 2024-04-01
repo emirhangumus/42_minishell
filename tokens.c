@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:28:31 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/30 03:16:06 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 06:40:44 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	ft_add_token(t_state *s, char *token, int type, int index)
 		s->tokens[index] = new;
 	else
 	{
-		ft_get_last_token(s->tokens[index])->next = new;
 		new->prev = ft_get_last_token(s->tokens[index]);
+		ft_get_last_token(s->tokens[index])->next = new;
 	}
 }
 

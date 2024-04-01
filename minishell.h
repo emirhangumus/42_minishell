@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 06:13:43 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 06:30:43 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 # define CMD_BUILTIN 20
 # define CMD_INPUT 21
 # define CMD_OUTPUT 22
-# define CMD_HEREDOC 23
+# define CMD_WITHOUT_CMD 23
 
 # define COLOR_RED "\x1b[31m"
 # define COLOR_GREEN "\x1b[32m"
@@ -115,9 +115,12 @@ typedef struct s_lexer
 
 typedef struct s_exec
 {
+	t_token	**t_ptr1;
+	t_token	*t_ptr2;
 	char	*cmd_path;
 	char	**cmd_args;
 	char	**heredocs;
+	int		is_without_cmd;
 	int		count_heredocs;
 	int		here_doc_idx;
 	int		out_type;

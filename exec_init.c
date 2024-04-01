@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/01 06:15:44 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 07:11:22 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 	return (i);
 }
 
-static void	ft_fill_execs(t_exec *exec)
+static void	ft_fill_execs(t_exec *exec, int j, t_token *next, t_state *s)
 {
 	exec->is_here_doc = 0;
 	exec->should_run = 0;
@@ -77,6 +77,7 @@ static void	ft_fill_execs(t_exec *exec)
 	exec->out_fd = 0;
 	exec->count_heredocs = 0;
 	exec->here_doc_idx = 0;
+	exec->is_without_cmd = ft_is_without_cmd_redirect(next, s->cmd_amount, j);
 	exec->in_file = NULL;
 	exec->out_file = NULL;
 	exec->type = CMD_PATH;
@@ -90,11 +91,10 @@ int	ft_is_without_cmd_redirect(t_token *tokens, int cmd_amount, int j)
 	i = 0;
 	tmp = tokens;
 
-	if (j == cmd_amount - 1)
-	{
-		
+	printf("cmd_amount: %d\n", cmd_amount);
+	printf("j: %d\n", j);
+	if (j >= cmd_amount - 1)
 		return (0);
-	}
 	while (tmp)
 	{
 		if (tmp->type == T_CMD)
@@ -133,10 +133,12 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 		next = tmp[i];
 		while (next)
 		{
-			if (next->type == T_CMD || ft_is_without_cmd_redirect(next, s->cmd_amount, j))
+			if (next->type == T_CMD || ft_is_without_cmd_redirect(tmp[i], s->cmd_amount, j))
 			{
+				printf("aaa: %d", ft_is_without_cmd_redirect(tmp[i], s->cmd_amount, j));
+				printf("next->value: %s\n", next->value);
 				exec[++j] = malloc(sizeof(t_exec));
-				ft_fill_execs(exec[j]);
+				ft_fill_execs(exec[j], j, tmp[i], s);
 				err = get_all_cmd(exec[j], s, next, tmp[i]);
 			}
 			next = next->next;

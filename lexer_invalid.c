@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_invalid.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:43:09 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 06:15:05 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/01 06:38:40 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,16 @@ static int	ft_v_invalid_redirect(t_token *tokens)
 		if (ft_is_redirect(tmp->value, NULL))
 		{
 			if (tmp->prev && ft_is_redirect(tmp->prev->value, NULL))
+			{
+				printf("this: %s\n", tmp->value);
+				printf("prev: %s\n", tmp->prev->value);
 				return (ERR_UNEXPECTED_TOKEN);
+			}
 			if (tmp->next && ft_is_redirect(tmp->next->value, NULL))
+			{
+				printf("next: %s\n", tmp->next->value);
 				return (ERR_UNEXPECTED_TOKEN);
+			}
 		}
 		tmp = tmp->next;
 	}

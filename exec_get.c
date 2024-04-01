@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:37:15 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/01 06:15:52 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 07:02:04 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,10 @@ int	get_all_cmd(t_exec *exec, t_state *s, t_token *tmp, t_token *tmp1)
 	if (!exec)
 		return (1);
 	ft_add_garbage(s, exec);
-	if (tmp->prev == NULL && tmp->type == T_LAPPEND)
+	if (exec->is_without_cmd)
 	{
-		exec->type = CMD_HEREDOC;
-		exec->is_here_doc = ft_strdup(tmp->value, s);
-		exec->cmd_path = "here_doc";
+		exec->type = CMD_WITHOUT_CMD;
+		exec->cmd_path = "without_cmd";
 	}
 	if (ft_is_builtin(tmp->value))
 		exec->type = CMD_BUILTIN;

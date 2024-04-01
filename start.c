@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:42:03 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 05:42:55 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 06:43:14 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ static int	ft_start_run(t_state *s)
 			return (err);
 		}
 		// ft_print_tokens(s->tokens);
-		ft_init_prev_tokens(s->tokens);
 		ft_execuator(s);
 		ft_start_run_free(s);
 	}
