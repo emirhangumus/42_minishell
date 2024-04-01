@@ -76,9 +76,6 @@ static void	ft_init_here_docs(t_state *s, t_exec **exec)
 
 void	ft_exec_hub(t_state *s, t_exec **exec)
 {
-	int	i;
-
-	i = -1;
 	ft_init_here_docs(s, exec);
 	g_qsignal = 1;
 	if (s->cmd_amount > 1)

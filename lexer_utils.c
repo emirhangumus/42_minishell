@@ -16,11 +16,9 @@ int	ft_add_envs_as_arg_or_cmd(int index, t_state *s, char ***split)
 {
 	char	**str;
 	int		i;
-	int		j;
 	char	**split2;
 
 	i = 0;
-	j = 0;
 	str = &((*split)[index]);
 	split2 = ft_quote_split(*str, " ", s);
 	if (split2 != NULL)

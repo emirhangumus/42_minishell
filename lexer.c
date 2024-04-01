@@ -38,13 +38,11 @@ int	ft_lexer_create(t_lexer *l, t_state *s)
 {
 	char	**split;
 	int		i;
-	int		is_redirect;
 
 	split = ft_split_specials(l->str, s);
 	if (!split)
 		return (ERR_MALLOC);
 	i = 0;
-	is_redirect = 0;
 	while (split[i])
 	{
 		l->original = ft_strdup(split[i], s);

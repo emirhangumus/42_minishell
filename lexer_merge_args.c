@@ -53,7 +53,6 @@ static int	ft_merge_args_env_decision(t_state *s, t_lexer *l, char **str)
 static int	ft_merge_args_env(t_state *s, t_lexer *l, char ***split, char **str)
 {
 	int		len;
-	char	*temp;
 	int		dollar_counter;
 
 	dollar_counter = 0;
@@ -65,7 +64,6 @@ static int	ft_merge_args_env(t_state *s, t_lexer *l, char ***split, char **str)
 			if (ft_merge_args_env_decision(s, l, str))
 				return (1);
 			len = ft_strlen(l->value);
-			temp = ft_strdup(*str, s);
 			*str = ft_joinstr_index(*str, l->value, l->k, s);
 			if (ft_strchr(ft_substr(*str, l->k, len, s), ' '))
 				ft_add_envs_as_arg_or_cmd(l->current_pipe_index, s, split);

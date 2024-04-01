@@ -15,10 +15,8 @@
 static int	ft_v_invalid_redirect(t_token *tokens)
 {
 	t_token	*tmp;
-	int		i;
 	int		err;
 
-	i = 0;
 	err = 0;
 	tmp = tokens;
 	while (tmp)
