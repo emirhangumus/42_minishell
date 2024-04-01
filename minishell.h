@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 11:34:57 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 13:29:30 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <errno.h>
-
+# include <termios.h>
 // linux
 # include <sys/wait.h>
 
