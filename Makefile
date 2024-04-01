@@ -12,7 +12,7 @@ RL = ./lib/readline/lib/libreadline.a
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(RL)
+$(NAME): $(RL) $(OBJ)
 		$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(READLINE)
 
 $(RL):

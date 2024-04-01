@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 16:34:36 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 09:09:30 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 09:26:44 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,32 @@
 
 int	g_qsignal;
 
-void	coix(int sig)
+void	sigquit_handler(int num)
 {
-	(void)sig;
-	rl_on_new_line();
-	printf("\033[K");
-	rl_redisplay();
+	(void)num;
+	if (g_qsignal == 1)
+	{
+		write(1, "\033[2D", 4);
+		write(1, "  ", 2);
+		write(1, "\033[2D", 4);
+		ioctl(0, TIOCSTI);
+		g_qsignal = 0;
+	}
 	g_qsignal = 1;
 }
 
-void	ctrl_c(int sig)
+void	sigint_handler(int sig)
 {
 	(void)sig;
-	if (!g_qsignal)
-	{
-		printf("\n");
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-	else
-		printf("\n");
+	write(1, "\033[A", 3);
+	ioctl(0, TIOCSTI, "\n");
+	g_qsignal = 1;
 }
 
 
 void	ft_signals(void)
 {
-	signal(SIGINT, ctrl_c);
-	signal(SIGQUIT, coix);
+
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, sigquit_handler);
 }

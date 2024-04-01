@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 09:09:21 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 09:19:31 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <fcntl.h>
 # include <sys/ioctl.h>
 # include <sys/stat.h>
+#include <termios.h>
 //ernoh
 # include <errno.h>
 
