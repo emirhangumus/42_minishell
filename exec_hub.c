@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:52:04 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/01 13:24:11 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 15:07:22 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	ft_exec_hub(t_state *s, t_exec **exec)
 
 	i = -1;
 	ft_init_here_docs(s, exec);
+	g_qsignal = 1;
 	if (s->cmd_amount > 1)
 	{
 		ft_exec_part(s, exec);
@@ -88,4 +89,5 @@ void	ft_exec_hub(t_state *s, t_exec **exec)
 	}
 	else
 		s->status = exec_one_command(s, exec);
+	g_qsignal = 0;
 }

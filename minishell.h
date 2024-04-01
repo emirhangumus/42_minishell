@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 13:29:30 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 15:06:00 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,8 @@ typedef struct s_arr_add_by_index
 	int		i;
 	int		j;
 }	t_arr_add_by_index;
+
+extern int	g_qsignal;
 
 /* LIB */
 size_t	ft_strlen(const char *s);
