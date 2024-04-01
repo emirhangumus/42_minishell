@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 23:46:32 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 01:26:12 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/01 03:50:03 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,6 @@ int	ft_merge_args(int index, t_state *s, t_lexer *l, char ***split)
 		l->k++;
 	}
 	if (quote != QUOTE_NONE)
-		return (write(2, "minishell: syntax error\n", 25), 1);
+		return (ERR_UNEXPECTED_TOKEN);
 	return (SUCCESS);
 }
