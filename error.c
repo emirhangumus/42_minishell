@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 15:20:34 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 14:43:52 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 16:05:06 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	ft_error(int err, char *str, int throw_exit)
 	ft_error_part1(err, str);
 	ft_error_part2(err, str);
 	ft_error_part3(err, str);
-	if (err == ERR_NOT_VALID_IDENTIFIER)
+	if (err == ERR_NOT_VALID_IDFR)
 	{
 		if (str)
 			ft_err_arg("not a valid identifier", str);

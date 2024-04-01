@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:31:35 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/30 14:41:02 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 16:05:06 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_is_starts_with_digit(t_exec *exec)
 	{
 		if (ft_isdigit(exec->cmd_args[i][0]))
 		{
-			ft_error(ERR_NOT_VALID_IDENTIFIER, exec->cmd_args[i], 0);
+			ft_error(ERR_NOT_VALID_IDFR, exec->cmd_args[i], 0);
 			return (1);
 		}
 		i++;

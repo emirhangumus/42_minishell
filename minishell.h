@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 15:06:00 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 16:05:06 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@
 # define ERR_PERMISSION_DENIED 1261
 # define ERR_NUMERIC_ARG 255
 # define ERR_PIPE_INIT 124
-# define ERR_NOT_VALID_IDENTIFIER 123
+# define ERR_NOT_VALID_IDFR 123
 # define ERR_NOT_A_DIRECTORY 122
 # define ERR_NO_FILE_OR_DIR 1
 # define ERR_EMPTY_COMMAND 1271

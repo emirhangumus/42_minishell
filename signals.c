@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 16:34:36 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 15:08:56 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 16:03:41 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ void	tcsa(void)
 
 void	ft_signals(void)
 {
-	g_qsignal = 0;
 	tcsa();
 	signal(SIGINT, ctrl_c);
 	signal(SIGQUIT, coix);
+	return ;
 }

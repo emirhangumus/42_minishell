@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:00:46 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/01 07:28:47 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 16:05:06 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,24 @@ int	ft_export_is_valid(t_exec *exec)
 	int	i;
 	int	j;
 
-	i = 1;
-	while (exec->cmd_args[i])
+	i = 0;
+	while (exec->cmd_args[++i])
 	{
 		j = 0;
+		if (exec->cmd_args[i][j] == '=')
+			return (ft_error(ERR_NOT_VALID_IDFR, exec->cmd_args[i], 0), 1);
 		while (exec->cmd_args[i][j] && exec->cmd_args[i][j] != '=')
 		{
 			if (exec->cmd_args[i][j] == '-')
-				return (ft_error(ERR_NOT_VALID_IDENTIFIER, \
+				return (ft_error(ERR_NOT_VALID_IDFR, \
 					exec->cmd_args[i], 0), 1);
 			if (!ft_isalnum(exec->cmd_args[i][j]))
-				return (ft_error(ERR_NOT_VALID_IDENTIFIER, \
+				return (ft_error(ERR_NOT_VALID_IDFR, \
 					exec->cmd_args[i], 0), 1);
 			j++;
 		}
-		if (exec->cmd_args[i][j] && !exec->cmd_args[i][j + 1])
-			return (ft_error(ERR_NOT_VALID_IDENTIFIER, \
-				exec->cmd_args[i], 0), 1);
-		i++;
+		if (!exec->cmd_args[i][j])
+			return (0);
 	}
 	if (ft_is_starts_with_digit(exec))
 		return (1);
