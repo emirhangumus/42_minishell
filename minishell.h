@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 16:05:06 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 16:41:56 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,12 +168,10 @@ char	*ft_strdup(char *str, t_state *s);
 char	**ft_split(char *s, char c, t_state *state);
 char	*ft_strjoin(char const *s1, char const *s2, t_state *s);
 int		ft_strcmp(const char *s1, const char *s2);
-char	*ft_strtrim(char const *s1, char const *set, t_state *s);
 char	*ft_substr(const char *s, unsigned int start, size_t len, t_state *st);
 char	*ft_strchr(const char *s, int c);
 char	**ft_quote_split(char *s, char *c, t_state *state);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-char	*ft_trim_quotes(char const *str, t_state *s, int n);
 void	ft_free_tab(char **tab);
 int		ft_is_empty(char *s);
 char	**ft_arr_dup(char **arr, t_state *s);
