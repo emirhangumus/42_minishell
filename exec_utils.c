@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:09:01 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/01 04:36:33 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 06:11:29 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	ft_amount_cmd(t_token **tokens)
 {
+	int		prev_amount;
 	int		amount;
 	int		i;
 	t_token	*tmp;
@@ -22,13 +23,28 @@ int	ft_amount_cmd(t_token **tokens)
 	amount = 0;
 	while (tokens[i])
 	{
+		prev_amount = 0;
 		tmp = tokens[i];
 		while (tmp)
 		{
-			if (tmp->type == T_CMD || (tmp->prev == NULL && tmp->type == T_LAPPEND && tmp->next->next == NULL))
-				amount++;
+			if (tmp->type == T_CMD)
+				prev_amount++;
 			tmp = tmp->next;
 		}
+		tmp = tokens[i];
+		if (prev_amount == 0)
+		{
+			while (tmp)
+			{
+				if (ft_is_redirection(tmp))
+				{
+					amount++;
+					break ;
+				}
+				tmp = tmp->next;
+			}
+		}
+		amount += prev_amount;
 		i++;
 	}
 	return (amount);

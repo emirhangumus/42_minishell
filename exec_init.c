@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/01 05:01:40 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 06:15:44 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,39 @@ static void	ft_fill_execs(t_exec *exec)
 	exec->heredocs = NULL;
 }
 
+int	ft_is_without_cmd_redirect(t_token *tokens, int cmd_amount, int j)
+{
+	int	i;
+	t_token	*tmp;
+	i = 0;
+	tmp = tokens;
+
+	if (j == cmd_amount - 1)
+	{
+		
+		return (0);
+	}
+	while (tmp)
+	{
+		if (tmp->type == T_CMD)
+			i++;
+		if (i != 0)
+			return (0);
+		tmp = tmp->next;
+	}
+	if (i == 0)
+	{
+		tmp = tokens;
+		while (tmp)
+		{
+			if (ft_is_redirection(tmp))
+				return (1);
+			tmp = tmp->next;
+		}
+	}
+	return (0);
+}
+
 int	ft_init_execs(t_state *s, t_exec **exec)
 {
 	t_token		**tmp;
@@ -100,7 +133,7 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 		next = tmp[i];
 		while (next)
 		{
-			if (next->type == T_CMD || (next->prev == NULL && next->type == T_LAPPEND && next->next->next == NULL))
+			if (next->type == T_CMD || ft_is_without_cmd_redirect(next, s->cmd_amount, j))
 			{
 				exec[++j] = malloc(sizeof(t_exec));
 				ft_fill_execs(exec[j]);

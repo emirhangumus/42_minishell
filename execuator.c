@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/01 05:03:53 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 06:12:33 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ int	ft_execuator(t_state *s)
 {
 	t_exec	**exec;
 
-	ft_check_cmd_exist(s->tokens);
+	// ft_check_cmd_exist(s->tokens);
+	ft_print_tokens(s->tokens);
 	s->cmd_amount = ft_amount_cmd(s->tokens);
-	// printf("cmd_amount: %d\n", s->cmd_amount);
 	if (s->cmd_amount == 0)
 		return (0);
 	exec = malloc(sizeof(t_exec *) * (s->cmd_amount + 1));

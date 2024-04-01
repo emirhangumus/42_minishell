@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 04:44:33 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/01 06:13:43 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,7 @@ int		get_all_cmd(t_exec *exec, t_state *s, t_token *tmp, t_token *tmp1);
 int		ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s);
 void	ft_heredoc(t_exec *exec);
 void	ft_exec_hub(t_state *s, t_exec **exec);
+int		ft_is_without_cmd_redirect(t_token *tokens, int cmd_amount, int j);
 
 /* BUILTIN */
 int		ft_is_builtin(char *value);
