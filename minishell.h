@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 10:26:13 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/03 01:05:25 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,9 @@
 # include <signal.h>
 # include <stdarg.h>
 # include <fcntl.h>
-# include <sys/ioctl.h>
 # include <sys/stat.h>
-//ernoh
 # include <errno.h>
-
-// linux
-# include <sys/wait.h>
-
-# define SYS_EXIT 42
+# include <termios.h>
 
 # define T_CMD 1
 # define T_ARG 2
@@ -45,16 +39,11 @@
 
 # define CMD_PATH 19
 # define CMD_BUILTIN 20
-# define CMD_INPUT 21
-# define CMD_OUTPUT 22
-# define CMD_WITHOUT_CMD 23
+# define CMD_WITHOUT_CMD 21
 
 # define COLOR_RED "\x1b[31m"
 # define COLOR_GREEN "\x1b[32m"
-# define COLOR_YELLOW "\x1b[33m"
 # define COLOR_BLUE "\x1b[34m"
-# define COLOR_MAGENTA "\x1b[35m"
-# define COLOR_CYAN "\x1b[36m"
 # define COLOR_RESET "\x1b[0m"
 
 # define ERR_CMD_NOT_FOUND 127
@@ -62,11 +51,11 @@
 # define ERR_PERMISSION_DENIED 1261
 # define ERR_NUMERIC_ARG 255
 # define ERR_PIPE_INIT 124
-# define ERR_NOT_VALID_IDENTIFIER 123
+# define ERR_NOT_VALID_IDFR 11
 # define ERR_NOT_A_DIRECTORY 122
 # define ERR_NO_FILE_OR_DIR 1
 # define ERR_EMPTY_COMMAND 1271
-# define ERR_UNEXPECTED_TOKEN 2
+# define ERR_UNEXPECTED_TOKEN 258
 # define ERR_MALLOC 3
 # define ERR_UNCOMPLETED_REDIRECT 4
 # define SUCCESS 0
@@ -111,6 +100,7 @@ typedef struct s_lexer
 	int				rm2;
 	char			*key;
 	char			*value;
+	int				dollar_counter;
 }	t_lexer;
 
 typedef struct s_exec
@@ -120,6 +110,8 @@ typedef struct s_exec
 	char	*cmd_path;
 	char	**cmd_args;
 	char	**heredocs;
+	int		err_no;
+	char	*err_value;
 	int		is_without_cmd;
 	int		count_heredocs;
 	int		here_doc_idx;
@@ -169,18 +161,17 @@ typedef struct s_arr_add_by_index
 	int		j;
 }	t_arr_add_by_index;
 
-/* LIB */
+extern int	g_qsignal;
+
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(char *str, t_state *s);
 char	**ft_split(char *s, char c, t_state *state);
 char	*ft_strjoin(char const *s1, char const *s2, t_state *s);
 int		ft_strcmp(const char *s1, const char *s2);
-char	*ft_strtrim(char const *s1, char const *set, t_state *s);
 char	*ft_substr(const char *s, unsigned int start, size_t len, t_state *st);
 char	*ft_strchr(const char *s, int c);
 char	**ft_quote_split(char *s, char *c, t_state *state);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-char	*ft_trim_quotes(char const *str, t_state *s, int n);
 void	ft_free_tab(char **tab);
 int		ft_is_empty(char *s);
 char	**ft_arr_dup(char **arr, t_state *s);
@@ -191,7 +182,7 @@ int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
 int		ft_isfullof(char *str, char c);
 char	*ft_itoa(int n, t_state *s);
-int		ft_is_starts_with_digit(t_exec *exec);
+int		ft_is_starts_with_digit(char *value);
 int		ft_isallnum(char *str);
 char	**ft_add_env(char **env, char *key, char *value, t_state *s);
 void	ft_arr_add_by_index(char ***arr, char *str, int index, t_state *s);
@@ -205,15 +196,12 @@ void	ft_remove_key(char **str, int start_index, int end_index, t_state *s);
 char	**ft_split_merge(char **split, t_state *s);
 char	**ft_free_prevs(char **arr, int i);
 
-/* SIGNALS */
 void	ft_signals(void);
 
-/* GARBAGE */
 void	ft_add_garbage(t_state *s, void *ptr);
 void	ft_free_garbage(t_state *s);
 void	ft_addarr_garbage(t_state *s, void **ptr);
 
-/* LEXER */
 int		ft_lexer(t_state *s);
 int		ft_merge_args(int index, t_state *s, t_lexer *l, char ***split);
 int		ft_count_pipes(char *cmd);
@@ -227,10 +215,8 @@ int		ft_lexer_validate(t_state *s);
 int		ft_check_invalid_pipes(char *cmd, int si);
 char	**ft_split_specials(char *str, t_state *s);
 
-/* SHELL */
 void	ft_start(t_state *s);
 
-/* EXEC */
 int		ft_execuator(t_state *s);
 int		ft_amount_cmd(t_token **tokens);
 int		ft_find_arg_amount(t_token *tokens);
@@ -255,8 +241,10 @@ int		isredwocmd(t_token *tokens, int cmd_amount, int j);
 char	*ft_is_here_doc(t_token *token);
 int		ft_count_heredocs(t_token *token);
 int		isredwocmd(t_token *tokens, int cmd_amount, int j);
+void	ft_set_exec_err(t_exec *exec, int err, char *value);
+void	ft_print_exec_errors(t_state *s, t_exec **exec);
+void	ft_export_add_key_value(char *str, t_state *s, int j);
 
-/* BUILTIN */
 int		ft_is_builtin(char *value);
 int		ft_execute_builtin(t_state *s, t_exec *exec);
 int		ft_echo(t_exec *exec);
@@ -267,12 +255,10 @@ int		ft_exit(t_exec *exec, t_state *s);
 int		ft_unset(t_exec *exec, t_state *s);
 int		ft_env(t_state *s);
 
-/* HELPERS */
 char	*ft_get_env(char **env, char *key);
 void	ft_extend_str_by_index(char **str, int index, char c, t_state *s);
 int		ft_env_key_cmp(const char *s1, const char *s2);
 
-/* TOKENS */
 void	ft_add_token(t_state *s, char *token, int type, int index);
 t_token	*ft_create_token(char *value, int type);
 t_token	*ft_get_last_token(t_token *token);
@@ -280,14 +266,7 @@ int		ft_remove_tokens(t_token ***token, int (*f)(void *));
 void	ft_free_tokens(t_token **token);
 void	ft_init_prev_tokens(t_token **tokens);
 
-/* ERROR */
 void	ft_error(int err, char *str, int throw_exit);
-
-/* DEBUG */
-void	ft_print_tokens(t_token **token);
-void	ft_print_tab(char **tab);
-void	ft_print_execs(t_exec **exec);
-void	ft_print_exec(t_exec *exec);
 
 void	rl_replace_line(const char *text, int clear_undo);
 

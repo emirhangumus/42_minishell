@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:51:51 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 10:25:36 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/03 00:34:22 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,11 @@ int	ft_lexer_create(t_lexer *l, t_state *s)
 {
 	char	**split;
 	int		i;
-	int		is_redirect;
 
 	split = ft_split_specials(l->str, s);
 	if (!split)
 		return (ERR_MALLOC);
 	i = 0;
-	is_redirect = 0;
 	while (split[i])
 	{
 		l->original = ft_strdup(split[i], s);
@@ -96,7 +94,7 @@ int	ft_lexer(t_state *s)
 	pipes = ft_count_pipes(s->cmd);
 	err = ft_lexer_init_pipes(l, s, pipes);
 	if (err)
-		return (err);
+		return (free(l), err);
 	err = ft_remove_tokens(&s->tokens, (int (*)(void *))ft_is_empty);
 	free(l);
 	if (err)

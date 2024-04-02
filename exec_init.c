@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/01 10:23:06 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/03 00:41:24 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 
 	i = 0;
 	exec->heredocs = malloc(sizeof(char *) * (exec->count_heredocs + 1));
+	ft_add_garbage(s, exec->heredocs);
 	exec->heredocs[exec->count_heredocs] = NULL;
 	while (tokens)
 	{
@@ -48,6 +49,8 @@ static void	ft_fill_execs(t_exec *exec, int j, t_token *next, t_state *s)
 	exec->out_type = 0;
 	exec->in_fd = 0;
 	exec->out_fd = 0;
+	exec->err_no = 0;
+	exec->err_value = NULL;
 	exec->count_heredocs = 0;
 	exec->here_doc_idx = 0;
 	exec->is_without_cmd = isredwocmd(next, s->cmd_amount, j);

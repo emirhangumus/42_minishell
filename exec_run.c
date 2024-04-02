@@ -3,15 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   exec_run.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:04:11 by burkaya           #+#    #+#             */
-/*   Updated: 2024/03/30 14:34:08 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/02 21:46:04 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-//	if (exec[0]->in_fd == -1 || exec[0]->out_fd == -1) err
+
+static void	exec_one_command_part(t_state *s, t_exec **exec)
+{
+	s->forks[0] = fork();
+	if (s->forks[0] == 0)
+	{
+		if (exec[0]->in_type || exec[0]->out_type)
+			ft_dup_redictions(exec[0], s);
+		if (exec[0]->should_run && exec[0]->is_here_doc)
+			ft_error(ERR_NO_FILE_OR_DIR, exec[0]->in_file, 1);
+		if (!exec[0]->cmd_path)
+			exit(0);
+		else if (execve(exec[0]->cmd_path, exec[0]->cmd_args, s->env) == -1)
+			exit(1);
+	}
+}
 
 int	exec_one_command(t_state *s, t_exec **exec)
 {
@@ -27,16 +42,7 @@ int	exec_one_command(t_state *s, t_exec **exec)
 		s->status = ft_execute_builtin(s, exec[0]);
 		return (close_redir_fd(exec[0], fd1, fd2), s->status);
 	}
-	s->forks[0] = fork();
-	if (s->forks[0] == 0)
-	{
-		if (exec[0]->in_type || exec[0]->out_type)
-			ft_dup_redictions(exec[0], s);
-		if (exec[0]->should_run && exec[0]->is_here_doc)
-			ft_error(ERR_NO_FILE_OR_DIR, exec[0]->cmd_args[0], 1);
-		if (execve(exec[0]->cmd_path, exec[0]->cmd_args, s->env) == -1)
-			exit(1);
-	}
+	exec_one_command_part(s, exec);
 	waitpid(s->forks[0], (int *)&s->status, 0);
 	s->status = WEXITSTATUS(s->status);
 	return (s->status);
@@ -50,7 +56,8 @@ static void	ft_run(t_state *s, t_exec **exec, int cmd_amount, int i)
 		s->status = ft_execute_builtin(s, exec[i]);
 		exit(s->status);
 	}
-	execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env);
+	if (execve(exec[i]->cmd_path, exec[i]->cmd_args, s->env) == -1)
+		exit(1);
 }
 
 void	ft_run_commands(t_state *s, t_exec **exec, int i)

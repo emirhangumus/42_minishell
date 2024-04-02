@@ -1,33 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_trim_quotes.c                                   :+:      :+:    :+:   */
+/*   exec_err.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/28 17:46:24 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/03 20:39:31 by egumus           ###   ########.fr       */
+/*   Created: 2024/04/02 21:17:18 by egumus            #+#    #+#             */
+/*   Updated: 2024/04/02 21:17:39 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
-char	*ft_trim_quotes(char const *str, t_state *s, int n)
+void	ft_set_exec_err(t_exec *exec, int err, char *value)
 {
-	char	*new_str;
-	size_t	i;
-	size_t	len;
+	exec->err_no = err;
+	exec->err_value = value;
+}
 
-	if (!str)
-		return (NULL);
+void	ft_print_exec_errors(t_state *s, t_exec **exec)
+{
+	int	i;
+
 	i = 0;
-	len = ft_strlen(str);
-	while (n > 0 && str[i] && ((str[i] == '\'' && str[len - i - 1] == '\'')
-			|| (str[i] == '\"' && str[len - i - 1] == '\"')))
+	while (i < s->cmd_amount)
 	{
+		if (exec[i]->err_no)
+			ft_error(exec[i]->err_no, exec[i]->err_value, 0);
 		i++;
-		n--;
 	}
-	new_str = ft_substr(str, i, len - i * 2, s);
-	return (new_str);
 }

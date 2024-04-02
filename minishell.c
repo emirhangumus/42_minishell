@@ -6,11 +6,13 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:05 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 02:32:08 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/03 00:13:55 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	g_qsignal = 0;
 
 char	**ft_init_env(t_state *s)
 {
@@ -50,6 +52,7 @@ int	ft_init_state(t_state *s, int ac, char **av)
 	s->cmd = NULL;
 	s->tokens = NULL;
 	s->cwd = getcwd(NULL, 0);
+	ft_add_garbage(s, s->cwd);
 	s->status = 0;
 	s->cmd_amount = 0;
 	s->exit_status = NULL;
@@ -71,12 +74,6 @@ int	main(int ac, char **av)
 	ft_start(s);
 	ft_free_garbage(s);
 	exit_status = s->status;
-	free(s->cwd);
 	free(s);
 	return (exit_status);
 }
-
-// __attribute__((destructor))
-// static void test() {
-// 	system("leaks minishell");
-// }

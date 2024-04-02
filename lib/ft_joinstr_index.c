@@ -45,11 +45,7 @@ static void	ft_joinstr_index_creation(char *s1, char *s2, \
 char	*ft_joinstr_index(char *s1, char *s2, int start_index, t_state *s)
 {
 	char	*new;
-	int		i;
-	int		j;
 
-	i = 0;
-	j = 0;
 	new = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!new)
 		return (NULL);

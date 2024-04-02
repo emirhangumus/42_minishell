@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:31:35 by egumus            #+#    #+#             */
-/*   Updated: 2024/03/30 14:41:02 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/02 23:56:29 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,12 @@ int	ft_isdigit(int c)
 	return (SUCCESS);
 }
 
-int	ft_is_starts_with_digit(t_exec *exec)
+int	ft_is_starts_with_digit(char *value)
 {
-	int	i;
-
-	i = 1;
-	while (exec->cmd_args[i])
+	if (ft_isdigit(value[0]))
 	{
-		if (ft_isdigit(exec->cmd_args[i][0]))
-		{
-			ft_error(ERR_NOT_VALID_IDENTIFIER, exec->cmd_args[i], 0);
-			return (1);
-		}
-		i++;
+		ft_error(ERR_NOT_VALID_IDFR,value, 0);
+		return (1);
 	}
 	return (0);
 }

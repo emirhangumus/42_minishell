@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_hub.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:52:04 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/01 06:34:02 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/02 21:16:31 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,9 @@ static void	ft_init_here_docs(t_state *s, t_exec **exec)
 
 void	ft_exec_hub(t_state *s, t_exec **exec)
 {
-	int	i;
-
-	i = -1;
 	ft_init_here_docs(s, exec);
+	ft_print_exec_errors(s, exec);
+	g_qsignal = 1;
 	if (s->cmd_amount > 1)
 	{
 		ft_exec_part(s, exec);
@@ -88,4 +87,5 @@ void	ft_exec_hub(t_state *s, t_exec **exec)
 	}
 	else
 		s->status = exec_one_command(s, exec);
+	g_qsignal = 0;
 }

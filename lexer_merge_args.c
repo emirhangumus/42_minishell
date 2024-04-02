@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 23:46:32 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 03:50:03 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/03 00:31:40 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,26 +53,24 @@ static int	ft_merge_args_env_decision(t_state *s, t_lexer *l, char **str)
 static int	ft_merge_args_env(t_state *s, t_lexer *l, char ***split, char **str)
 {
 	int		len;
-	char	*temp;
-	int		dollar_counter;
 
-	dollar_counter = 0;
 	if ((*str)[l->k] == '$')
 	{
-		if (l->meta->dollars[dollar_counter] == 1)
+		if (l->meta->dollars[l->dollar_counter] == 1)
 		{
 			l->m++;
 			if (ft_merge_args_env_decision(s, l, str))
 				return (1);
 			len = ft_strlen(l->value);
-			temp = ft_strdup(*str, s);
 			*str = ft_joinstr_index(*str, l->value, l->k, s);
 			if (ft_strchr(ft_substr(*str, l->k, len, s), ' '))
 				ft_add_envs_as_arg_or_cmd(l->current_pipe_index, s, split);
 			if (len > 0)
 				l->k += len - 1;
+			else
+				l->k--;
 		}
-		dollar_counter++;
+		(l->dollar_counter)++;
 	}
 	return (0);
 }
@@ -113,6 +111,7 @@ int	ft_merge_args(int index, t_state *s, t_lexer *l, char ***split)
 	l->rm2 = -1;
 	l->key = NULL;
 	l->value = NULL;
+	l->dollar_counter = 0;
 	quote = QUOTE_NONE;
 	while ((*str)[l->k])
 	{
