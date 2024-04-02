@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:00:46 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/03 01:11:06 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/03 01:50:24 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	ft_export(t_exec *exec, t_state *s)
 	int		j;
 	int		ret;
 	int		flag;
-	
+
 	flag = 0;
 	i = 0;
 	if (!exec->cmd_args[1])
@@ -82,7 +82,7 @@ int	ft_export(t_exec *exec, t_state *s)
 	{
 		ret = ft_export_is_valid(exec->cmd_args[i]);
 		if (ret == 1)
-			continue;
+			continue ;
 		else if (ret == 2)
 		{
 			flag = ret;

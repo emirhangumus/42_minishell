@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:31:35 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/02 23:56:29 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/03 01:34:16 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_is_starts_with_digit(char *value)
 {
 	if (ft_isdigit(value[0]))
 	{
-		ft_error(ERR_NOT_VALID_IDFR,value, 0);
+		ft_error(ERR_NOT_VALID_IDFR, value, 0);
 		return (1);
 	}
 	return (0);

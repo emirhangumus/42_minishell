@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 16:34:36 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/02 23:02:21 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/03 01:34:31 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static void	tcsa(void)
 	if (tcsetattr(0, 0, &termios_p) != 0)
 		perror("Minishell: tcsetattr");
 }
-
 
 void	ft_signals(void)
 {

@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/03 01:32:47 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/03 01:38:31 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,7 @@ void	ft_redirect_arrange(t_token **tokens);
 int		ft_lexer_validate(t_state *s);
 int		ft_check_invalid_pipes(char *cmd, int si);
 char	**ft_split_specials(char *str, t_state *s);
+void	ft_merge_args_init(t_lexer *l);
 
 void	ft_start(t_state *s);
 

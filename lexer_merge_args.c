@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 23:46:32 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/03 00:31:40 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/03 01:38:44 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,7 @@ int	ft_merge_args(int index, t_state *s, t_lexer *l, char ***split)
 
 	str = &((*split)[index]);
 	l->current_pipe_index = index;
-	l->k = 0;
-	l->m = 0;
-	l->rm1 = -1;
-	l->rm2 = -1;
-	l->key = NULL;
-	l->value = NULL;
-	l->dollar_counter = 0;
+	ft_merge_args_init(l);
 	quote = QUOTE_NONE;
 	while ((*str)[l->k])
 	{

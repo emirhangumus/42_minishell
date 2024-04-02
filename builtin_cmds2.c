@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 01:29:08 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 01:29:11 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/03 01:51:49 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,11 @@ int	ft_echo(t_exec *exec)
 	}
 	if (!n_flag)
 		write(STDOUT_FILENO, "\n", 1);
+	return (0);
+}
+
+int	ft_pwd(t_state *s)
+{
+	printf("%s\n", s->cwd);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:00:37 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/03 01:13:16 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/03 01:53:12 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,15 @@ int	ft_exit(t_exec *exec, t_state *s)
 	return (0);
 }
 
+static void	ft_cd_setter(t_state *s)
+{
+	ft_export_add_key_value(ft_strdup(ft_strjoin("OLDPWD=", \
+		s->cwd, s), s), s, 6);
+	s->cwd = getcwd(NULL, 0);
+	ft_export_add_key_value(ft_strdup(ft_strjoin("PWD=", s->cwd, s), s), s, 3);
+	ft_add_garbage(s, s->cwd);
+}
+
 int	ft_cd(t_exec *exec, t_state *s)
 {
 	struct stat	buf;
@@ -100,14 +109,5 @@ int	ft_cd(t_exec *exec, t_state *s)
 	}
 	else if (chdir(exec->cmd_args[1]) == -1)
 		return (ft_error(ERR_NO_FILE_OR_DIR, exec->cmd_args[1], 0), 1);
-	ft_export_add_key_value(ft_strdup(ft_strjoin("OLDPWD=", s->cwd, s), s), s, 6);
-	s->cwd = getcwd(NULL, 0);
-	ft_export_add_key_value(ft_strdup(ft_strjoin("PWD=", s->cwd, s), s), s, 3);
-	return (ft_add_garbage(s, s->cwd), 0);
-}
-
-int	ft_pwd(t_state *s)
-{
-	printf("%s\n", s->cwd);
-	return (0);
+	return (ft_cd_setter(s), 0);
 }

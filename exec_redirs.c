@@ -6,22 +6,17 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 01:02:10 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/03 00:47:55 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/03 01:47:31 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_heredoc(t_exec *exec)
+void	ft_heredoc_loop(t_exec *exec, char *buff, int pipe_fd[2])
 {
-	int		pipe_fd[2];
-	char	*buff;
-	int		i;
+	int	i;
 
-	buff = "init_value";
 	i = 0;
-	if (pipe(pipe_fd) == -1)
-		return ;
 	while (buff)
 	{
 		buff = readline("> ");
@@ -33,13 +28,27 @@ void	ft_heredoc(t_exec *exec)
 				break ;
 			}
 			i++;
-			free(buff);	
+			free(buff);
 			continue ;
 		}
-		write(pipe_fd[1], buff, ft_strlen(buff));
-		write(pipe_fd[1], "\n", 1);
+		if (i == exec->count_heredocs - 1)
+		{
+			write(pipe_fd[1], buff, ft_strlen(buff));
+			write(pipe_fd[1], "\n", 1);
+		}
 		free(buff);
 	}
+}
+
+void	ft_heredoc(t_exec *exec)
+{
+	int		pipe_fd[2];
+	char	*buff;
+
+	buff = "init_value";
+	if (pipe(pipe_fd) == -1)
+		return ;
+	ft_heredoc_loop(exec, buff, pipe_fd);
 	close(pipe_fd[1]);
 	exec->in_fd = pipe_fd[0];
 }

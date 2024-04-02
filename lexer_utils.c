@@ -6,7 +6,7 @@
 /*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:23:57 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/01 10:27:03 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/03 01:45:50 by egumus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_redirect_arrange(t_token **tokens)
 		while (tmp2)
 		{
 			if (ft_is_redirect(tmp2->value, NULL)
-				&& tmp2->prev == NULL && tmp2->next && tmp2->next->next)
+				&& tmp2->next && tmp2->next->next)
 			{
 				redirect = ft_is_redirect(tmp2->next->next->value, NULL);
 				if (!redirect)
@@ -96,4 +96,15 @@ char	**ft_split_specials(char *str, t_state *s)
 	while (sp[++i])
 		ft_split_specials_helper(sp, &i, s);
 	return (ft_split_merge(sp, s));
+}
+
+void	ft_merge_args_init(t_lexer *l)
+{
+	l->k = 0;
+	l->m = 0;
+	l->rm1 = -1;
+	l->rm2 = -1;
+	l->key = NULL;
+	l->value = NULL;
+	l->dollar_counter = 0;
 }
