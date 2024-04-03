@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:23:57 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/03 01:45:50 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/03 13:13:05 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void	ft_redirect_arrange(t_token **tokens)
 				if (!redirect)
 				{
 					tmp2->next->next->type = T_CMD;
-					return ;
+					tmp2 = tmp2->next;
+					continue ;
 				}
 			}
 			tmp2 = tmp2->next;

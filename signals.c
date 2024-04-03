@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 16:34:36 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/03 01:34:31 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/03 13:18:14 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,21 @@ void	ctrl_c(int sig)
 		printf("\n");
 }
 
-static void	tcsa(void)
+void	tcsa(void)
 {
-	struct termios	termios_p;
+	struct termios	term1;
 
-	if (tcgetattr(0, &termios_p) != 0)
-		perror("Minishell: tcgetattr");
-	termios_p.c_lflag &= ~ECHOCTL;
-	if (tcsetattr(0, 0, &termios_p) != 0)
-		perror("Minishell: tcsetattr");
+	if (tcgetattr(STDIN_FILENO, &term1) != 0)
+		exit((perror("error"), -1));
+	else
+	{
+		term1.c_cc[VQUIT] = _POSIX_VDISABLE;
+		term1.c_lflag |= ECHOE | ICANON;
+		if (tcsetattr(STDIN_FILENO, TCSANOW, &term1) != 0)
+			exit((perror("error"), -1));
+		if (tcgetattr(STDIN_FILENO, &term1) != 0)
+			exit((perror("error"), -1));
+	}
 }
 
 void	ft_signals(void)
