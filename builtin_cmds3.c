@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:00:46 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/04 22:37:44 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/04 23:25:57 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ int	ft_exp_uns_is_valid(char *value, int is_export)
 	flag = 0;
 	j = 0;
 	if (value[j] == 0 || (is_export && (value[j] == '=' || value[j] == '+')))
-	{
-		ft_error(ERR_NOT_VALID_IDFR, value, 0);
-		return (1);
-	}
+		return (ft_error(ERR_NOT_VALID_IDFR, value, 0), 1);
 	if (ft_is_starts_with_digit(value))
 		return (1);
 	while (value[j])
@@ -34,7 +31,7 @@ int	ft_exp_uns_is_valid(char *value, int is_export)
 		{
 			if (!(is_export && value[j] == '+' && value[j + 1] == '='))
 				return (ft_error(ERR_NOT_VALID_IDFR, \
-						value, 0), 1);	
+						value, 0), 1);
 		}
 		j++;
 	}

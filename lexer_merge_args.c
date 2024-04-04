@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 23:46:32 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/04 18:58:10 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/04 23:15:32 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,6 @@ static int	ft_merge_args_env(t_state *s, t_lexer *l, char ***split, char **str)
 static void	ft_merge_args_remove_quotes(t_state *s, \
 	t_lexer *l, char **str, int *quote)
 {
-	if (l->rm2 == l->k || l->rm1 == l->k)
-		return ;
 	if (*quote == QUOTE_NONE && ((*str)[l->k] == '\'' || (*str)[l->k] == '\"'))
 	{
 		l->rm1 = l->k;
@@ -122,7 +120,8 @@ int	ft_merge_args(int index, t_state *s, t_lexer *l, char ***split)
 			continue ;
 		if (l->k > 0 && !(*str)[l->k])
 			break ;
-		ft_merge_args_remove_quotes(s, l, str, &quote);
+		if (!(l->rm2 == l->k || l->rm1 == l->k))
+			ft_merge_args_remove_quotes(s, l, str, &quote);
 		l->k++;
 	}
 	if (quote != QUOTE_NONE)

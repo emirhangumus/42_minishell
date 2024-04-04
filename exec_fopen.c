@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:56:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/04 23:00:59 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/04 23:25:23 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static int	ft_for_out_file(t_exec *exec)
 	ft_set_exec_err(exec, ERR_NO_FILE_OR_DIR, exec->out_file);
 	return (ERR_NO_FILE_OR_DIR);
 }
+
 int	ft_open_check_files(t_exec *exec, int status, t_state *s)
 {
 	if (exec->in_file || exec->is_here_doc)

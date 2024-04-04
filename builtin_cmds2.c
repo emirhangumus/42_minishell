@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cmds2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 01:29:08 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/03 01:51:49 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/04 23:29:50 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,19 @@ int	ft_echo(t_exec *exec)
 	}
 	if (!n_flag)
 		write(STDOUT_FILENO, "\n", 1);
+	return (0);
+}
+
+int	ft_env(t_state *s)
+{
+	int	i;
+
+	i = 0;
+	while (s->env[i])
+	{
+		printf("%s\n", s->env[i]);
+		i++;
+	}
 	return (0);
 }
 

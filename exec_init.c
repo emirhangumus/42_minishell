@@ -6,11 +6,20 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/04 15:26:32 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/04 23:34:29 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_is_without_cmd(t_exec *exec)
+{
+	if (exec->is_without_cmd)
+	{
+		exec->type = CMD_WITHOUT_CMD;
+		exec->cmd_path = "without_cmd";
+	}
+}
 
 int	ft_init_redirections(t_token *tokens, t_exec *exec, t_state *s)
 {
@@ -62,7 +71,6 @@ static void	ft_fill_execs(t_exec *exec, int j, t_token *next, t_state *s)
 
 int	ft_init_execs(t_state *s, t_exec **exec)
 {
-	t_token		**tmp;
 	t_token		*next;
 	int			i;
 	int			j;
@@ -71,17 +79,17 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 	err = 0;
 	j = -1;
 	i = -1;
-	tmp = s->tokens;
-	while (tmp[++i])
+	while (s->tokens[++i])
 	{
-		next = tmp[i];
+		next = s->tokens[i];
 		while (next)
 		{
-			if (next->type == T_CMD || isredwocmd(tmp[i], s->cmd_amount, j + 1))
+			if (next->type == T_CMD
+				|| isredwocmd(s->tokens[i], s->cmd_amount, j + 1))
 			{
 				exec[++j] = malloc(sizeof(t_exec));
-				ft_fill_execs(exec[j], j, tmp[i], s);
-				err = get_all_cmd(exec[j], s, next, tmp[i]);
+				ft_fill_execs(exec[j], j, s->tokens[i], s);
+				err = get_all_cmd(exec[j], s, next, s->tokens[i]);
 				break ;
 			}
 			next = next->next;

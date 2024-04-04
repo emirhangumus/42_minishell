@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/04 19:37:29 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/04 23:38:23 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,6 +247,11 @@ int		isredwocmd(t_token *tokens, int cmd_amount, int j);
 void	ft_set_exec_err(t_exec *exec, int err, char *value);
 void	ft_print_exec_errors(t_state *s, t_exec **exec);
 void	ft_export_add_key_value(char *str, t_state *s, int j);
+void	ft_is_without_cmd(t_exec *exec);
+int		ft_find_absoulute_path(t_token *start_token, t_exec *exec);
+int		ft_is_in_cwd(t_state *s, t_exec *exec, char *cmd_name);
+int		ft_find_rela_path(char **paths, t_token *token, \
+	t_state *s, t_exec *exec);
 
 int		ft_is_builtin(char *value);
 int		ft_execute_builtin(t_state *s, t_exec *exec);
@@ -258,7 +263,6 @@ int		ft_exit(t_exec *exec, t_state *s);
 int		ft_unset(t_exec *exec, t_state *s);
 int		ft_env(t_state *s);
 int		ft_exp_uns_is_valid(char *value, int is_export);
-
 
 char	*ft_get_env(char **env, char *key);
 void	ft_extend_str_by_index(char **str, int index, char c, t_state *s);

@@ -6,31 +6,30 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:00:37 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/04 19:37:39 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/04 23:29:44 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_env(t_state *s)
+void	ft_unset_unsetter(t_exec *exec, t_state *s, int i)
 {
-	int	i;
+	int		j;
+	int		index;
+	char	*key;
 
-	i = 0;
-	while (s->env[i])
-	{
-		printf("%s\n", s->env[i]);
-		i++;
-	}
-	return (0);
+	j = 0;
+	while (exec->cmd_args[i][j] && exec->cmd_args[i][j] != '=')
+		j++;
+	key = ft_substr(exec->cmd_args[i], 0, j, s);
+	index = ft_arr_include(s->env, key, ft_env_key_cmp);
+	if (index != -1)
+		ft_arr_remove_by_index(&s->env, index, s);
 }
 
 int	ft_unset(t_exec *exec, t_state *s)
 {
 	int		i;
-	int		j;
-	int		index;
-	char	*key;
 	int		flag;
 	int		ret;
 
@@ -52,13 +51,7 @@ int	ft_unset(t_exec *exec, t_state *s)
 			flag = ret;
 			continue ;
 		}
-		j = 0;
-		while (exec->cmd_args[i][j] && exec->cmd_args[i][j] != '=')
-			j++;
-		key = ft_substr(exec->cmd_args[i], 0, j, s);
-		index = ft_arr_include(s->env, key, ft_env_key_cmp);
-		if (index != -1)
-			ft_arr_remove_by_index(&s->env, index, s);
+		ft_unset_unsetter(exec, s, i);
 	}
 	return (flag);
 }
@@ -82,14 +75,14 @@ int	ft_exit(t_exec *exec, t_state *s)
 		else
 			exit_code = 0;
 	}
-	if (exec->cmd_args[1] && (ft_isallnum(exec->cmd_args[1]) == 0 || exec->cmd_args[1][0] == 0))
+	if (exec->cmd_args[1] && (ft_isallnum(exec->cmd_args[1]) == 0
+			|| exec->cmd_args[1][0] == 0))
 	{
 		ft_error(ERR_NUMERIC_ARG, exec->cmd_args[1], 0);
 		exit_code = 255;
 	}
 	s->exit_status = &exit_code;
 	exit(exit_code);
-	return (0);
 }
 
 static void	ft_cd_setter(t_state *s)

@@ -6,11 +6,17 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 01:02:10 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/04 15:16:58 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/04 23:21:17 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_heredoc_writer(int pipe_fd[2], char *buff)
+{
+	write(pipe_fd[1], buff, ft_strlen(buff));
+	write(pipe_fd[1], "\n", 1);
+}
 
 void	ft_heredoc_loop(t_exec *exec, char *buff, int pipe_fd[2])
 {
@@ -34,10 +40,7 @@ void	ft_heredoc_loop(t_exec *exec, char *buff, int pipe_fd[2])
 			continue ;
 		}
 		if (i == exec->count_heredocs - 1)
-		{
-			write(pipe_fd[1], buff, ft_strlen(buff));
-			write(pipe_fd[1], "\n", 1);
-		}
+			ft_heredoc_writer(pipe_fd, buff);
 		free(buff);
 	}
 }
