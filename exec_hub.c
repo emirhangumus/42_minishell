@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 13:52:04 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/03 12:58:16 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/04 21:29:24 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,17 @@ static void	ft_run_pipes(t_state *s, t_exec **exec, int i)
 		mother_close_pipes_all(s);
 		exit(0);
 	}
-	if (!exec[i]->cmd_path && exec[i]->type != CMD_BUILTIN)
+	else if (exec[i]->should_run)
+	{
+		mother_close_pipes_all(s);
+		exit(1);
+	}
+	else if (!exec[s->cmd_amount - 1]->cmd_path && exec[s->cmd_amount - 1]->type != CMD_BUILTIN)
 	{
 		mother_close_pipes_all(s);
 		exit(127);
 	}
-	else if (!exec[i]->in_type && !exec[i]->out_type)
+	else if (!exec[i]->in_type && !exec[i]->out_type)		
 		ft_run_commands(s, exec, i);
 	else
 		ft_run_redirects(s, exec, i);
@@ -37,8 +42,8 @@ static void	ft_exec_part(t_state *s, t_exec **exec)
 	i = -1;
 	while (exec[++i])
 	{
-		if (exec[i]->in_fd == -1 || exec[i]->out_fd == -1)
-			continue ;
+		// if (exec[i]->in_fd == -1 || exec[i]->out_fd == -1)
+		// 	continue ;
 		s->forks[i] = fork();
 		if (s->forks[i] == 0)
 			ft_run_pipes(s, exec, i);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:28:31 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/03 01:32:41 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/04 16:50:41 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_token	*ft_create_token(char *value, int type)
 		return (NULL);
 	new->value = ft_strdup(value, NULL);
 	new->type = type;
+	new->remove = 1;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);

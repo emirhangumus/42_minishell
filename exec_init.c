@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:57:02 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/03 13:14:08 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/04 15:26:32 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	ft_init_execs(t_state *s, t_exec **exec)
 				exec[++j] = malloc(sizeof(t_exec));
 				ft_fill_execs(exec[j], j, tmp[i], s);
 				err = get_all_cmd(exec[j], s, next, tmp[i]);
+				break ;
 			}
 			next = next->next;
 		}

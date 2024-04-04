@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cmds1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:00:37 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/03 01:53:12 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/04 19:37:39 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,27 @@ int	ft_unset(t_exec *exec, t_state *s)
 	int		j;
 	int		index;
 	char	*key;
+	int		flag;
+	int		ret;
 
-	i = 1;
-	while (exec->cmd_args[i])
+	flag = 0;
+	i = 0;
+	while (exec->cmd_args[++i])
 	{
+		if (ft_strchr(exec->cmd_args[i], '='))
+		{
+			ft_error(ERR_NOT_VALID_IDFR, exec->cmd_args[i], 0);
+			flag = 1;
+			continue ;
+		}
+		ret = ft_exp_uns_is_valid(exec->cmd_args[i], 0);
+		if (ret == 2)
+			continue ;
+		else if (ret == 1)
+		{
+			flag = ret;
+			continue ;
+		}
 		j = 0;
 		while (exec->cmd_args[i][j] && exec->cmd_args[i][j] != '=')
 			j++;
@@ -42,9 +59,8 @@ int	ft_unset(t_exec *exec, t_state *s)
 		index = ft_arr_include(s->env, key, ft_env_key_cmp);
 		if (index != -1)
 			ft_arr_remove_by_index(&s->env, index, s);
-		i++;
 	}
-	return (0);
+	return (flag);
 }
 
 int	ft_exit(t_exec *exec, t_state *s)
@@ -66,7 +82,7 @@ int	ft_exit(t_exec *exec, t_state *s)
 		else
 			exit_code = 0;
 	}
-	if (exec->cmd_args[1] && ft_isallnum(exec->cmd_args[1]) == 0)
+	if (exec->cmd_args[1] && (ft_isallnum(exec->cmd_args[1]) == 0 || exec->cmd_args[1][0] == 0))
 	{
 		ft_error(ERR_NUMERIC_ARG, exec->cmd_args[1], 0);
 		exit_code = 255;
@@ -88,26 +104,23 @@ static void	ft_cd_setter(t_state *s)
 int	ft_cd(t_exec *exec, t_state *s)
 {
 	struct stat	buf;
-	int			j;
 
-	stat(exec->cmd_args[1], &buf);
-	if (!S_ISDIR(buf.st_mode))
-		return (ft_error(ERR_NOT_A_DIRECTORY, exec->cmd_args[1], 0), 1);
 	if (exec->cmd_args[1] == NULL)
 	{
-		if (chdir(ft_get_env(s->env, "HOME")) == -1)
+		if (ft_get_env(s->env, "HOME") == NULL)
 			write(2, "cd: HOME not set\n", 16);
+		exec->cmd_args[1] = ft_get_env(s->env, "HOME");
 	}
 	else if (ft_strcmp(exec->cmd_args[1], "-") == 0)
 	{
-		if (chdir(ft_get_env(s->env, "OLDPWD")) == -1)
+		if (ft_get_env(s->env, "OLDPWD") == NULL)
 			write(2, "cd: OLDPWD not set\n", 19);
-		j = ft_arr_include(s->env, "OLDPWD", ft_env_key_cmp);
-		free(s->env[j]);
-		s->env[j] = ft_strjoin("OLDPWD", "=", s);
-		s->env[j] = ft_strjoin(s->env[j], s->cwd, NULL);
+		exec->cmd_args[1] = ft_get_env(s->env, "OLDPWD");
 	}
-	else if (chdir(exec->cmd_args[1]) == -1)
+	stat(exec->cmd_args[1], &buf);
+	if (!S_ISDIR(buf.st_mode))
+		return (ft_error(ERR_NOT_A_DIRECTORY, exec->cmd_args[1], 0), 1);
+	if (exec->cmd_args[1] && chdir(exec->cmd_args[1]) == -1)
 		return (ft_error(ERR_NO_FILE_OR_DIR, exec->cmd_args[1], 0), 1);
 	return (ft_cd_setter(s), 0);
 }

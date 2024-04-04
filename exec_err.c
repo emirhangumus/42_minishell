@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_err.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:17:18 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/02 21:17:39 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/04 22:08:48 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	ft_set_exec_err(t_exec *exec, int err, char *value)
 {
+	if (exec->err_no)
+		return ;
 	exec->err_no = err;
 	exec->err_value = value;
 }

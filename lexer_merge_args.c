@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_merge_args.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 23:46:32 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/03 01:38:44 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/04 18:58:10 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ static int	ft_merge_args_env(t_state *s, t_lexer *l, char ***split, char **str)
 static void	ft_merge_args_remove_quotes(t_state *s, \
 	t_lexer *l, char **str, int *quote)
 {
+	if (l->rm2 == l->k || l->rm1 == l->k)
+		return ;
 	if (*quote == QUOTE_NONE && ((*str)[l->k] == '\'' || (*str)[l->k] == '\"'))
 	{
 		l->rm1 = l->k;
@@ -90,11 +92,17 @@ static void	ft_merge_args_remove_quotes(t_state *s, \
 	}
 	if (l->rm1 > -1 && l->rm2 > -1)
 	{
+		if (ft_strlen(*str) - 2 == 0)
+			l->remove_toggler = 2;
+		if (l->rm1 + 1 == l->rm2)
+			l->remove_toggler = 2;
 		ft_remove_char_by_index(str, l->rm1, s);
 		ft_remove_char_by_index(str, l->rm2 - 1, s);
 		l->rm1 = -1;
 		l->rm2 = -1;
 		l->k -= 2;
+		if (l->k == -2)
+			l->k = 0;
 	}
 }
 
@@ -112,12 +120,14 @@ int	ft_merge_args(int index, t_state *s, t_lexer *l, char ***split)
 		l->m = l->k;
 		if (ft_merge_args_env(s, l, split, str))
 			continue ;
-		if (!(*str)[l->k])
+		if (l->k > 0 && !(*str)[l->k])
 			break ;
 		ft_merge_args_remove_quotes(s, l, str, &quote);
 		l->k++;
 	}
 	if (quote != QUOTE_NONE)
 		return (ERR_UNEXPECTED_TOKEN);
+	if (l->remove_toggler == 2 && ft_strlen(*str) == 0)
+		l->remove_toggler = 1;
 	return (SUCCESS);
 }

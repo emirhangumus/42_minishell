@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 17:51:51 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/03 13:13:49 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/04 22:50:49 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void	ft_lexer_create_token(t_state *s, t_lexer *l, char **split, int i)
 		ft_add_token(s, split[i], T_CMD, l->i);
 	else
 		ft_add_token(s, split[i], T_ARG, l->i);
+	ft_get_last_token(s->tokens[l->i])->remove = l->remove_toggler;
 }
 
 int	ft_lexer_create(t_lexer *l, t_state *s)
@@ -55,12 +56,13 @@ int	ft_lexer_create(t_lexer *l, t_state *s)
 	return (SUCCESS);
 }
 
-static int	ft_lexer_init_pipes(t_lexer *l, t_state *s, int pipes)
+static int	ft_run_lexer(t_lexer *l, t_state *s, int pipes)
 {
 	int		err;
 	char	**sp;
 
 	l->i = 0;
+	l->remove_toggler = 0;
 	sp = ft_quote_split(s->cmd, "|", s);
 	while (l->i <= pipes)
 	{
@@ -69,10 +71,7 @@ static int	ft_lexer_init_pipes(t_lexer *l, t_state *s, int pipes)
 		l->str = ft_strdup(sp[l->i], s);
 		err = ft_lexer_create(l, s);
 		if (err)
-		{
-			free(l);
 			return (err);
-		}
 		l->i++;
 	}
 	return (SUCCESS);
@@ -92,7 +91,7 @@ int	ft_lexer(t_state *s)
 	if (err)
 		return (free(l), err);
 	pipes = ft_count_pipes(s->cmd);
-	err = ft_lexer_init_pipes(l, s, pipes);
+	err = ft_run_lexer(l, s, pipes);
 	if (err)
 		return (free(l), err);
 	err = ft_remove_tokens(&s->tokens, (int (*)(void *))ft_is_empty);

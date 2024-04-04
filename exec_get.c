@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_get.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:37:15 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/03 01:00:42 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/04 22:06:53 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static int	ft_find_absoulute_path(t_token *start_token, t_exec *exec)
 		return (ft_set_exec_err(exec, ERR_IS_A_DIRECTORY, start_token->value), \
 			ERR_IS_A_DIRECTORY);
 	if (access(start_token->value, F_OK))
-		return (ft_set_exec_err(exec, ERR_PERMISSION_DENIED, \
-			start_token->value), ERR_CMD_NOT_FOUND);
+		return (ft_set_exec_err(exec, ERR_NO_FILE_OR_DIR, \
+			start_token->value), 127);
 	if (access(start_token->value, X_OK))
 		return (ft_set_exec_err(exec, ERR_PERMISSION_DENIED, \
 			start_token->value), 126);
@@ -59,6 +59,24 @@ static int	ft_find_rela_path(char **paths, t_token *token, \
 		token->value), ERR_CMD_NOT_FOUND);
 }
 
+int	ft_is_in_cwd(t_state *s, t_exec *exec, char *cmd_name)
+{
+	char	*path;
+	struct stat	buf;
+
+	path = ft_strjoin(s->cwd, "/", s);
+	path = ft_strjoin(path, cmd_name, s);
+	stat(path, &buf);
+	if (S_ISDIR(buf.st_mode))
+		return (ft_set_exec_err(exec, ERR_IS_A_DIRECTORY, path), 1);
+	if (!access(path, F_OK) && !access(path, X_OK))
+	{
+		exec->cmd_path = path;
+		return (0);
+	}
+	return (1);
+}
+
 static int	ft_get_cmd_path(t_token *start_token, t_state *s, t_exec *exec)
 {
 	char	*env;
@@ -67,6 +85,8 @@ static int	ft_get_cmd_path(t_token *start_token, t_state *s, t_exec *exec)
 	env = ft_get_env(s->env, "PATH");
 	if (ft_strchr(start_token->value, '/') != NULL)
 		return (ft_find_absoulute_path(start_token, exec));
+	if (!ft_is_in_cwd(s, exec, start_token->value))
+		return (0);
 	if (!env)
 		return (ft_error(ERR_CMD_NOT_FOUND, start_token->value, 0), \
 			ERR_CMD_NOT_FOUND);
@@ -98,6 +118,7 @@ static char	**ft_get_args(t_state *s, t_token *tokens, char *cmd_name)
 int	get_all_cmd(t_exec *exec, t_state *s, t_token *tmp, t_token *tmp1)
 {
 	int	err;
+	int	err1;
 
 	err = 0;
 	if (!exec)
@@ -114,9 +135,13 @@ int	get_all_cmd(t_exec *exec, t_state *s, t_token *tmp, t_token *tmp1)
 	if (ft_is_builtin(tmp->value))
 		exec->type = CMD_BUILTIN;
 	if (exec->type == CMD_PATH)
-		err = ft_get_cmd_path(tmp, s, exec);
-	if (err && !(exec->type == CMD_BUILTIN))
-		return (err);
+	{
+		err1 = ft_get_cmd_path(tmp, s, exec);
+		if (err)
+			return (err);
+		else if (err1 && !(exec->type == CMD_BUILTIN))
+			return (err1);
+	}
 	exec->cmd_args = ft_get_args(s, tmp1, tmp->value);
 	if (err)
 		return (err);

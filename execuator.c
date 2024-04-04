@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:13:59 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/03 13:14:02 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/04 23:08:00 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,34 @@ int	ft_check_cmd_types(t_exec **exec, int cmd_amount)
 	return (0);
 }
 
+void	ft_print_tokens(t_token **token)
+{
+	t_token	**tmp;
+	t_token	*next;
+	int		i;
+
+	if (!token || !*token)
+		return ;
+	tmp = token;
+	i = 0;
+	while (tmp[i])
+	{
+		next = tmp[i];
+		while (next)
+		{
+			printf("Token %d: type:%d, %s$\n", i, next->type, next->value);
+			next = next->next;
+		}
+		i++;
+	}
+}
+
 int	ft_execuator(t_state *s)
 {
 	t_exec	**exec;
 
 	s->cmd_amount = ft_amount_cmd(s->tokens);
+	// ft_print_tokens(s->tokens);
 	if (s->cmd_amount == 0)
 		return (0);
 	exec = malloc(sizeof(t_exec *) * (s->cmd_amount + 1));

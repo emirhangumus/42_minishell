@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_remove_emptys.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:38:46 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/03 01:34:54 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/04 19:01:06 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,13 @@ static void	ft_remove_tokens_command_helper(t_token ***token, t_token **tmp, \
 {
 	if (f((*tmp)->value))
 	{
-		if ((*tmp)->type == T_CMD)
+		if ((*tmp)->type == T_CMD && (*tmp)->remove == 1)
+		{
+			(*tmp)->value = ft_strdup("a", NULL);
 			(*tmp)->value[0] = 1;
+		}
+		else if ((*tmp)->type == T_ARG && (*tmp)->remove == 1)
+			(*tmp)->value[0] = 0;
 		else
 		{
 			if ((*prev))

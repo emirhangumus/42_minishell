@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:42:03 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/03 12:28:50 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/04 22:55:49 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 char	*ft_get_prompt_text(t_state *s)
 {
+	return (ft_strjoin(COLOR_GREEN"MINISHELL" \
+			COLOR_RESET":"COLOR_BLUE,
+				ft_strjoin(s->cwd, COLOR_RESET"$ ", s), s));
 	if (s->status == 0)
 		return (ft_strjoin(COLOR_RED"♥ "COLOR_GREEN"MINISHELL" \
 			COLOR_RESET":"COLOR_BLUE,

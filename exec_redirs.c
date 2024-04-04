@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 01:02:10 by burkaya           #+#    #+#             */
-/*   Updated: 2024/04/03 01:47:31 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/04 15:16:58 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,13 @@ void	ft_heredoc_loop(t_exec *exec, char *buff, int pipe_fd[2])
 		{
 			if (buff == NULL || i == exec->count_heredocs - 1)
 			{
-				free(buff);
+				if (buff)
+					free(buff);
 				break ;
 			}
 			i++;
-			free(buff);
+			if (buff)
+				free(buff);
 			continue ;
 		}
 		if (i == exec->count_heredocs - 1)

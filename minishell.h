@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egumus <egumus@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 22:59:11 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/03 01:38:31 by egumus           ###   ########.fr       */
+/*   Updated: 2024/04/04 19:37:29 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_token
 {
 	int				type;
 	char			*value;
+	int				remove;
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
@@ -101,6 +102,7 @@ typedef struct s_lexer
 	char			*key;
 	char			*value;
 	int				dollar_counter;
+	int				remove_toggler;
 }	t_lexer;
 
 typedef struct s_exec
@@ -255,6 +257,8 @@ int		ft_cd(t_exec *exec, t_state *s);
 int		ft_exit(t_exec *exec, t_state *s);
 int		ft_unset(t_exec *exec, t_state *s);
 int		ft_env(t_state *s);
+int		ft_exp_uns_is_valid(char *value, int is_export);
+
 
 char	*ft_get_env(char **env, char *key);
 void	ft_extend_str_by_index(char **str, int index, char c, t_state *s);

@@ -6,7 +6,7 @@
 /*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 22:23:57 by egumus            #+#    #+#             */
-/*   Updated: 2024/04/03 16:19:28 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/04/04 23:07:14 by burkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,17 @@ void	ft_redirect_arrange(t_token **tokens)
 		tmp2 = tmp1[i];
 		while (tmp2)
 		{
+			if (tmp2->type == T_CMD)
+				break ;
 			if (ft_is_redirect(tmp2->value, NULL)
 				&& tmp2->next && tmp2->next->next)
 			{
 				redirect = ft_is_redirect(tmp2->next->next->value, NULL);
 				if (!redirect)
+				{
 					tmp2->next->next->type = T_CMD;
+					break ;
+				}
 			}
 			tmp2 = tmp2->next;
 		}
