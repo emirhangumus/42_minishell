@@ -5,7 +5,7 @@ M_SRC = minishell.c error.c signals.c garbage.c start.c lexer.c lexer_calc.c lex
 LIB_SRC = lib/ft_split_merge.c lib/ft_joinstr_index.c lib/ft_remove_char_by_index.c lib/ft_remove_key.c lib/ft_strrchr.c lib/ft_arr_remove_by_index.c lib/ft_arr_add_by_index.c lib/ft_add_env.c lib/ft_itoa.c lib/ft_isfullof.c lib/ft_strchr.c lib/ft_isdigit.c lib/ft_atoi.c lib/ft_arr_include.c lib/ft_arr_dup.c lib/ft_arr_len.c lib/ft_quote_split.c lib/ft_strdup.c lib/ft_strlen.c lib/ft_split.c lib/ft_strjoin.c lib/ft_strcmp.c lib/ft_substr.c lib/ft_strncmp.c lib/ft_free_tab.c lib/ft_isempty.c
 SRC = $(M_SRC) $(LIB_SRC)
 OBJ = $(SRC:.c=.o)
-READLINE = -L./lib/readline/lib -I./lib/readline/include/readline -lreadline 
+READLINE = -L./lib/readline/lib -I./lib/readline/include/readline -lreadline -ltinfo
 DIR     = $(shell echo $(PWD))
 RM = rm -rf
 RL = ./lib/readline/lib/libreadline.a
